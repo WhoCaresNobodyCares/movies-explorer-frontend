@@ -1,0 +1,22 @@
+:root {
+  --accent-blue: #4285f4;
+  --accent-green: #3ddc84;
+
+  --background-dark: #202020;
+  --background-semi-dark: #222222;
+  --background-medium: #272727;
+  --background-semi-light: #313131;
+  --background-light: #424242;
+  --background-blue: #073042;
+
+  --checkbox-background-unchecked: #343434;
+  --checkbox-slider-unchecked: #a0a0a0;
+
+  --element-grey: #303030;
+  --separator-grey: #505050;
+
+  --white: #fff;
+  --black: #000;
+  --grey: #8b8b8b;
+  --light-grey: #959595;
+}

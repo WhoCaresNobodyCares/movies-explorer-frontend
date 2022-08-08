@@ -1,0 +1,170 @@
+.about-me {
+  padding: 110px 0 100px 0;
+}
+
+.about-me__content-title {
+  width: 1140px;
+  margin: 0 auto 66px auto;
+}
+
+.about-me__info {
+  width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.about-me__description {
+  max-width: 600px;
+  min-height: 326px;
+  margin: 0 50px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-me__title {
+  margin: 0 0 18px 0;
+  font: 400 50px/58px 'Inter', arial, sans-serif;
+  letter-spacing: -0.04em;
+  color: var(--white);
+}
+
+.about-me__subtitle {
+  margin: 0 0 26px 0;
+  font: 500 18px/20px 'Inter', arial, sans-serif;
+  color: var(--white);
+}
+
+.about-me__paragraph {
+  margin: 0 0 auto 0;
+  font: 400 14px/22px 'Inter', arial, sans-serif;
+  color: var(--white);
+}
+
+.about-me__links {
+  display: flex;
+}
+
+.about-me__link {
+  margin: 0 20px 0 0;
+  font: 500 14px/16px 'Inter', arial, sans-serif;
+  color: var(--white);
+  transition: opacity 0.2s ease-out;
+}
+
+.about-me__link:hover {
+  opacity: 0.6;
+}
+
+.about-me__link:last-child {
+  margin: 0;
+}
+
+.about-me__photo {
+  min-width: 270px;
+  min-height: 327px;
+  border-radius: 10px;
+  background-image: url('https://hddesktopwallpapers.in/wp-content/uploads/2015/09/kitty-cat-wallpaper.jpg');
+  background-position: center;
+  background-size: 200%;
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 1280px) {
+  .about-me__content-title {
+    width: calc(100vw - (70px * 2));
+  }
+
+  .about-me__info {
+    width: calc(100vw - (70px * 2));
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .about-me {
+    padding: 90px 0;
+  }
+
+  .about-me__content-title {
+    width: calc(100vw - (50px * 2));
+  }
+
+  .about-me__info {
+    width: calc(100vw - (50px * 2));
+  }
+
+  .about-me__description {
+    min-height: 306px;
+  }
+
+  .about-me__title {
+    margin: 0 0 16px 0;
+    font: 400 40px/40px 'Inter', arial, sans-serif;
+  }
+
+  .about-me__subtitle {
+    margin: 0 0 20px 0;
+    font: 500 12px/18px 'Inter', arial, sans-serif;
+  }
+
+  .about-me__paragraph {
+    font: 400 12px/18px 'Inter', arial, sans-serif;
+  }
+
+  .about-me__photo {
+    min-width: 255px;
+    min-height: 307px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .about-me__info {
+    width: calc(100vw - (50px * 2));
+    flex-direction: column;
+    flex-flow: column-reverse;
+  }
+
+  .about-me__photo {
+    margin: 0 0 40px 0;
+    min-width: 100%;
+    min-height: 352px;
+  }
+
+  .about-me__description {
+    min-height: 0;
+    margin: 0;
+  }
+
+  .about-me__paragraph {
+    margin: 0 0 40px 0;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .about-me {
+    padding: 70px 0;
+  }
+
+  .about-me__content-title {
+    width: calc(100vw - (14px * 2));
+    margin: 0 auto 60px auto;
+  }
+
+  .about-me__info {
+    width: calc(100vw - (14px * 2));
+  }
+
+  .about-me__title {
+    margin: 0 0 20px 0;
+    font: 400 30px/36px 'Inter', arial, sans-serif;
+  }
+
+  .about-me__subtitle {
+    margin: 0 0 20px 0;
+    font: 500 11px/16px 'Inter', arial, sans-serif;
+  }
+
+  .about-me__paragraph {
+    font: 400 11px/16px 'Inter', arial, sans-serif;
+  }
+}

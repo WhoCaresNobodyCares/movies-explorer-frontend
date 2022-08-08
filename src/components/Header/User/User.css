@@ -1,0 +1,25 @@
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.user__email {
+  margin: 0 17px 0 0;
+  font: 500 14px/16px 'Inter', arial, sans-serif;
+  color: var(--white);
+}
+
+.user__link {
+  width: 26px;
+  height: 30px;
+  border-radius: 4px;
+  background: var(--background-semi-light);
+  transition: opacity 0.2s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user__link:hover {
+  opacity: 0.6;
+}
