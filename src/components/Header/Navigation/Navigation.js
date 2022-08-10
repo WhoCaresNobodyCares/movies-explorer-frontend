@@ -7,7 +7,6 @@ const Navigation = ({ mix }) => {
     { to: '/saved-movies', text: 'Сохраненные фильмы', key: 'navigation__link_2' },
   ];
 
-
   return (
     <nav
       className={mix === 'header__navigation' ? `${mix} navigation` : `${mix} navigation-column`}

@@ -1,5 +1,5 @@
 import './BottomLink.css';
-import arrowIcon from '../../../images/arrow-icon.svg'
+import arrowIcon from '../../../images/arrow-icon.svg';
 
 const BottomLink = ({ mix, href, text }) => {
   return (

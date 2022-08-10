@@ -7,7 +7,12 @@ import Switch from './Switch/Switch';
 const SearchForm = ({ mix }) => {
   const viewport = useWidth();
   return (
-    <section
+    <form
+      action="#"
+      method="post"
+      name="searchForm"
+      id="searchForm"
+      onSubmit={(e) => e.preventDefault()}
       className={`${mix} search-form`}
       children={
         <>
@@ -19,7 +24,7 @@ const SearchForm = ({ mix }) => {
                 <input className="search-form__input" title="Фильмы" formName="Movies" formId="movies" placeholder="Фильм" />
                 <button
                   className="search-form__button"
-                  type="button"
+                  type="submit"
                   aria-label="Начать поиск"
                   children={<img className="search-form__button-icon" src={searchButtonIcon} alt="Иконка кнопки" />}
                 />

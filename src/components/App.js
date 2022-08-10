@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import useAllowedPaths from '../utils/customHooks/useAllowedPaths';
+
 import './App.css';
+
+import useAllowedPaths from '../utils/customHooks/useAllowedPaths';
+
 import Header from './Header/Header';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';

@@ -42,7 +42,7 @@ const Login = ({ mix }) => {
                 />
                 <div className="login__separator" />
                 <span className="login__error login__error_last" children="Что-то пошло не так..." />
-                <button className="login__submit" children="Войти" />
+                <button type="submit" aria-label="Сабмит" className="login__submit" children="Войти" />
                 <div
                   className="login__bottom"
                   children={

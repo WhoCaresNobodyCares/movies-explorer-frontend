@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
+
 import './Header.css';
+
 import logoIcon from '../../images/logo-icon.svg';
+
 import useAllowedPaths from '../../utils/customHooks/useAllowedPaths';
 import useWidth from '../../utils/customHooks/useWidth';
+
 import Authorization from './Authorization/Authorization';
 import Navigation from './Navigation/Navigation';
 import User from './User/User';
@@ -12,9 +16,11 @@ import Menu from './Menu/Menu';
 
 const Header = ({ mix, mod_narrow, mod_blue }) => {
   const viewport = useWidth();
+
   const [completeHeaderIsRendered, completeHeaderIsRenderedPath] = useAllowedPaths(['/movies', '/saved-movies', '/profile']);
   const [headerIsNarrow] = useAllowedPaths(['/signin', '/signup']);
   const [headerIsBlue] = useAllowedPaths(['/']);
+
   const [menuIsOpened, setMenuIsOpened] = useState(false);
 
   useEffect(() => {

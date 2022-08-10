@@ -55,7 +55,7 @@ const Register = ({ mix }) => {
                 />
                 <div className="register__separator" />
                 <span className="register__error register__error_last" children="Что-то пошло не так..." />
-                <button className="register__submit" children="Зарегистрироваться" />
+                <button type="submit" aria-label="Сабмит" className="register__submit" children="Зарегистрироваться" />
                 <div
                   className="register__bottom"
                   children={

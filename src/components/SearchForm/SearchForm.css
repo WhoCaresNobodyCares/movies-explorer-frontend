@@ -37,6 +37,11 @@
   caret-color: var(--light-grey);
   color: var(--light-grey);
   font: 400 18px/20px 'Inter', arial, sans-serif;
+  transition: opacity 0.2s ease-out;
+}
+
+.search-form__input:hover {
+  opacity: 0.6;
 }
 
 .search-form__input::placeholder {

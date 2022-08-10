@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import './Profile.css';
 
 const Profile = ({ mix }) => {
+  const [editMode, setEditMode] = useState(false);
+
   return (
     <section
       className={`${mix} profile`}
@@ -13,6 +16,11 @@ const Profile = ({ mix }) => {
             name="profileForm"
             id="profileForm"
             className="profile__form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setEditMode(false);
+              return;
+            }}
             children={
               <>
                 <span className="profile__span" children="Имя" />
@@ -40,11 +48,33 @@ const Profile = ({ mix }) => {
                   required
                   disabled
                 />
+                {editMode && (
+                  <div
+                    className="profile__submit-wrap"
+                    children={
+                      <>
+                        <span
+                          className="profile__submit-error profile__submit-error_visible"
+                          children="При обновлении профиля произошла ошибка."
+                        />
+                        <button type="submit" aria-label="Сабмит" className="profile__submit" children="Сохранить" />
+                      </>
+                    }
+                  />
+                )}
               </>
             }
           />
-          <button className="profile__edit" children="Редактировать" />
-          <button className="profile__signout" children="Выйти из аккаунта" />
+          {!editMode && (
+            <button
+              className="profile__edit"
+              children="Редактировать"
+              onClick={() => {
+                setEditMode(true);
+              }}
+            />
+          )}
+          {!editMode && <button className="profile__signout" children="Выйти из аккаунта" />}
         </>
       }
     />
