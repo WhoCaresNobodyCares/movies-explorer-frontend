@@ -1,15 +1,19 @@
-import { aboutMeContentTitle, aboutMeParagraph, aboutMeSubtitle, aboutMeTitle, linksContent } from '../../../variables/mainVariables';
 import ContentTitle from '../ContentTitle/ContentTitle';
 import './AboutMe.css';
 
 const AboutMe = ({ mix }) => {
+  const linksContent = [
+    { href: 'https://github.com/WhoCaresNobodyCares', text: 'Facebook', key: 'Facebook' },
+    { href: 'https://github.com/WhoCaresNobodyCares', text: 'Github', key: 'Github' },
+  ];
+
   return (
     <section
       id="about-me"
       className={`${mix} about-me`}
       children={
         <>
-          <ContentTitle mix="about-me__content-title" title={aboutMeContentTitle} />
+          <ContentTitle mix="about-me__content-title" title={<>Студент</>} />
           <div
             className="about-me__info"
             children={
@@ -18,9 +22,17 @@ const AboutMe = ({ mix }) => {
                   className="about-me__description"
                   children={
                     <>
-                      <h3 className="about-me__title" children={aboutMeTitle} />
-                      <span className="about-me__subtitle" children={aboutMeSubtitle} />
-                      <p className="about-me__paragraph" children={aboutMeParagraph} />
+                      <h3 className="about-me__title" children={<>Андрей</>} />
+                      <span className="about-me__subtitle" children={<>Фронтенд-разработчик, 27&nbsp;лет</>} />
+                      <p
+                        className="about-me__paragraph"
+                        children={
+                          <>
+                            Занимаюсь разработкой веб-страниц и&nbsp;веб-приложений. Увлекаюсь лингвистикой, графикой и&nbsp;современными
+                            технологиями. Пассионарен, пунктуален, методичен.
+                          </>
+                        }
+                      />
                       <div
                         className="about-me__links"
                         children={linksContent.map((item) => (

@@ -1,8 +1,13 @@
 import { Link } from 'react-scroll';
-import { navigationLinks } from '../../../variables/mainVariables';
 import './NavTab.css';
 
 const NavTab = ({ mix }) => {
+  const navigationLinks = [
+    { to: 'about-project', text: 'О проекте', key: 'nav-tab__link_1' },
+    { to: 'techs', text: 'Технологии', key: 'nav-tab__link_2' },
+    { to: 'about-me', text: 'Студент', key: 'nav-tab__link_3' },
+  ];
+
   return (
     <section
       className={`${mix} nav-tab`}

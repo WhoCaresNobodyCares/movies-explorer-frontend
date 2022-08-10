@@ -1,8 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import './Navigation.css';
-import { navigationLinks } from '../../../variables/headerVariables';
 
 const Navigation = ({ mix }) => {
+  const navigationLinks = [
+    { to: '/movies', text: 'Фильмы', key: 'navigation__link_1' },
+    { to: '/saved-movies', text: 'Сохраненные фильмы', key: 'navigation__link_2' },
+  ];
+
+
   return (
     <nav
       className={mix === 'header__navigation' ? `${mix} navigation` : `${mix} navigation-column`}

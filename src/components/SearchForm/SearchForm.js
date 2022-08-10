@@ -1,9 +1,8 @@
 import './SearchForm.css';
-import searchIcon from '../../../images/search-icon.svg';
-import searchButtonIcon from '../../../images/search-button-icon.svg';
-import useWidth from '../../../utils/customHooks/useWidth';
+import searchIcon from '../../images/search-icon.svg';
+import searchButtonIcon from '../../images/search-button-icon.svg';
+import useWidth from '../../utils/customHooks/useWidth';
 import Switch from './Switch/Switch';
-import { formPlaceholder, switchCaption } from '../../../variables/moviesVariables';
 
 const SearchForm = ({ mix }) => {
   const viewport = useWidth();
@@ -17,7 +16,7 @@ const SearchForm = ({ mix }) => {
             children={
               <>
                 {viewport > 460 && <img src={searchIcon} className="search-form__search-icon" alt="Поиск по фильмам" />}
-                <input className="search-form__input" title="Фильмы" formName="Movies" formId="movies" placeholder={formPlaceholder} />
+                <input className="search-form__input" title="Фильмы" formName="Movies" formId="movies" placeholder="Фильм" />
                 <button
                   className="search-form__button"
                   type="button"
@@ -28,7 +27,7 @@ const SearchForm = ({ mix }) => {
                   <>
                     <div className="search-form__separator" />
                     <Switch mix="search-form__switch" />
-                    <span className="search-form__switch-caption" children={switchCaption} />
+                    <span className="search-form__switch-caption" children="Короткометражки" />
                   </>
                 )}
               </>
@@ -41,7 +40,7 @@ const SearchForm = ({ mix }) => {
                 children={
                   <>
                     <Switch mix="search-form__switch" />
-                    <span className="search-form__switch-caption" children={switchCaption} />
+                    <span className="search-form__switch-caption" children="Короткометражки" />
                   </>
                 }
               />

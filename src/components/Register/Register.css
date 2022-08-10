@@ -1,0 +1,147 @@
+.register {
+  width: 100%;
+  max-width: 396px;
+  padding: 0 0 70px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.register__title {
+  width: 100%;
+  margin: 0 0 40px 0;
+  font: 500 24px/29px 'Inter', arial, sans-serif;
+  text-align: center;
+  color: var(--white);
+}
+
+.register__form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.register__input-name {
+  width: 100%;
+  margin: 0 0 5px 0;
+  font: 400 10px/12px 'Inter', arial, sans-serif;
+  color: var(--grey);
+}
+
+.register__input {
+  width: 100%;
+  height: 17px;
+  margin: 0 0 10px 0;
+  font: 400 14px/16px 'Inter', arial, sans-serif;
+  color: var(--white);
+  transition: opacity 0.2s ease-out;
+}
+
+.register__input::placeholder {
+  color: var(--white);
+  opacity: 1;
+}
+
+.register__input:hover {
+  opacity: 0.6;
+}
+
+.register__separator {
+  width: 100%;
+  height: 1px;
+  margin: 0 0 6px 0;
+  background: var(--background-light);
+}
+
+.register__error {
+  width: 100%;
+  margin: 0 0 6px 0;
+  font: 400 10px/12px 'Inter', arial, sans-serif;
+  color: var(--error);
+  visibility: hidden;
+}
+
+.register__error_last {
+  margin: 0 0 auto 0;
+}
+
+.register__submit {
+  width: 100%;
+  height: 45px;
+  background: var(--accent-blue);
+  font: 500 14px/17px 'Inter', arial, sans-serif;
+  color: var(--white);
+  border-radius: 3px;
+  margin: 0 0 16px 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.register__submit:hover {
+  opacity: 0.6;
+}
+
+.register__bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register__caption {
+  margin: 0 6px 0 0;
+  font: 400 14px/17px 'Inter', arial, sans-serif;
+  color: var(--grey);
+}
+
+.register__link {
+  font: 400 14px/17px 'Inter', arial, sans-serif;
+  color: var(--accent-blue);
+  transition: opacity 0.2s ease-out;
+}
+
+.register__link:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 1280px) {
+}
+
+@media screen and (max-width: 800px) {
+  .register {
+    padding: 0 0 232px 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .register {
+    max-width: 100%;
+    padding: 0 30px 232px 30px;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .register {
+    padding: 0 30px 30px 30px;
+  }
+
+  .register__title {
+    margin: 0 0 80px 0;
+  }
+
+  .register__submit {
+    font: 500 12px/15px 'Inter', arial, sans-serif;
+  }
+
+  .register__caption {
+    font: 400 12px/15px 'Inter', arial, sans-serif;
+  }
+
+  .register__link {
+    font: 400 12px/15px 'Inter', arial, sans-serif;
+  }
+}
