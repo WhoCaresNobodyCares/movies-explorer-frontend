@@ -1,20 +1,11 @@
-import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import MoviesBottom from './MoviesBottom/MoviesBottom';
+import './Movies.css';
 
 const Movies = ({ mix }) => {
   return (
-    <main
-      className={`${mix} movies`}
-      children={
-        <>
-          <SearchForm mix="movies__search-form" />
-          <MoviesCardList mix="movies__movies-card-list" />
-          <MoviesBottom mix="movies__movies-bottom" />
-        </>
-      }
-    />
+    <main className={`${mix} movies`}>
+      <SearchForm mix="movies__search-form" />
+    </main>
   );
 };
 

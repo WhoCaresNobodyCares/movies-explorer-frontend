@@ -1,7 +1,9 @@
+.nav-tab {
+  padding: 24px 0;
+  background: var(--bg-03);
+}
+
 .nav-tab__panel {
-  width: 100%;
-  height: 66px;
-  background: var(--background-medium);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +12,8 @@
 .nav-tab__link {
   font: 500 13px/16px 'Inter', arial, sans-serif;
   text-align: center;
-  color: var(--white);
+  text-decoration: underline;
+  color: var(--cl-02);
   cursor: pointer;
   transition: opacity 0.2s ease-out;
 }
@@ -24,6 +27,10 @@
 }
 
 @media screen and (max-width: 460px) {
+  .nav-tab {
+    padding: 25px 0;
+  }
+
   .nav-tab__link {
     font: 500 11px/16px 'Inter', arial, sans-serif;
   }

@@ -21,7 +21,13 @@ button {
 }
 
 div,
-aside {
+aside,
+header,
+footer,
+section,
+main,
+form,
+button {
   box-sizing: border-box;
 }
 
@@ -42,4 +48,8 @@ input {
 
 input:focus {
   outline: none;
+}
+
+span {
+  display: block;
 }

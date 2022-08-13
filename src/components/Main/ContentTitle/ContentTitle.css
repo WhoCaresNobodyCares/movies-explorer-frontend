@@ -2,12 +2,12 @@
   margin: 0 0 23px 0;
   font: 400 22px/26px 'Inter', arial, sans-serif;
   letter-spacing: -0.04em;
-  color: var(--white);
+  color: var(--cl-02);
 }
 
 .content-title__separator {
   height: 1px;
-  background: var(--white);
+  background: var(--cl-02);
 }
 
 @media screen and (max-width: 460px) {

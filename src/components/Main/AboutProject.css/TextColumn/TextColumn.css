@@ -2,12 +2,12 @@
   margin: 0 0 26px 0;
   font: 400 20px/24px 'Inter', arial, sans-serif;
   letter-spacing: -0.04em;
-  color: var(--white);
+  color: var(--cl-02);
 }
 
 .text-column__paragraph {
   font: 400 14px/20px 'Inter', arial, sans-serif;
-  color: var(--white);
+  color: var(--cl-02);
 }
 
 @media screen and (max-width: 800px) {

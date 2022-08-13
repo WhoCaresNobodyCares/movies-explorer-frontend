@@ -1,43 +1,48 @@
 .footer {
-  width: 1140px;
   padding: 79px 0 20px 0;
 }
 
-.footer__description {
-  font: 400 13px/16px 'Inter', arial, sans-serif;
-  text-align: center;
-  display: block;
-  width: 100%;
-  margin: 0 auto 41px auto;
-  position: relative;
-  color: var(--grey);
+.footer__grid {
+  width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 36px 1px 36px;
+  justify-items: center;
+  align-items: center;
 }
 
-.footer__description::after {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  left: 0;
+.footer__description {
+  align-self: start;
+  font: 400 13px/16px 'Inter', arial, sans-serif;
+  color: var(--bg-09);
+  text-align: center;
+}
+
+.footer__separator {
   width: 100%;
-  height: 1px;
-  background: var(--background-light);
+  height: 100%;
+  background: var(--bg-07);
 }
 
 .footer__bottom {
+  width: 100%;
+  align-self: end;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
 }
 
 .footer__date {
   margin: 0 auto 0 0;
   font: 400 13px/16px 'Inter', arial, sans-serif;
-  color: var(--white);
+  color: var(--cl-02);
 }
 
 .footer__link {
   margin: 0 20px 0 0;
   font: 400 13px/16px 'Inter', arial, sans-serif;
-  color: var(--white);
+  color: var(--cl-02);
   transition: opacity 0.2s ease-out;
 }
 
@@ -50,49 +55,53 @@
 }
 
 @media screen and (max-width: 1280px) {
-  .footer {
+  .footer__grid {
     width: calc(100vw - (70px * 2));
   }
 }
 
 @media screen and (max-width: 800px) {
-  .footer {
-    width: calc(100vw - (50px * 2));
+  .footer__grid {
+    width: calc(100vw - (30px * 2));
   }
 }
 
 @media screen and (max-width: 460px) {
   .footer {
-    width: calc(100vw - (14px * 2));
     padding: 79px 0 10px 0;
+  }
+
+  .footer__grid {
+    width: calc(100vw - (10px * 2));
+    grid-template-rows: 36px 1px auto;
   }
 
   .footer__description {
     font: 400 12px/15px 'Inter', arial, sans-serif;
-    margin: 0 0 52px 0;
-  }
-
-  .footer__description::after {
-    bottom: -21px;
-  }
-
-  .footer__bottom {
-    flex-direction: column;
   }
 
   .footer__date {
     order: 1;
     margin: 0;
     font: 400 12px/15px 'Inter', arial, sans-serif;
-    color: var(--grey);
+    color: var(--bg-09);
+  }
+
+  .footer__bottom {
+    padding: 30px 0 0 0;
   }
 
   .footer__link {
-    margin: 0 0 12px 0;
+    margin: 0 0 20px 0;
     font: 400 12px/15px 'Inter', arial, sans-serif;
+    color: var(--cl-02);
   }
 
   .footer__link:last-child {
     margin: 0 0 30px 0;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
   }
 }

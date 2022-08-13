@@ -1,38 +1,33 @@
 import ContentTitle from '../ContentTitle/ContentTitle';
+
 import './Techs.css';
 
 const Techs = ({ mix }) => {
-  const cardsContent = [
-    { text: 'HTML', key: 'HTML-key' },
-    { text: 'CSS', key: 'CSS-key' },
-    { text: 'JS', key: 'JS-key' },
-    { text: 'React', key: 'React-key' },
-    { text: 'Git', key: 'Git-key' },
-    { text: 'Express.js', key: 'Express.js-key' },
-    { text: 'mongoDB', key: 'mongoDB-key' },
+  const cards = [
+    { text: 'HTML', key: 'techs__cards-item_1' },
+    { text: 'CSS', key: 'techs__cards-item_2' },
+    { text: 'JS', key: 'techs__cards-item_3' },
+    { text: 'React', key: 'techs__cards-item_4' },
+    { text: 'Git', key: 'techs__cards-item_5' },
+    { text: 'Express.js', key: 'techs__cards-item_6' },
+    { text: 'mongoDB', key: 'techs__cards-item_7' },
   ];
 
   return (
-    <section
-      id="techs"
-      className={`${mix} techs`}
-      children={
-        <>
-          <ContentTitle mix="techs__content-title" title={<>Технологии</>} />
-          <h3 className="techs__title" children={<>7&nbsp;технологий</>} />
-          <p
-            className="techs__paragraph"
-            children={<>На&nbsp;курсе веб-разработки мы&nbsp;освоили технологии, которые применили в&nbsp;дипломном проекте.</>}
-          />
-          <div
-            className="techs__cards"
-            children={cardsContent.map((item) => (
-              <span className="techs__cards-item" children={item.text} key={item.key} />
-            ))}
-          />
-        </>
-      }
-    />
+    <section id="techs" className={`${mix} techs`}>
+      <ContentTitle mix="techs__title" title={<>Технологии</>} />
+      <h3 className="techs__subtitle" children={<>7&nbsp;технологий</>} />
+      <p
+        className="techs__paragraph"
+        children={<>На&nbsp;курсе веб-разработки мы&nbsp;освоили технологии, которые применили в&nbsp;дипломном проекте.</>}
+      />
+      <div
+        className="techs__cards"
+        children={cards.map((item) => (
+          <span className="techs__card" children={item.text} key={item.key} />
+        ))}
+      />
+    </section>
   );
 };
 

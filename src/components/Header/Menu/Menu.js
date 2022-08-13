@@ -1,32 +1,29 @@
 import './Menu.css';
+
 import closeIcon from '../../../images/close-icon.svg';
-import Navigation from '../Navigation/Navigation';
+
+import NavVert from '../NavVert/NavVert';
 import User from '../User/User';
 
-const Menu = ({ mix, modifier_opened, menuIsOpened, setMenuIsOpened }) => {
+const Menu = ({ mix, menuIsOpened, setMenuIsOpened }) => {
   return (
-    <>
-      <aside
-        className={!menuIsOpened ? `${mix} menu` : `${mix} ${modifier_opened} menu`}
-        children={
-          <>
-            <button
-              type="button"
-              aria-label="Закрыть меню"
-              className="menu__close"
-              onClick={() => setMenuIsOpened(!menuIsOpened)}
-              children={<img src={closeIcon} alt="Закрыть меню" className="menu__icon" />}
-            />
-            <Navigation mix="menu__navigation" />
-            <User mix="menu__user" />
-          </>
-        }
-      />
+    <div className={`${mix} menu`}>
+      <aside className={!menuIsOpened ? `menu__aside` : `menu__aside menu__aside_opened`}>
+        <button
+          className="menu__close"
+          type="button"
+          aria-label="Закрыть боковое меню"
+          onClick={() => setMenuIsOpened(!menuIsOpened)}
+          children={<img className="menu__icon" src={closeIcon} alt="Закрыть боковое меню" />}
+        />
+        <NavVert mix="menu__nav-vert" />
+        <User mix="menu__user" />
+      </aside>
       <div
         className={!menuIsOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'}
         onClick={() => setMenuIsOpened(!menuIsOpened)}
       />
-    </>
+    </div>
   );
 };
 
