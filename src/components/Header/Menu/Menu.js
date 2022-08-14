@@ -10,9 +10,11 @@ const Menu = ({ mix, menuIsOpened, setMenuIsOpened }) => {
     <div className={`${mix} menu`}>
       <aside className={!menuIsOpened ? `menu__aside` : `menu__aside menu__aside_opened`}>
         <button
+          id="menu-close-button"
           className="menu__close"
-          type="button"
+          name="menu-close-button"
           aria-label="Закрыть боковое меню"
+          type="button"
           onClick={() => setMenuIsOpened(!menuIsOpened)}
           children={<img className="menu__icon" src={closeIcon} alt="Закрыть боковое меню" />}
         />

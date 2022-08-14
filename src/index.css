@@ -18,6 +18,7 @@ a {
 button {
   border: none;
   cursor: pointer;
+  display: block;
 }
 
 div,

@@ -46,6 +46,7 @@ const SearchForm = ({ mix }) => {
               id="search-form-submit"
               className="search-form__submit"
               name="search-form-submit"
+              aria-label="Начать поиск"
               type="submit"
               formMethod="post"
               form="search-form"
