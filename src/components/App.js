@@ -24,7 +24,7 @@ const App = () => {
       {headerIsRendered && <Header mix="app__header" />}
       <Routes>
         <Route path="*" element={<NotFound mix="app__not-found" />} />
-        <Route path="/main" element={<Main mix="app__main" />} />
+        <Route path="/" element={<Main mix="app__main" />} />
         <Route path="/movies" element={<Movies mix="app__movies" />} />
         <Route path="/saved-movies" element={<SavedMovies mix="app__saved-movies" />} />
         <Route path="/profile" element={<Profile mix="app__profile" />} />
