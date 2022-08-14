@@ -42,10 +42,15 @@
   color: var(--cl-02);
   text-align: end;
   pointer-events: none;
+  transition: opacity 0.2s ease-out;
 }
 
 .profile__input_enabled {
   pointer-events: all;
+}
+
+.profile__input:hover::placeholder {
+  opacity: 0.8;
 }
 
 .profile__input::placeholder {

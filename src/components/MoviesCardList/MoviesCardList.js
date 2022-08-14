@@ -9,6 +9,12 @@ const MoviesCardList = ({ mix }) => {
     { mix: 'movies-card-list__movies-card', key: '1' },
     { mix: 'movies-card-list__movies-card', key: '2' },
     { mix: 'movies-card-list__movies-card', key: '3' },
+    { mix: 'movies-card-list__movies-card', key: '4' },
+    { mix: 'movies-card-list__movies-card', key: '5' },
+    { mix: 'movies-card-list__movies-card', key: '6' },
+    { mix: 'movies-card-list__movies-card', key: '7' },
+    { mix: 'movies-card-list__movies-card', key: '8' },
+    { mix: 'movies-card-list__movies-card', key: '9' },
   ];
 
   const [preloaderIsVisible, setPreloaderIsVisible] = useState(false);

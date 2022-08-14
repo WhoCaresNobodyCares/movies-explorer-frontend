@@ -95,8 +95,6 @@
     padding: 50px 0 80px 0;
   }
 
-
-
   .movies-card-list__cards {
     width: calc(100vw - (10px * 2));
     margin: 0 auto 75px auto;
