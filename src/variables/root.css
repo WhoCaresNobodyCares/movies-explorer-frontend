@@ -1,0 +1,35 @@
+:root {
+  --ac-01: #3ddc84;
+  --ac-02: #4285f4;
+
+  --bg-01: #202020;
+  --bg-02: #222222;
+  --bg-03: #272727;
+  --bg-04: #303030;
+  --bg-05: #313131;
+  --bg-06: #343434;
+  --bg-07: #424242;
+  --bg-08: #505050;
+  --bg-09: #8b8b8b;
+  --bg-10: #959595;
+  --bg-11: #a0a0a0;
+
+  --cl-01: #000;
+  --cl-02: #fff;
+  --cl-03: #073042;
+
+  --er-01: #ee3465;
+}
+/*
+@media screen and (max-width: 1280px) {
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 600px) {
+}
+
+@media screen and (max-width: 460px) {
+}
+*/

@@ -1,0 +1,22 @@
+.main {
+  align-self: start;
+}
+
+.main__promo {
+  min-height: 524px;
+}
+
+@media screen and (max-width: 1280px) {
+}
+
+@media screen and (max-width: 800px) {
+  .main__promo {
+    min-height: 784px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .main__promo {
+    min-height: 570px;
+  }
+}
