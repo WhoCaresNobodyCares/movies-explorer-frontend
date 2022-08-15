@@ -42,11 +42,15 @@
   color: var(--cl-02);
   text-align: end;
   pointer-events: none;
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s ease-out, color 0.2s ease-out;
 }
 
 .profile__input_enabled {
   pointer-events: all;
+}
+
+.profile__input_invalid {
+  color: var(--er-01);
 }
 
 .profile__input:hover::placeholder {
@@ -68,6 +72,11 @@
   background: var(--bg-07);
   grid-column-start: 1;
   grid-column-end: 3;
+  transition: background 0.2s ease-out;
+}
+
+.profile__separator_error {
+  background: var(--er-01);
 }
 
 .profile__bottom {
@@ -109,11 +118,12 @@
   font: 500 11px/14px 'Inter', arial, sans-serif;
   text-align: center;
   color: var(--er-01);
-  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
 }
 
 .profile__error_visible {
-  visibility: visible;
+  opacity: 1;
 }
 
 .profile__submit {
@@ -124,11 +134,17 @@
   text-align: center;
   color: var(--cl-02);
   background: var(--ac-02);
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s ease-out, background 0.2s ease-out, color 0.2s ease-out;
 }
 
 .profile__submit:hover {
   opacity: 0.6;
+}
+
+.profile__submit_disabled {
+  background: var(--bg-04);
+  color: var(--bg-09);
+  cursor: default;
 }
 
 @media screen and (max-width: 1280px) {
