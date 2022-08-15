@@ -49,7 +49,7 @@ const Register = ({ mix }) => {
           <div className="register__separator" />
           <span
             className={nameIsValid ? 'register__error' : 'register__error register__error_visible'}
-            children="Поле должно содержать от двух до тридцати символов"
+            children="От двух до тридцати символов"
           />
           <div className="register__block">
             <span className="register__label" children="E-mail" />
@@ -72,7 +72,7 @@ const Register = ({ mix }) => {
           <div className="register__separator" />
           <span
             className={emailIsValid ? 'register__error' : 'register__error register__error_visible'}
-            children="Данное поле должно содержать адрес электронной почты"
+            children="Адрес электронной почты"
           />
           <div className="register__block">
             <span className="register__label" children="Пароль" />
@@ -92,7 +92,7 @@ const Register = ({ mix }) => {
           <div className="register__separator" />
           <span
             className={passwordIsValid ? 'register__error' : 'register__error register__error_visible'}
-            children="Пароль должен содержать минимум 4 символа"
+            children="Минимум 4 символа"
           />
           <div className="register__bottom">
             <button

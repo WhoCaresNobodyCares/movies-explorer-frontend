@@ -51,7 +51,7 @@ const Login = ({ mix }) => {
           <div className="login__separator" />
           <span
             className={emailIsValid ? 'login__error' : 'login__error login__error_visible'}
-            children="Данное поле должно содержать адрес электронной почты"
+            children="Адрес электронной почты"
           />
           <div className="login__block">
             <span className="login__label" children="Пароль" />
@@ -71,7 +71,7 @@ const Login = ({ mix }) => {
           <div className="login__separator" />
           <span
             className={passwordIsValid ? 'login__error' : 'login__error login__error_visible'}
-            children="Пароль должен содержать минимум 4 символа"
+            children="Минимум 4 символа"
           />
           <div className="login__bottom">
             <button
