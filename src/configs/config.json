@@ -1,0 +1,4 @@
+{
+  "mainApiUrl": "http://localhost:3001",
+  "moviesApiUrl": "https://api.nomoreparties.co"
+}

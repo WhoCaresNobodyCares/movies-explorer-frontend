@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 import './Login.css';
 
-const Login = ({ mix }) => {
+const Login = ({ mix, handleSignin }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [buttonIsValid, setButtonIsValid] = useState(false);
@@ -26,7 +29,7 @@ const Login = ({ mix }) => {
           autoComplete="on"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log('login-form');
+            handleSignin(email, password);
           }}
         >
           <div className="login__block">
@@ -45,14 +48,12 @@ const Login = ({ mix }) => {
                 const pattern =
                   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 setEmailIsValid(pattern.test(value));
+                setEmail(e.target.value);
               }}
             />
           </div>
           <div className="login__separator" />
-          <span
-            className={emailIsValid ? 'login__error' : 'login__error login__error_visible'}
-            children="Адрес электронной почты"
-          />
+          <span className={emailIsValid ? 'login__error' : 'login__error login__error_visible'} children="Адрес электронной почты" />
           <div className="login__block">
             <span className="login__label" children="Пароль" />
             <input
@@ -65,14 +66,12 @@ const Login = ({ mix }) => {
               required
               onChange={(e) => {
                 e.target.value.length < 4 ? setPasswordIsValid(false) : setPasswordIsValid(true);
+                setPassword(e.target.value);
               }}
             />
           </div>
           <div className="login__separator" />
-          <span
-            className={passwordIsValid ? 'login__error' : 'login__error login__error_visible'}
-            children="Минимум 4 символа"
-          />
+          <span className={passwordIsValid ? 'login__error' : 'login__error login__error_visible'} children="Минимум 4 символа" />
           <div className="login__bottom">
             <button
               id="login-form-edit"

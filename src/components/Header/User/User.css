@@ -18,7 +18,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.2s ease-out;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease-out, background 0.2s ease-out, border 0.2s ease-out;
+}
+
+.user__link_main {
+  background: transparent;
+  border: 1px solid var(--cl-02);
 }
 
 .user__link:hover {

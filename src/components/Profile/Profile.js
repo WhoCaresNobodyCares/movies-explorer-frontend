@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import UserContext from '../../contexts/UserContext';
 
 import './Profile.css';
 
 const Profile = ({ mix }) => {
+  const userContext = React.useContext(UserContext);
+
   const [editMode, setEditMode] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(true);
   const [emailIsValid, setEmailIsValid] = useState(true);
@@ -15,7 +18,7 @@ const Profile = ({ mix }) => {
   return (
     <main className={`${mix} profile`}>
       <section className="profile__section">
-        <h1 className="profile__title" children={`Привет, ${`NAME`}!`} />
+        <h1 className="profile__title" children={`Привет, ${userContext.user.name}!`} />
         <form
           id="profile-form"
           className="profile__form"
@@ -39,6 +42,7 @@ const Profile = ({ mix }) => {
             placeholder="Имя"
             autoComplete="on"
             required
+            defaultValue={userContext.user.name}
             onChange={(e) => {
               e.target.value.length >= 2 && e.target.value.length <= 30 ? setNameIsValid(true) : setNameIsValid(false);
             }}
@@ -53,6 +57,7 @@ const Profile = ({ mix }) => {
             placeholder="E-mail"
             autoComplete="on"
             required
+            defaultValue={userContext.user.email}
             onChange={(e) => {
               let value = e.target.value;
               const pattern =
@@ -88,9 +93,7 @@ const Profile = ({ mix }) => {
                 <span
                   className={!buttonIsValid ? 'profile__error profile__error_visible' : 'profile__error'}
                   children={
-                    !nameIsValid
-                      ? 'Имя пользователя должно содержать от двух до тридцати символов'
-                      : 'Данное поле должно содержать e-mail'
+                    !nameIsValid ? 'Имя пользователя должно содержать от двух до тридцати символов' : 'Данное поле должно содержать e-mail'
                   }
                 />
                 <button

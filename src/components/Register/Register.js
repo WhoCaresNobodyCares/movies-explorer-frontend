@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 
 import './Register.css';
 
-const Register = ({ mix }) => {
+const Register = ({ mix, handleSignup }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const [nameIsValid, setNameIsValid] = useState(true);
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [passwordIsValid, setPasswordIsValid] = useState(true);
@@ -27,7 +31,7 @@ const Register = ({ mix }) => {
           autoComplete="on"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log('works');
+            handleSignup(name, email, password);
           }}
         >
           <div className="register__block">
@@ -43,6 +47,7 @@ const Register = ({ mix }) => {
               required
               onChange={(e) => {
                 e.target.value.length >= 2 && e.target.value.length <= 30 ? setNameIsValid(true) : setNameIsValid(false);
+                setName(e.target.value);
               }}
             />
           </div>
@@ -66,6 +71,7 @@ const Register = ({ mix }) => {
                 const pattern =
                   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 setEmailIsValid(pattern.test(value));
+                setEmail(e.target.value);
               }}
             />
           </div>
@@ -86,14 +92,12 @@ const Register = ({ mix }) => {
               required
               onChange={(e) => {
                 e.target.value.length < 4 ? setPasswordIsValid(false) : setPasswordIsValid(true);
+                setPassword(e.target.value);
               }}
             />
           </div>
           <div className="register__separator" />
-          <span
-            className={passwordIsValid ? 'register__error' : 'register__error register__error_visible'}
-            children="Минимум 4 символа"
-          />
+          <span className={passwordIsValid ? 'register__error' : 'register__error register__error_visible'} children="Минимум 4 символа" />
           <div className="register__bottom">
             <button
               id="register-form-edit"
