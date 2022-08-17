@@ -4,7 +4,7 @@ import mainApi from '../apis/MainApi';
 import UserContext from '../contexts/UserContext';
 import useAllowedPaths from '../utils/customHooks/useAllowedPaths';
 import './App.css';
-import { popupContent, popupSignupErrors, popupSigninErrors } from '../variables/appVariables';
+import { popupContent, popupSignupErrors, popupSigninErrors, popupUpdateUserErrors } from '../variables/appVariables';
 
 import Header from './Header/Header';
 import Main from './Main/Main';
@@ -25,7 +25,6 @@ const App = () => {
   const [user, setUser] = useState({});
 
   const [popupIsOpened, setPopupIsOpened] = useState(false);
-  const [popupIsError, setPopupIsError] = useState(false);
   const [popupInfo, setPopupInfo] = useState({});
 
   const [headerIsRendered] = useAllowedPaths(['/', '/movies', '/saved-movies', '/profile', '/signin', '/signup']);
@@ -50,14 +49,13 @@ const App = () => {
         setPopupInfo(popupContent[0]);
         setPopupIsOpened(true);
       })
+      .then((res) => nav('/signin'))
       .catch((err) => {
         if (err === 409) {
-          setPopupIsError(true);
           setPopupInfo(popupSignupErrors[0]);
           setPopupIsOpened(true);
         }
         if (err === 500) {
-          setPopupIsError(true);
           setPopupInfo(popupSignupErrors[1]);
           setPopupIsOpened(true);
         }
@@ -69,19 +67,46 @@ const App = () => {
       .signin(email, password)
       .then((res) => {
         res.token && localStorage.setItem('token', `${res.token}`);
+      })
+      .then((res) => {
         setIsLoggedIn(true);
         setPopupInfo(popupContent[1]);
         setPopupIsOpened(true);
       })
       .catch((err) => {
         if (err === 401) {
-          setPopupIsError(true);
           setPopupInfo(popupSigninErrors[0]);
           setPopupIsOpened(true);
         }
         if (err === 500) {
-          setPopupIsError(true);
           setPopupInfo(popupSigninErrors[1]);
+          setPopupIsOpened(true);
+        }
+      });
+  };
+
+  const handleSignout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    nav('/');
+  };
+
+  const handleUpdateUser = ({ name, email }, setEditMode) => {
+    mainApi
+      .updateUser(name, email, localStorage.getItem('token'))
+      .then((res) => setUser(res))
+      .then((res) => {
+        setEditMode(false);
+        setPopupInfo(popupContent[3]);
+        setPopupIsOpened(true);
+      })
+      .catch((err) => {
+        if (err === 409) {
+          setPopupInfo(popupUpdateUserErrors[0]);
+          setPopupIsOpened(true);
+        }
+        if (err === 500) {
+          setPopupInfo(popupUpdateUserErrors[1]);
           setPopupIsOpened(true);
         }
       });
@@ -101,18 +126,19 @@ const App = () => {
             path="/saved-movies"
             element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<SavedMovies mix="app__saved-movies" />} />}
           />
-          <Route path="/profile" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<Profile mix="app__profile" />} />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={<Profile mix="app__profile" handleUpdateUser={handleUpdateUser} handleSignout={handleSignout} />}
+              />
+            }
+          />
         </Routes>
         {footerIsRendered && <Footer mix="app__footer" />}
 
-        <InfoPopup
-          mix="app__info-popup"
-          popupIsOpened={popupIsOpened}
-          setPopupIsOpened={setPopupIsOpened}
-          popupIsError={popupIsError}
-          setPopupIsError={setPopupIsError}
-          popupInfo={popupInfo}
-        />
+        <InfoPopup mix="app__info-popup" popupIsOpened={popupIsOpened} setPopupIsOpened={setPopupIsOpened} popupInfo={popupInfo} />
       </div>
     </UserContext.Provider>
   );

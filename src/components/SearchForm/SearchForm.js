@@ -1,12 +1,18 @@
+import { useEffect, useState } from 'react';
 import useWidth from '../../utils/customHooks/useWidth';
-
 import './SearchForm.css';
-
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
+import useSearchCards from '../../utils/customHooks/useSearchCards';
+import moviesApi from '../../apis/MoviesApi';
 
-const SearchForm = ({ mix }) => {
+const SearchForm = ({ mix, location, renderer }) => {
   const viewport = useWidth();
+  const [search] = useSearchCards();
+  const [keyWords, setKeyWords] = useState('');
+  const [isShort, setIsShort] = useState(false);
+
+  const render = (data) => renderer(data);
 
   return (
     <section className={`${mix} search-form`}>
@@ -19,10 +25,21 @@ const SearchForm = ({ mix }) => {
         target="_self"
         autoComplete="on"
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log('search-form');
-        }}
+        onSubmit={
+          location === '/movies'
+            ? (e) => {
+                e.preventDefault();
+                moviesApi
+                  .getMovies()
+                  .then((cards) => search(cards, isShort, keyWords))
+                  .then((data) => render(data))
+                  .catch((err) => console.log(`MoviesApi error: ${err}`));
+              }
+            : (e) => {
+                e.preventDefault();
+                console.log('search-form saved-movies');
+              }
+        }
       >
         <div className="search-form__frame">
           <div className="search-form__search-bar">
@@ -38,8 +55,9 @@ const SearchForm = ({ mix }) => {
               autoComplete="on"
               required
               autoFocus
-              onChange={() => {
-                console.log('search-form-input');
+              onChange={(e) => {
+                const words = e.target.value.replace(/\s+/g, ' ').split(' ');
+                setKeyWords(words);
               }}
             />
             <button
@@ -64,6 +82,7 @@ const SearchForm = ({ mix }) => {
                     name="search-form-checkbox"
                     type="checkbox"
                     onChange={() => {
+                      setIsShort(!isShort);
                       console.log('search-form-checkbox');
                     }}
                   />

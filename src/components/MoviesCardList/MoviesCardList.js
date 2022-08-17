@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
 import './MoviesCardList.css';
 
-const MoviesCardList = ({ mix }) => {
+const MoviesCardList = ({ mix, cards }) => {
   const [preloaderIsVisible, setPreloaderIsVisible] = useState(false);
 
   return (
     <section className={`${mix} movies-card-list`}>
-      {/* <div
+      <div
         className={
           mix === 'movies__movies-card-list' ? 'movies-card-list__cards' : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
         children={cards.map((item) => (
-          <MoviesCard mix={item.mix} key={item.key} />
+          <MoviesCard mix={''} item={item} key={item.id} />
         ))}
-      /> */}
+      />
       {mix === 'movies__movies-card-list' && (
         <button
           id="movies-card-list-button"

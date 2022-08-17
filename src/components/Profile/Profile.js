@@ -3,8 +3,11 @@ import UserContext from '../../contexts/UserContext';
 
 import './Profile.css';
 
-const Profile = ({ mix }) => {
+const Profile = ({ mix, handleUpdateUser, handleSignout }) => {
   const userContext = React.useContext(UserContext);
+
+  const [name, setName] = useState(userContext.user.name);
+  const [email, setEmail] = useState(userContext.user.email);
 
   const [editMode, setEditMode] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(true);
@@ -29,8 +32,7 @@ const Profile = ({ mix }) => {
           autoComplete="on"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log('profile-form');
-            setEditMode(false);
+            handleUpdateUser({ name, email }, setEditMode);
           }}
         >
           <span className="profile__label" children="Имя" />
@@ -45,6 +47,7 @@ const Profile = ({ mix }) => {
             defaultValue={userContext.user.name}
             onChange={(e) => {
               e.target.value.length >= 2 && e.target.value.length <= 30 ? setNameIsValid(true) : setNameIsValid(false);
+              setName(e.target.value);
             }}
           />
           <div className={nameIsValid && emailIsValid ? 'profile__separator' : 'profile__separator profile__separator_error'} />
@@ -63,6 +66,7 @@ const Profile = ({ mix }) => {
               const pattern =
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
               setEmailIsValid(pattern.test(value));
+              setEmail(e.target.value);
             }}
           />
           <div className="profile__bottom">
@@ -83,7 +87,7 @@ const Profile = ({ mix }) => {
                   name="profile-form-logout"
                   aria-label="Выйти из профиля"
                   type="button"
-                  onClick={() => {}}
+                  onClick={handleSignout}
                   children="Выйти из аккаунта"
                 />
               </>

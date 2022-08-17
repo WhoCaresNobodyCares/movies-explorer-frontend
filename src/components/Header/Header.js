@@ -7,7 +7,6 @@ import './Header.css';
 import logoIcon from '../../images/logo-icon.svg';
 
 import Auth from './Auth/Auth';
-import Return from './Return/Return';
 import NavHor from './NavHor/NavHor';
 import User from './User/User';
 import Burger from './Burger/Burger';

@@ -4,19 +4,15 @@ import useAllowedPaths from '../../utils/customHooks/useAllowedPaths';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ mix }) => {
+const MoviesCard = ({ mix, item }) => {
   const [moviesCard] = useAllowedPaths(['/movies']);
   const [isLiked, setIsLiked] = useState(false);
 
   return (
     <div className={`${mix} movies-card`}>
-      <img
-        className="movies-card__image"
-        src="https://hddesktopwallpapers.in/wp-content/uploads/2015/09/kitty-cat-wallpaper.jpg"
-        alt="Изображение карточки"
-      />
+      <img className="movies-card__image" src={`https://api.nomoreparties.co/${item.image.url}`} alt="Изображение карточки" />
       <div className="movies-card__description">
-        <h2 className="movies-card__title" children="33 слова о дизайне" />
+        <h2 className="movies-card__title" children={item.nameRU} />
         <button
           id="movies-card-button"
           className={

@@ -24,8 +24,6 @@ const InfoPopup = ({ mix, popupIsOpened, setPopupIsOpened, popupIsError, setPopu
           type="button"
           onClick={() => {
             setPopupIsOpened(false);
-            location === '/signup' && !popupIsError && nav('/signin');
-            popupIsError && setPopupIsError(false);
           }}
           children={popupInfo.button}
         />

@@ -13,7 +13,7 @@ class MainApi {
     return fetch(`${this._url}/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, email: email, password: password }),
+      body: JSON.stringify({ name, email, password }),
     }).then((res) => this._handleRes(res));
   }
 
@@ -21,7 +21,7 @@ class MainApi {
     return fetch(`${this._url}/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, password: password }),
+      body: JSON.stringify({ email, password }),
     }).then((res) => this._handleRes(res));
   }
 
@@ -29,6 +29,14 @@ class MainApi {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
+    }).then((res) => this._handleRes(res));
+  }
+
+  updateUser(name, email, token) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', authorization: token },
+      body: JSON.stringify({ name, email }),
     }).then((res) => this._handleRes(res));
   }
 }
