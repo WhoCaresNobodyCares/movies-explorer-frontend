@@ -5,7 +5,7 @@ import { useFormValidation } from '../../utils/customHooks/useFormValidation';
 import './Profile.css';
 
 const Profile = ({ mix, handleSignout, handleUpdateUserInfo }) => {
-  const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const isMounted = useRef(false);
   const { values, handleChange, errors, isValid } = useFormValidation();
@@ -15,8 +15,6 @@ const Profile = ({ mix, handleSignout, handleUpdateUserInfo }) => {
 
   const [isNameSame, setIsNameSame] = useState(false);
   const [isEmailSame, setIsEmailSame] = useState(false);
-
-  console.log(isNameSame, isEmailSame);
 
   const resetState = () => {
     setIsNameSame(false);
@@ -29,8 +27,8 @@ const Profile = ({ mix, handleSignout, handleUpdateUserInfo }) => {
     if (isMounted.current === true) {
       setDefaultButtonState(true);
     } else {
-      values.profileFormNameInput = userContext.user.name
-      values.profileFormEmailInput = userContext.user.email
+      values.profileFormNameInput = user.name;
+      values.profileFormEmailInput = user.email;
       isMounted.current = true;
     }
   }, [isValid, values]);
@@ -38,7 +36,7 @@ const Profile = ({ mix, handleSignout, handleUpdateUserInfo }) => {
   return (
     <main className={`${mix} profile`}>
       <section className="profile__section">
-        <h1 className="profile__title" children={`Привет, ${userContext.user.name}!`} />
+        <h1 className="profile__title" children={`Привет, ${user.name}!`} />
         <form
           id="profileForm"
           className="profile__form"
@@ -71,10 +69,10 @@ const Profile = ({ mix, handleSignout, handleUpdateUserInfo }) => {
             autoComplete="on"
             minLength={2}
             maxLength={30}
-            defaultValue={userContext.user.name}
+            defaultValue={user.name}
             required
             onChange={(e) => {
-              e.target.value === userContext.user.name ? setIsNameSame(false) : setIsNameSame(true);
+              e.target.value === user.name ? setIsNameSame(false) : setIsNameSame(true);
               handleChange(e);
             }}
           />
@@ -96,10 +94,10 @@ const Profile = ({ mix, handleSignout, handleUpdateUserInfo }) => {
             pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
             placeholder="E-mail"
             autoComplete="on"
-            defaultValue={userContext.user.email}
+            defaultValue={user.email}
             required
             onChange={(e) => {
-              e.target.value === userContext.user.email ? setIsEmailSame(false) : setIsEmailSame(true);
+              e.target.value === user.email ? setIsEmailSame(false) : setIsEmailSame(true);
               handleChange(e);
             }}
           />

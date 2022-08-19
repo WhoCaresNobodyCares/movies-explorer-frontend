@@ -13,7 +13,7 @@ import Menu from './Menu/Menu';
 
 const Header = ({ mix }) => {
   const viewport = useWidth();
-  const userContext = useContext(UserContext);
+  const { isLoggedIn } = useContext(UserContext);
 
   const [fullHeaderIsRendered, fullHeaderIsRenderedPath] = useAllowedPaths(['/movies', '/saved-movies', '/profile']);
   const [headerIsNarrow] = useAllowedPaths(['/signin', '/signup']);
@@ -34,26 +34,27 @@ const Header = ({ mix }) => {
           children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
         />
         <Routes>
-        <Route
+          <Route
             path="/"
             element={
-              userContext.isLoggedIn ? (
+              isLoggedIn ? (
                 viewport > 800 ? (
                   <>
                     <NavHor mix="header__nav-hor" />
-                    <User mix="header__user" userContext={userContext} />
+                    <User mix="header__user" />
                   </>
                 ) : (
                   <>
                     <Burger mix="header__burger" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} />
-                    <Menu mix="header__menu" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} userContext={userContext} />
+                    <Menu mix="header__menu" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} />
                   </>
                 )
               ) : (
                 <Auth mix="header__auth" />
               )
             }
-          />          <Route
+          />{' '}
+          <Route
             path={fullHeaderIsRenderedPath}
             element={
               fullHeaderIsRendered && viewport > 800 ? (

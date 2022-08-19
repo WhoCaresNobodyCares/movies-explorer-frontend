@@ -3,9 +3,7 @@ import UserContext from '../../contexts/UserContext';
 import './InfoPopup.css';
 
 const InfoPopup = ({ mix, popupState, setPopupState }) => {
-  const userContext = useContext(UserContext);
-
-  console.log(userContext);
+  const{user} = useContext(UserContext);
 
   return (
     <div className={`${mix} info-popup`}>
@@ -15,7 +13,7 @@ const InfoPopup = ({ mix, popupState, setPopupState }) => {
       />
       <div className={popupState.isOpened ? 'info-popup__content info-popup__content_visible' : 'info-popup__content'}>
         <h2 className="info-popup__title">
-          {popupState.title === 'Добро пожаловать,' ? `${popupState.title} ${userContext.user.name}` : popupState.title}
+          {popupState.title === 'Добро пожаловать,' ? `${popupState.title} ${user.name}` : popupState.title}
         </h2>
         <button
           id="info-popup-button"

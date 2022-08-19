@@ -8,11 +8,11 @@ import './User.css';
 const User = ({ mix }) => {
   const location = useLocation().pathname
   const viewport = useWidth()
-  const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   return (
     <div className={`${mix} user`}>
-      <span className="user__email" children={userContext.user.name} />
+      <span className="user__email" children={user.name} />
       <Link
         className={location === '/' ? `user__link ${viewport > 800 && `user__link_main`}` : 'user__link'}
         to="/profile"

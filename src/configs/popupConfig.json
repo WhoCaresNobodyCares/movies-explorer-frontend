@@ -17,7 +17,9 @@
       "success": { "isOpened": true, "title": "Данные обновлены", "button": "Хорошо" },
       "err409": { "isOpened": true, "title": "E-mail уже занят", "button": "Ок" },
       "err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
-
+    },
+    "movies": {
+      "err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
     }
   }
 }

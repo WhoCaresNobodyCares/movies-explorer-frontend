@@ -39,6 +39,13 @@ class MainApi {
       body: JSON.stringify({ name, email }),
     }).then((res) => this._handleRes(res));
   }
+
+  getMovies(token) {
+    return fetch(`${this._url}/movies/`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', authorization: token },
+    }).then((res) => this._handleRes(res));
+  }
 }
 
 const mainApi = new MainApi(MAIN_API_URL);

@@ -1,32 +1,20 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import AppContext from '../../contexts/AppContext';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
 import './MoviesCardList.css';
 
 const MoviesCardList = ({ mix }) => {
-  const cards = [
-    { mix: 'movies-card-list__movies-card', key: '1' },
-    { mix: 'movies-card-list__movies-card', key: '2' },
-    { mix: 'movies-card-list__movies-card', key: '3' },
-    { mix: 'movies-card-list__movies-card', key: '4' },
-    { mix: 'movies-card-list__movies-card', key: '5' },
-    { mix: 'movies-card-list__movies-card', key: '6' },
-    { mix: 'movies-card-list__movies-card', key: '7' },
-    { mix: 'movies-card-list__movies-card', key: '8' },
-    { mix: 'movies-card-list__movies-card', key: '9' },
-  ];
-
-  const [preloaderIsVisible, setPreloaderIsVisible] = useState(false);
-
+  const { isPreloaderVisible, renderedCards } = useContext(AppContext);
   return (
     <section className={`${mix} movies-card-list`}>
       <div
         className={
           mix === 'movies__movies-card-list' ? 'movies-card-list__cards' : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
-        children={cards.map((item) => (
-          <MoviesCard mix={item.mix} key={item.key} />
+        children={renderedCards.map((item) => (
+          <MoviesCard mix="movies-card-list__movies-card" card={item} key={item.movieId} />
         ))}
       />
       {mix === 'movies__movies-card-list' && (
@@ -36,13 +24,11 @@ const MoviesCardList = ({ mix }) => {
           name="movies-card-list-button"
           aria-label="Добавить карточки"
           type="button"
-          onClick={() => {
-            setPreloaderIsVisible(!preloaderIsVisible);
-          }}
+          onClick={() => {}}
           children="Еще"
         />
       )}
-      <Preloader mix="movies-card-list__preloader" mod_visible={preloaderIsVisible ? 'movies-card-list__preloader_visible' : ''} />
+      <Preloader mix="movies-card-list__preloader" mod_visible={isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''} />
     </section>
   );
 };

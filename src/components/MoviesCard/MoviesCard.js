@@ -4,19 +4,22 @@ import useAllowedPaths from '../../utils/customHooks/useAllowedPaths';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ mix }) => {
+const MoviesCard = ({ mix, card }) => {
   const [moviesCard] = useAllowedPaths(['/movies']);
   const [isLiked, setIsLiked] = useState(false);
+  const { image, nameRU, duration } = card;
+
+  const convertMinutes = (totalMinutes) => {
+    const minutes = totalMinutes % 60;
+    const hours = Math.floor(totalMinutes / 60);
+    return `${hours}ч ${minutes}м`;
+  };
 
   return (
     <div className={`${mix} movies-card`}>
-      <img
-        className="movies-card__image"
-        src="https://hddesktopwallpapers.in/wp-content/uploads/2015/09/kitty-cat-wallpaper.jpg"
-        alt="Изображение карточки"
-      />
+      <img className="movies-card__image" src={image} alt="Изображение карточки" />
       <div className="movies-card__description">
-        <h2 className="movies-card__title" children="33 слова о дизайне" />
+        <h2 className="movies-card__title" children={nameRU} />
         <button
           id="movies-card-button"
           className={
@@ -29,7 +32,7 @@ const MoviesCard = ({ mix }) => {
           type="button"
           onClick={moviesCard ? () => setIsLiked(!isLiked) : () => {}}
         />
-        <span className="movies-card__length" children="1ч 3м" />
+        <span className="movies-card__length" children={convertMinutes(duration)} />
       </div>
     </div>
   );
