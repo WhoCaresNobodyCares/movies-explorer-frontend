@@ -1,18 +1,41 @@
+import { useLocation } from 'react-router-dom';
+
 const useSearchCards = () => {
+  const location = useLocation().pathname;
+
   const search = (cards, isShort, keyWords) => {
-    const preparedCards = cards.map((item) => {
-      const { country, description, director, duration, id, nameEN, nameRU, year } = item;
-      return {
-        id,
-        duration,
-        text: [nameRU, nameEN, description, director, country, year]
-          .join(' ')
-          .replace(/[«»—.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
-          .replace(/\s+/g, ' ')
-          .trim()
-          .toLowerCase(),
-      };
-    });
+    if (keyWords.length === 0) {
+      return;
+    }
+
+    const preparedCards =
+      location === '/movies'
+        ? cards.map((item) => {
+            const { country, description, director, duration, id, nameEN, nameRU, year } = item;
+            return {
+              id,
+              duration,
+              text: [nameRU, nameEN, description, director, country, year]
+                .join(' ')
+                .replace(/[«»—.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toLowerCase(),
+            };
+          })
+        : cards.map((item) => {
+            const { country, description, director, duration, movieId, nameEN, nameRU, year } = item;
+            return {
+              id: movieId,
+              duration,
+              text: [nameRU, nameEN, description, director, country, year]
+                .join(' ')
+                .replace(/[«»—.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toLowerCase(),
+            };
+          });
 
     const completeMatch = preparedCards
       .map((item) => {
@@ -60,7 +83,10 @@ const useSearchCards = () => {
 
     const validIds = completeMatch.length > 0 ? completeMatch : someMatch;
 
-    const result = cards.map((item) => validIds.includes(item.id) && item).filter(Boolean);
+    const result =
+      location === '/movies'
+        ? cards.map((item) => validIds.includes(item.id) && item).filter(Boolean)
+        : cards.map((item) => validIds.includes(item.movieId) && item).filter(Boolean);
     return result;
   };
 

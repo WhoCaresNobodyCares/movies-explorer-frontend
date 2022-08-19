@@ -87,6 +87,7 @@ const App = () => {
 
   const handleSignout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('movies-state')
     setIsLoggedIn(false);
     nav('/');
   };
@@ -121,10 +122,10 @@ const App = () => {
           <Route path="/" element={<Main mix="app__main" />} />
           <Route path="/signup" element={<Register mix="app__register" handleSignup={handleSignup} />} />
           <Route path="/signin" element={<Login mix="app__login" handleSignin={handleSignin} />} />
-          <Route path="/movies" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<Movies mix="app__movies" />} />} />
+          <Route path="/movies" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<Movies mix="app__movies" setPopupIsOpened={setPopupIsOpened} setPopupInfo={setPopupInfo} />} />} />
           <Route
             path="/saved-movies"
-            element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<SavedMovies mix="app__saved-movies" />} />}
+            element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<SavedMovies mix="app__saved-movies" setPopupIsOpened={setPopupIsOpened} setPopupInfo={setPopupInfo} />} />}
           />
           <Route
             path="/profile"
