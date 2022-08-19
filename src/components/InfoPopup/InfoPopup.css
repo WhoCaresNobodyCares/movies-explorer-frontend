@@ -37,7 +37,7 @@
   z-index: 5;
   visibility: hidden;
   opacity: 0;
-  transform: translate(0, 100%);
+  transform: translate(0, 100vh);
   transition: visibility 0.2s ease-out, opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
@@ -48,8 +48,8 @@
 }
 
 .info-popup__title {
-  margin: 0 0 40px 0;
-  font: 500 24px/30px 'Inter', arial, sans-serif;
+  margin: 0 0 20px 0;
+  font: 500 20px/20px 'Inter', arial, sans-serif;
   text-align: center;
   color: var(--cl-02);
 }
@@ -76,8 +76,13 @@
 }
 
 @media screen and (max-width: 460px) {
+  .info-popup__content {
+    padding: 18px;
+  }
+
   .info-popup__title {
-    font: 500 18px/24px 'Inter', arial, sans-serif;
+    margin: 0 0 18px 0;
+    font: 500 18px/18px 'Inter', arial, sans-serif;
     text-align: left;
   }
 

@@ -1,13 +1,14 @@
+import { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import UserContext from '../../../contexts/UserContext';
+import userIcon from '../../../images/user-icon.svg';
 import useWidth from '../../../utils/customHooks/useWidth';
-
 import './User.css';
 
-import userIcon from '../../../images/user-icon.svg';
-
-const User = ({ mix, userContext }) => {
-  const viewport = useWidth();
-  const location = useLocation().pathname;
+const User = ({ mix }) => {
+  const location = useLocation().pathname
+  const viewport = useWidth()
+  const userContext = useContext(UserContext);
 
   return (
     <div className={`${mix} user`}>

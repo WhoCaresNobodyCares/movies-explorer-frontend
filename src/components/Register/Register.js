@@ -1,117 +1,141 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useFormValidation } from '../../utils/customHooks/useFormValidation';
 
 import './Register.css';
 
 const Register = ({ mix, handleSignup }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const isMounted = useRef(false);
+  const { values, handleChange, errors, isValid } = useFormValidation();
 
-  const [nameIsValid, setNameIsValid] = useState(true);
-  const [emailIsValid, setEmailIsValid] = useState(true);
-  const [passwordIsValid, setPasswordIsValid] = useState(true);
-  const [buttonIsValid, setButtonIsValid] = useState(false);
+  const [defaultButtonState, setDefaultButtonState] = useState(false);
 
   useEffect(() => {
-    nameIsValid && emailIsValid && passwordIsValid ? setButtonIsValid(true) : setButtonIsValid(false);
-  }, [nameIsValid, emailIsValid, passwordIsValid]);
+    if (isMounted.current === true) {
+      setDefaultButtonState(true);
+    } else {
+      isMounted.current = true;
+    }
+  }, [isValid]);
 
   return (
     <main className={`${mix} register`}>
       <section className="register__section">
         <h1 className="register__title" children="Добро пожаловать!" />
         <form
-          id="register-form"
+          id="registerForm"
           className="register__form"
-          name="register-form"
+          name="registerForm"
           action="#"
           method="post"
           target="_self"
           autoComplete="on"
           onSubmit={(e) => {
             e.preventDefault();
-            handleSignup(name, email, password);
+            const { registerFormNameInput, registerFormEmailInput, registerFormPasswordInput } = values;
+            handleSignup(registerFormNameInput, registerFormEmailInput, registerFormPasswordInput);
           }}
         >
           <div className="register__block">
             <span className="register__label" children="Имя" />
             <input
-              id="register-form-name-input"
-              className={nameIsValid ? 'register__input' : 'register__input register__input_invalid'}
-              name="register-form-name-input"
+              id="registerFormNameInput"
+              className={
+                isValid
+                  ? 'register__input'
+                  : `${!errors.registerFormNameInput ? 'register__input' : 'register__input register__input_invalid'}`
+              }
+              name="registerFormNameInput"
               type="text"
               placeholder="Имя"
               autoComplete="on"
+              minLength={2}
+              maxLength={30}
               autoFocus
               required
-              onChange={(e) => {
-                e.target.value.length >= 2 && e.target.value.length <= 30 ? setNameIsValid(true) : setNameIsValid(false);
-                setName(e.target.value);
-              }}
+              onChange={(e) => handleChange(e)}
             />
           </div>
-          <div className="register__separator" />
+          <div
+            className={
+              isValid
+                ? 'register__separator'
+                : `${!errors.registerFormNameInput ? 'register__separator' : 'register__separator register__separator_error'}`
+            }
+          />
           <span
-            className={nameIsValid ? 'register__error' : 'register__error register__error_visible'}
-            children="От двух до тридцати символов"
+            className={isValid ? 'register__error' : 'register__error register__error_visible'}
+            children={errors.registerFormNameInput}
           />
           <div className="register__block">
             <span className="register__label" children="E-mail" />
             <input
-              id="register-form-email-input"
-              className={emailIsValid ? 'register__input' : 'register__input register__input_invalid'}
-              name="register-form-email-input"
+              id="registerFormEmailInput"
+              className={
+                isValid
+                  ? 'register__input'
+                  : `${!errors.registerFormEmailInput ? 'register__input' : 'register__input register__input_invalid'}`
+              }
+              name="registerFormEmailInput"
               type="email"
+              pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
               placeholder="E-mail"
               autoComplete="on"
               required
-              onChange={(e) => {
-                let value = e.target.value;
-                const pattern =
-                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                setEmailIsValid(pattern.test(value));
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => handleChange(e)}
             />
           </div>
-          <div className="register__separator" />
+          <div
+            className={
+              isValid
+                ? 'register__separator'
+                : `${!errors.registerFormEmailInput ? 'register__separator' : 'register__separator register__separator_error'}`
+            }
+          />
           <span
-            className={emailIsValid ? 'register__error' : 'register__error register__error_visible'}
-            children="Адрес электронной почты"
+            className={isValid ? 'register__error' : 'register__error register__error_visible'}
+            children={errors.registerFormEmailInput}
           />
           <div className="register__block">
             <span className="register__label" children="Пароль" />
             <input
-              id="register-form-password-input"
-              className={passwordIsValid ? 'register__input' : 'register__input register__input_invalid'}
-              name="register-form-password-input"
+              id="registerFormPasswordInput"
+              className={
+                isValid
+                  ? 'register__input'
+                  : `${!errors.registerFormPasswordInput ? 'register__input' : 'register__input register__input_invalid'}`
+              }
+              name="registerFormPasswordInput"
               type="password"
               placeholder="Пароль"
               autoComplete="on"
+              minLength={4}
               required
-              onChange={(e) => {
-                e.target.value.length < 4 ? setPasswordIsValid(false) : setPasswordIsValid(true);
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => handleChange(e)}
             />
           </div>
-          <div className="register__separator" />
-          <span className={passwordIsValid ? 'register__error' : 'register__error register__error_visible'} children="Минимум 4 символа" />
+          <div
+            className={
+              isValid
+                ? 'register__separator'
+                : `${!errors.registerFormPasswordInput ? 'register__separator' : 'register__separator register__separator_error'}`
+            }
+          />
+          <span
+            className={isValid ? 'register__error' : 'register__error register__error_visible'}
+            children={errors.registerFormPasswordInput}
+          />
           <div className="register__bottom">
             <button
-              id="register-form-edit"
-              className={
-                nameIsValid && emailIsValid && passwordIsValid && buttonIsValid
-                  ? 'register__submit'
-                  : 'register__submit register__submit_disabled'
-              }
-              name="register-form-edit"
+              id="registerFormEdit"
+              className={isValid && defaultButtonState ? 'register__submit' : 'register__submit register__submit_disabled'}
+              name="registerFormEdit"
               aria-label="Зарегистрироваться"
               type="submit"
               onClick={() => {}}
               children="Зарегистрироваться"
-              disabled={!buttonIsValid}
+              form="registerForm"
+              disabled={isValid && defaultButtonState ? false : true}
             />
             <div className="register__already">
               <span className="register__description" children="Уже зарегистрированы?" />

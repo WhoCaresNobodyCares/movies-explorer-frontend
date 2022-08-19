@@ -1,4 +1,4 @@
-const { mainApiUrl } = require('../configs/config.json');
+const { MAIN_API_URL } = require('../configs/apiConfig.json');
 
 class MainApi {
   constructor(url) {
@@ -25,7 +25,7 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 
-  checkValidity(token) {
+  checkTokenValidity(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
@@ -39,22 +39,7 @@ class MainApi {
       body: JSON.stringify({ name, email }),
     }).then((res) => this._handleRes(res));
   }
-
-  getMovies(token) {
-    return fetch(`${this._url}/movies/`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json', authorization: token },
-    }).then((res) => this._handleRes(res));
-  }
-
-  addMovie({ country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN, token }) {
-    return fetch(`${this._url}/movies/`, {
-      method: 'POST',
-      headers: { authorization: token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN }),
-    }).then((res) => this._handleRes(res));
-  }
 }
 
-const mainApi = new MainApi(mainApiUrl);
+const mainApi = new MainApi(MAIN_API_URL);
 export default mainApi;

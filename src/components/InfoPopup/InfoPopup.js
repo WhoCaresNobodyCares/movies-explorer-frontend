@@ -1,31 +1,30 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext';
 import './InfoPopup.css';
 
-const InfoPopup = ({ mix, popupIsOpened, setPopupIsOpened, popupIsError, setPopupIsError, popupInfo }) => {
-  const nav = useNavigate();
-  const location = useLocation().pathname;
+const InfoPopup = ({ mix, popupState, setPopupState }) => {
+  const userContext = useContext(UserContext);
+
+  console.log(userContext);
 
   return (
     <div className={`${mix} info-popup`}>
       <div
-        className={!popupIsOpened ? 'info-popup__shadow' : 'info-popup__shadow info-popup__shadow_visible'}
-        onClick={() => {
-          setPopupIsOpened(false);
-        }}
+        className={popupState.isOpened ? 'info-popup__shadow info-popup__shadow_visible' : 'info-popup__shadow'}
+        onClick={() => setPopupState({ isOpened: !popupState.isOpened, title: '', button: '' })}
       />
-      <div className={!popupIsOpened ? 'info-popup__content' : 'info-popup__content info-popup__content_visible'}>
-        <h2 className="info-popup__title">{popupInfo.title}</h2>
+      <div className={popupState.isOpened ? 'info-popup__content info-popup__content_visible' : 'info-popup__content'}>
+        <h2 className="info-popup__title">
+          {popupState.title === 'Добро пожаловать,' ? `${popupState.title} ${userContext.user.name}` : popupState.title}
+        </h2>
         <button
           id="info-popup-button"
           className="info-popup__button"
           name="info-popup-button"
           aria-label="Подтвердить"
           type="button"
-          onClick={() => {
-            setPopupIsOpened(false);
-          }}
-          children={popupInfo.button}
+          onClick={() => setPopupState({ isOpened: !popupState.isOpened, title: '', button: '' })}
+          children={popupState.button}
         />
       </div>
     </div>

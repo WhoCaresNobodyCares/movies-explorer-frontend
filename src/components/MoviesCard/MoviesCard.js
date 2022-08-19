@@ -1,40 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import useAllowedPaths from '../../utils/customHooks/useAllowedPaths';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ mix, item, onClick, liked }) => {
+const MoviesCard = ({ mix }) => {
   const [moviesCard] = useAllowedPaths(['/movies']);
   const [isLiked, setIsLiked] = useState(false);
 
-  const convertMinutes = (totalMinutes) => {
-    const minutes = totalMinutes % 60;
-    const hours = Math.floor(totalMinutes / 60);
-    return `${hours}ч ${minutes}м`;
-  };
-
-  useEffect(() => {
-    if (liked === true) {
-      setIsLiked(true);
-    }
-  });
-
   return (
     <div className={`${mix} movies-card`}>
-      <div className="movies-card__container">
-        <a
-          className="movies-card__overlay"
-          href={item.trailerLink}
-          target="_blank"
-          rel="noreferrer noopener"
-          key={item.key}
-          children={item.text}
-        />
-        <img className="movies-card__image" src={mix === 'movies__card' ? `https://api.nomoreparties.co/${item.image.url}` : item.image} alt="Изображение карточки" />
-      </div>
+      <img
+        className="movies-card__image"
+        src="https://hddesktopwallpapers.in/wp-content/uploads/2015/09/kitty-cat-wallpaper.jpg"
+        alt="Изображение карточки"
+      />
       <div className="movies-card__description">
-        <h2 className="movies-card__title" children={item.nameRU} />
+        <h2 className="movies-card__title" children="33 слова о дизайне" />
         <button
           id="movies-card-button"
           className={
@@ -45,15 +27,9 @@ const MoviesCard = ({ mix, item, onClick, liked }) => {
           name="movies-card-button"
           aria-label="Совершить действие с карточкой"
           type="button"
-          onClick={
-            moviesCard
-              ? () => {
-                  onClick(item, setIsLiked, isLiked);
-                }
-              : () => {}
-          }
+          onClick={moviesCard ? () => setIsLiked(!isLiked) : () => {}}
         />
-        <span className="movies-card__length" children={convertMinutes(item.duration)} />
+        <span className="movies-card__length" children="1ч 3м" />
       </div>
     </div>
   );

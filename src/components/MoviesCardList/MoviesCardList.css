@@ -48,43 +48,12 @@
   border-radius: 6px;
   font: 500 12px/15px 'Inter', arial, sans-serif;
   color: var(--cl-02);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease-out, width 0.2s ease-out, visibility 0.2s ease-out;
+  transition: opacity 0.2s ease-out, width 0.2s ease-out;
 }
 
 .movies-card-list__button:hover {
   opacity: 0.6;
   width: 340px;
-}
-
-.movies-card-list__button_visible {
-  visibility: visible;
-  opacity: 1;
-}
-
-.movies-card-list__not-found {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease-out, width 0.2s ease-out, visibility 0.2s ease-out;
-}
-
-.movies-card-list__not-found_visible {
-  visibility: visible;
-  opacity: 1;
-}
-
-.movies-card-list__not-found-message {
-  font: 400 14px/18px 'Inter', arial, sans-serif;  color: var(--bg-09);
-  text-align: center;
 }
 
 @media screen and (max-width: 1280px) {

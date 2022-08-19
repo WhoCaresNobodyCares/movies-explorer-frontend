@@ -5,7 +5,7 @@ import closeIcon from '../../../images/close-icon.svg';
 import NavVert from '../NavVert/NavVert';
 import User from '../User/User';
 
-const Menu = ({ mix, menuIsOpened, setMenuIsOpened, userContext }) => {
+const Menu = ({ mix, menuIsOpened, setMenuIsOpened }) => {
   return (
     <div className={`${mix} menu`}>
       <aside className={!menuIsOpened ? `menu__aside` : `menu__aside menu__aside_opened`}>
@@ -19,7 +19,7 @@ const Menu = ({ mix, menuIsOpened, setMenuIsOpened, userContext }) => {
           children={<img className="menu__icon" src={closeIcon} alt="Закрыть боковое меню" />}
         />
         <NavVert mix="menu__nav-vert" />
-        <User mix="menu__user" userContext={userContext} />
+        <User mix="menu__user" />
       </aside>
       <div
         className={!menuIsOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'}
