@@ -56,6 +56,25 @@
 	width: 340px;
 }
 
+.movies-card-list__not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+}
+
+.movies-card-list__not-found_visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.movies-card-list__not-found-message {
+  font: 400 14px/18px 'Inter', arial, sans-serif;  color: var(--bg-09);
+  text-align: center;
+}
+
 @media screen and (max-width: 1280px) {
 	.movies-card-list__cards {
 		width: calc(100vw - (70px * 2));

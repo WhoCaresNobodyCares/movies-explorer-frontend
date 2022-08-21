@@ -1,6 +1,6 @@
 import './Burger.css';
 
-const Burger = ({ mix, menuIsOpened, setMenuIsOpened }) => {
+const Burger = ({ mix, isMenuOpened, setIsMenuOpened }) => {
 	return (
 		<button
 			id="burger-button"
@@ -8,7 +8,7 @@ const Burger = ({ mix, menuIsOpened, setMenuIsOpened }) => {
 			name="burger-button"
 			aria-label="Вызвать боковое меню"
 			type="button"
-			onClick={() => setMenuIsOpened(!menuIsOpened)}
+			onClick={() => setIsMenuOpened(!isMenuOpened)}
 			children={<span className="burger__center" />}
 		/>
 	);

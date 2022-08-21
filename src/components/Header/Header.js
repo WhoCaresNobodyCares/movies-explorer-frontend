@@ -10,12 +10,11 @@ import Menu from './Menu/Menu';
 import AppContext from '../../contexts/AppContext';
 
 const Header = ({ mix }) => {
-	const { location, viewportWidth, allowedPaths, menuIsOpened, setMenuIsOpened } =
+	const { location, viewportWidth, allowedPaths, isMenuOpened, setIsMenuOpened } =
 		useContext(AppContext);
 
-	console.log('render');
 	useEffect(() => {
-		setMenuIsOpened(false);
+		setIsMenuOpened(false);
 	}, [location, viewportWidth]);
 
 	return (
@@ -39,7 +38,34 @@ const Header = ({ mix }) => {
 					children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
 				/>
 				<Routes>
-					<Route path="/" element={<Auth mix="header__auth" />} />
+					<Route
+						path="/"
+						element={
+							false ? (
+								viewportWidth > 800 ? (
+									<>
+										<NavHor mix="header__nav-hor" />
+										<User mix="header__user" />
+									</>
+								) : (
+									<>
+										<Burger
+											mix="header__burger"
+											isMenuOpened={isMenuOpened}
+											setIsMenuOpened={setIsMenuOpened}
+										/>
+										<Menu
+											mix="header__menu"
+											isMenuOpened={isMenuOpened}
+											setIsMenuOpened={setIsMenuOpened}
+										/>
+									</>
+								)
+							) : (
+								<Auth mix="header__auth" />
+							)
+						}
+					/>
 					<Route
 						path={location.pathname}
 						element={
@@ -53,13 +79,13 @@ const Header = ({ mix }) => {
 									<>
 										<Burger
 											mix="header__burger"
-											menuIsOpened={menuIsOpened}
-											setMenuIsOpened={setMenuIsOpened}
+											isMenuOpened={isMenuOpened}
+											setIsMenuOpened={setIsMenuOpened}
 										/>
 										<Menu
 											mix="header__menu"
-											menuIsOpened={menuIsOpened}
-											setMenuIsOpened={setMenuIsOpened}
+											isMenuOpened={isMenuOpened}
+											setIsMenuOpened={setIsMenuOpened}
 										/>
 									</>
 								)

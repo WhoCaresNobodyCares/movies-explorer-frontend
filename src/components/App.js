@@ -14,6 +14,7 @@ import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import useAllowedPaths from '../utils/customHooks/useAllowedPaths';
 import AppContext from '../contexts/AppContext';
 import useWidth from '../utils/customHooks/useWidth';
+// import InfoPopup from './InfoPopup/InfoPopup';
 
 const App = () => {
 	// configs
@@ -25,9 +26,17 @@ const App = () => {
 	const viewportWidth = useWidth();
 	const { allowedPaths, handlePathChange } = useAllowedPaths(location.pathname);
 
-	// states
-	const [menuIsOpened, setMenuIsOpened] = useState(false);
+	// boolean states
+	const [isMenuOpened, setIsMenuOpened] = useState(false);
+	const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
 	const [isProfileEditMode, setIsProfileEditMode] = useState(false);
+
+	// object states
+	const [popupState, setPopupState] = useState({
+		isOpened: false,
+		title: '',
+		button: '',
+	});
 
 	useEffect(() => handlePathChange(ALLOWED_PATHS_CONFIG), [location]);
 
@@ -38,10 +47,12 @@ const App = () => {
 				navigate,
 				viewportWidth,
 				allowedPaths,
-				menuIsOpened,
-				setMenuIsOpened,
+				isMenuOpened,
+				setIsMenuOpened,
 				isProfileEditMode,
 				setIsProfileEditMode,
+				isPreloaderVisible,
+				setIsPreloaderVisible,
 			}}
 		>
 			<div className="app">
@@ -56,6 +67,7 @@ const App = () => {
 					<Route path="/signin" element={<Login mix="app__login" />} />
 				</Routes>
 				{allowedPaths.footer && <Footer mix="app__footer" />}
+				{/* <InfoPopup mix="app__info-popup" popupState={popupState} setPopupState={setPopupState} /> */}
 			</div>
 		</AppContext.Provider>
 	);
