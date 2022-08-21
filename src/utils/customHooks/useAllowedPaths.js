@@ -1,13 +1,26 @@
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 
-const useAllowedPaths = (paths) => {
-  const location = useLocation().pathname;
-  const isAllowed = paths.some((path) => path === location);
+const useAllowedPaths = (location) => {
+	const [allowedPaths, setAllowedPaths] = React.useState(false);
 
-  const getAllowedPath = (location, isAllowed) => isAllowed && location
-  const allowedPath = getAllowedPath(location, isAllowed);
+	const handlePathChange = (config) => {
+		let result = {};
 
-  return [isAllowed, allowedPath];
+		for (let index = 0; index < config.length; index++) {
+			const object = config[index];
+			let state;
+
+			for (let index = 0; index < object.paths.length; index++) {
+				state = object.paths.some((path) => path === location);
+			}
+
+			result[`${object.name}`] = state;
+		}
+
+		setAllowedPaths(result);
+	};
+
+	return { allowedPaths, handlePathChange };
 };
 
 export default useAllowedPaths;

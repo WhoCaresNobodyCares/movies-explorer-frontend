@@ -1,0 +1,23 @@
+{
+	"FOOTER_CONFIG": {
+		"footer": {
+			"links": [
+				{
+					"href": "https://practicum.yandex.ru/",
+					"text": "Яндекс.Практикум",
+					"key": "footer__link_1"
+				},
+				{
+					"href": "https://github.com/",
+					"text": "Github",
+					"key": "footer__link_2"
+				},
+				{
+					"href": "https://github.com/",
+					"text": "Facebook",
+					"key": "footer__link_3"
+				}
+			]
+		}
+	}
+}

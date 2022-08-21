@@ -1,0 +1,28 @@
+{
+	"ALLOWED_PATHS_CONFIG": [
+		{
+			"name": "header",
+			"paths": ["/", "/movies", "/saved-movies", "/profile", "/signin", "/signup"]
+		},
+		{
+			"name": "footer",
+			"paths": ["/", "/movies", "/saved-movies"]
+		},
+		{
+			"name": "completeHeader",
+			"paths": ["/movies", "/saved-movies", "/profile"]
+		},
+		{
+			"name": "narrowHeader",
+			"paths": ["/signin", "/signup"]
+		},
+		{
+			"name": "blueHeader",
+			"paths": ["/"]
+		},
+		{
+			"name": "moviesCard",
+			"paths": ["/movies"]
+		}
+	]
+}

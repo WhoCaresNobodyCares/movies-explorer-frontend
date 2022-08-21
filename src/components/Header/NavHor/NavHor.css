@@ -1,29 +1,29 @@
 .nav-hor {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .nav-hor__link {
-  font: 400 14px/18px 'Inter', arial, sans-serif;
-  text-align: center;
-  color: var(--cl-02);
-  transition: opacity 0.2s ease-out;
+	font: 400 14px/18px 'Inter', arial, sans-serif;
+	text-align: center;
+	color: var(--cl-02);
+	transition: opacity 0.2s ease-out;
 }
 
 .nav-hor__link:hover {
-  opacity: 0.6;
+	opacity: 0.6;
 }
 
 .nav-hor__link:first-child {
-  width: 58px;
-  margin: 0 20px 0 0;
+	width: 58px;
+	margin: 0 20px 0 0;
 }
 
 .nav-hor__link:last-child {
-  width: 155px;
+	width: 155px;
 }
 
 .nav-hor__link_active {
-  font: 500 14px/18px 'Inter', arial, sans-serif;
+	font: 500 14px/18px 'Inter', arial, sans-serif;
 }

@@ -1,0 +1,68 @@
+{
+	"POPUP_STATES": {
+		"tokenValidity": {
+			"success": {
+				"isOpened": true,
+				"title": "Добро пожаловать,",
+				"button": "Начать"
+			},
+			"err401": {
+				"isOpened": true,
+				"title": "Зарегистрируйтесь или войдите",
+				"button": "Хорошо"
+			}
+		},
+		"register": {
+			"err400": {
+				"isOpened": true,
+				"title": "Некорректный e-mail",
+				"button": "Ок"
+			},
+			"err409": {
+				"isOpened": true,
+				"title": "E-mail уже занят",
+				"button": "Ок"
+			},
+			"err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
+		},
+		"login": {
+			"err401": {
+				"isOpened": true,
+				"title": "Неверный логин или пароль",
+				"button": "Ок"
+			},
+			"err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
+		},
+		"profile": {
+			"success": {
+				"isOpened": true,
+				"title": "Данные обновлены",
+				"button": "Хорошо"
+			},
+			"err409": {
+				"isOpened": true,
+				"title": "E-mail уже занят",
+				"button": "Ок"
+			},
+			"err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
+		},
+		"movies": {
+			"emptyReq": {
+				"isOpened": true,
+				"title": "Введите ключевые слова",
+				"button": "Ок"
+			},
+			"invalid": {
+				"isOpened": true,
+				"title": "Вы не можете сохранить этот фильм",
+				"button": "Ок"
+			},
+			"err400": {
+				"isOpened": true,
+				"title": "Вы не можете сохранить этот фильм",
+				"button": "Ок"
+			},
+			"err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
+		}
+	}
+}
