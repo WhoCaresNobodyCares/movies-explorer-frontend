@@ -1,32 +1,32 @@
 .text-column__title {
-	margin: 0 0 26px 0;
-	font: 400 20px/24px 'Inter', arial, sans-serif;
-	letter-spacing: -0.04em;
-	color: var(--cl-02);
+  margin: 0 0 26px 0;
+  font: 400 20px/24px 'Inter', arial, sans-serif;
+  letter-spacing: -0.04em;
+  color: var(--cl-02);
 }
 
 .text-column__paragraph {
-	font: 400 14px/20px 'Inter', arial, sans-serif;
-	color: var(--cl-02);
+  font: 400 14px/20px 'Inter', arial, sans-serif;
+  color: var(--cl-02);
 }
 
 @media screen and (max-width: 800px) {
-	.text-column__title {
-		margin: 0 0 22px 0;
-	}
+  .text-column__title {
+    margin: 0 0 22px 0;
+  }
 
-	.text-column__paragraph {
-		font: 400 12px/18px 'Inter', arial, sans-serif;
-	}
+  .text-column__paragraph {
+    font: 400 12px/18px 'Inter', arial, sans-serif;
+  }
 }
 
 @media screen and (max-width: 460px) {
-	.text-column__title {
-		margin: 0 0 16px 0;
-		font: 400 18px/22px 'Inter', arial, sans-serif;
-	}
+  .text-column__title {
+    margin: 0 0 16px 0;
+    font: 400 18px/22px 'Inter', arial, sans-serif;
+  }
 
-	.text-column__paragraph {
-		font: 400 11px/16px 'Inter', arial, sans-serif;
-	}
+  .text-column__paragraph {
+    font: 400 11px/16px 'Inter', arial, sans-serif;
+  }
 }
