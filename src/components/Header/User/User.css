@@ -1,37 +1,38 @@
 .user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .user__email {
-  margin: 0 17px 0 0;
-  font: 500 14px/16px 'Inter', arial, sans-serif;
-  color: var(--cl-02);
+	margin: 0 17px 0 0;
+	font: 500 14px/16px 'Inter', arial, sans-serif;
+	color: var(--cl-02);
 }
 
 .user__link {
-  width: 26px;
-  height: 30px;
-  border-radius: 4px;
-  background: var(--bg-05);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  transition: opacity 0.2s ease-out, background 0.2s ease-out, border 0.2s ease-out;
+	width: 26px;
+	height: 30px;
+	border-radius: 4px;
+	background: var(--bg-05);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	transition: opacity 0.2s ease-out, background 0.2s ease-out,
+		border 0.2s ease-out;
 }
 
 .user__link_main {
-  background: transparent;
-  border: 1px solid var(--cl-02);
+	background: transparent;
+	border: 1px solid var(--cl-02);
 }
 
 .user__link:hover {
-  opacity: 0.6;
+	opacity: 0.6;
 }
 
 .user__image {
-  width: 12px;
-  height: 14px;
+	width: 12px;
+	height: 14px;
 }

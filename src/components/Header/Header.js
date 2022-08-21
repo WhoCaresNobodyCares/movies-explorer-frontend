@@ -12,68 +12,102 @@ import Burger from './Burger/Burger';
 import Menu from './Menu/Menu';
 
 const Header = ({ mix }) => {
-  const viewport = useWidth();
-  const { isLoggedIn } = useContext(UserContext);
+	const viewport = useWidth();
+	const { isLoggedIn } = useContext(UserContext);
+	const [fullHeaderIsRendered, fullHeaderIsRenderedPath] = useAllowedPaths([
+		'/movies',
+		'/saved-movies',
+		'/profile',
+	]);
+	const [headerIsNarrow] = useAllowedPaths(['/signin', '/signup']);
+	const [headerIsBlue] = useAllowedPaths(['/']);
+	const [menuIsOpened, setMenuIsOpened] = useState(false);
 
-  const [fullHeaderIsRendered, fullHeaderIsRenderedPath] = useAllowedPaths(['/movies', '/saved-movies', '/profile']);
-  const [headerIsNarrow] = useAllowedPaths(['/signin', '/signup']);
-  const [headerIsBlue] = useAllowedPaths(['/']);
+	useEffect(() => {
+		setMenuIsOpened(false);
+	}, [viewport, fullHeaderIsRenderedPath]);
 
-  const [menuIsOpened, setMenuIsOpened] = useState(false);
-
-  useEffect(() => {
-    setMenuIsOpened(false);
-  }, [viewport, fullHeaderIsRenderedPath]);
-
-  return (
-    <header className={!headerIsNarrow ? `${mix} header${headerIsBlue ? ' header_blue' : ''}` : `${mix} header header_narrow`}>
-      <div className={!headerIsNarrow ? 'header__grid' : ' header__grid header__grid_narrow'}>
-        <Link
-          to="/"
-          className={!headerIsNarrow ? 'header__link' : 'header__link header__link_narrow'}
-          children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isLoggedIn ? (
-                viewport > 800 ? (
-                  <>
-                    <NavHor mix="header__nav-hor" />
-                    <User mix="header__user" />
-                  </>
-                ) : (
-                  <>
-                    <Burger mix="header__burger" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} />
-                    <Menu mix="header__menu" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} />
-                  </>
-                )
-              ) : (
-                <Auth mix="header__auth" />
-              )
-            }
-          />{' '}
-          <Route
-            path={fullHeaderIsRenderedPath}
-            element={
-              fullHeaderIsRendered && viewport > 800 ? (
-                <>
-                  <NavHor mix="header__nav-hor" />
-                  <User mix="header__user" />
-                </>
-              ) : (
-                <>
-                  <Burger mix="header__burger" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} />
-                  <Menu mix="header__menu" menuIsOpened={menuIsOpened} setMenuIsOpened={setMenuIsOpened} />
-                </>
-              )
-            }
-          />
-        </Routes>
-      </div>
-    </header>
-  );
+	return (
+		<header
+			className={
+				!headerIsNarrow
+					? `${mix} header${headerIsBlue ? ' header_blue' : ''}`
+					: `${mix} header header_narrow`
+			}
+		>
+			<div
+				className={
+					!headerIsNarrow ? 'header__grid' : ' header__grid header__grid_narrow'
+				}
+			>
+				<Link
+					to="/"
+					className={
+						!headerIsNarrow
+							? 'header__link'
+							: 'header__link header__link_narrow'
+					}
+					children={
+						<img className="header__logo" src={logoIcon} alt="Логотип" />
+					}
+				/>
+				<Routes>
+					<Route
+						path="/"
+						element={
+							isLoggedIn ? (
+								viewport > 800 ? (
+									<>
+										<NavHor mix="header__nav-hor" />
+										<User mix="header__user" />
+									</>
+								) : (
+									<>
+										<Burger
+											mix="header__burger"
+											menuIsOpened={menuIsOpened}
+											setMenuIsOpened={setMenuIsOpened}
+										/>
+										<Menu
+											mix="header__menu"
+											menuIsOpened={menuIsOpened}
+											setMenuIsOpened={setMenuIsOpened}
+										/>
+									</>
+								)
+							) : (
+								<Auth mix="header__auth" />
+							)
+						}
+					/>{' '}
+					<Route
+						path={fullHeaderIsRenderedPath}
+						element={
+							fullHeaderIsRendered && viewport > 800 ? (
+								<>
+									<NavHor mix="header__nav-hor" />
+									<User mix="header__user" />
+								</>
+							) : (
+								<>
+									<Burger
+										mix="header__burger"
+										menuIsOpened={menuIsOpened}
+										setMenuIsOpened={setMenuIsOpened}
+									/>
+									<Menu
+										mix="header__menu"
+										menuIsOpened={menuIsOpened}
+										setMenuIsOpened={setMenuIsOpened}
+									/>
+								</>
+							)
+						}
+					/>
+				</Routes>
+			</div>
+		</header>
+	);
 };
 
 export default Header;

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import useAllowedPaths from '../utils/customHooks/useAllowedPaths';
 import './App.css';
 import Header from './Header/Header';
@@ -13,175 +13,146 @@ import Login from './Login/Login';
 import NotFound from './NotFound/NotFound';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import InfoPopup from './InfoPopup/InfoPopup';
-import mainApi from '../apis/MainApi';
 import UserContext from '../contexts/UserContext';
 import AppContext from '../contexts/AppContext';
-import moviesApi from '../apis/MoviesApi';
-import useSearchCards from '../utils/customHooks/useSearchCards';
+import useUser from '../utils/customHooks/useUser';
+import useMovies from '../utils/customHooks/useMovies';
 
 const App = () => {
-  // config
-  const { POPUP_STATES } = require('../configs/popupConfig.json');
+	const isMounted = useRef(false);
+	const location = useLocation().pathname;
+	const [popupState, setPopupState] = useState({
+		isOpened: false,
+		title: '',
+		button: '',
+	});
 
-  // hooks
-  const location = useLocation().pathname;
-  const nav = useNavigate();
+	const [headerIsRendered] = useAllowedPaths([
+		'/',
+		'/movies',
+		'/saved-movies',
+		'/profile',
+		'/signin',
+		'/signup',
+	]);
+	const [footerIsRendered] = useAllowedPaths(['/', '/movies', '/saved-movies']);
 
-  // customHooks
-  const [headerIsRendered] = useAllowedPaths(['/', '/movies', '/saved-movies', '/profile', '/signin', '/signup']);
-  const [footerIsRendered] = useAllowedPaths(['/', '/movies', '/saved-movies']);
-  const [search] = useSearchCards();
+	// !!! Logic
+	const {
+		isLoggedIn,
+		user,
+		handleSignup,
+		handleSignin,
+		handleSignout,
+		checkTokenValidity,
+		handleUpdateUserInfo,
+	} = useUser(setPopupState);
+	const {
+		isPreloaderVisible,
+		renderedCards,
+		render,
+		searchMoviesInitially,
+		searchMovies,
+		getSavedMovies,
+		searchSavedMovies,
+		submitOnCheck,
+		saveMovie,
+	} = useMovies(setPopupState);
 
-  // useState
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
-  const [popupState, setPopupState] = useState({ isOpened: false, title: '', button: '' });
-  const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
-  const [renderedCards, setRenderedCards] = useState([]);
+	useEffect(() => {
+		checkTokenValidity();
+		if (isMounted.current === true) {
+		} else {
+			getSavedMovies();
+			isMounted.current = true;
+		}
+	}, [isLoggedIn]);
 
-  // auth
-  const handleSignup = (name, email, password) =>
-    mainApi
-      .signup(name, email, password)
-      .then(
-        (res) =>
-          res &&
-          mainApi
-            .signin(email, password)
-            .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
-            .then(() => setIsLoggedIn(!isLoggedIn))
-            .catch((err) => {
-              err === 401 && setPopupState(POPUP_STATES.login.err401);
-              err === 500 && setPopupState(POPUP_STATES.login.err500);
-            })
-      )
-      .catch((err) => {
-        err === 400 && setPopupState(POPUP_STATES.register.err400);
-        err === 409 && setPopupState(POPUP_STATES.register.err409);
-        err === 500 && setPopupState(POPUP_STATES.register.err500);
-      });
+	useEffect(() => {
+		location === '/movies' && JSON.parse(localStorage.getItem('movies-state'))
+			? render(JSON.parse(localStorage.getItem('movies-state')).cards)
+			: location === '/saved-movies' &&
+			  JSON.parse(localStorage.getItem('saved-movies-state'))
+			? render([])
+			: render([]);
+	}, [location]);
 
-  const handleSignin = (email, password) =>
-    mainApi
-      .signin(email, password)
-      .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
-      .then(() => setIsLoggedIn(!isLoggedIn))
-      .catch((err) => {
-        err === 401 && setPopupState(POPUP_STATES.login.err401);
-        err === 500 && setPopupState(POPUP_STATES.login.err500);
-      });
+	return (
+		<UserContext.Provider value={{ isLoggedIn, user }}>
+			<AppContext.Provider
+				value={{
+					searchMoviesInitially,
+					isPreloaderVisible,
+					renderedCards,
+					setPopupState,
+					submitOnCheck,
+					searchSavedMovies,
+					searchMovies,
+					getSavedMovies,
+					saveMovie,
+				}}
+			>
+				<div className="app">
+					{headerIsRendered && <Header mix="app__header" />}
+					<Routes>
+						<Route path="*" element={<NotFound mix="app__not-found" />} />
+						<Route path="/" element={<Main mix="app__main" />} />
+						<Route
+							path="/signup"
+							element={
+								<Register mix="app__register" handleSignup={handleSignup} />
+							}
+						/>
+						<Route
+							path="/signin"
+							element={<Login mix="app__login" handleSignin={handleSignin} />}
+						/>
 
-  const handleSignout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(!isLoggedIn);
-    nav('/');
-  };
+						<Route
+							path="/movies"
+							element={
+								<ProtectedRoute
+									isLoggedIn={isLoggedIn}
+									element={<Movies mix="app__movies" />}
+								/>
+							}
+						/>
+						<Route
+							path="/saved-movies"
+							element={
+								<ProtectedRoute
+									isLoggedIn={isLoggedIn}
+									element={<SavedMovies mix="app__saved-movies" />}
+								/>
+							}
+						/>
+						<Route
+							path="/profile"
+							element={
+								<ProtectedRoute
+									isLoggedIn={isLoggedIn}
+									element={
+										<Profile
+											mix="app__profile"
+											handleSignout={handleSignout}
+											handleUpdateUserInfo={handleUpdateUserInfo}
+										/>
+									}
+								/>
+							}
+						/>
+					</Routes>
+					{footerIsRendered && <Footer mix="app__footer" />}
 
-  const checkTokenValidity = () =>
-    mainApi
-      .checkTokenValidity(localStorage.getItem('token'))
-      .then((res) => res && setUser(res))
-      .then(() => !isLoggedIn && setIsLoggedIn(!isLoggedIn))
-      .then(() => nav('/movies'))
-      .then(() => setPopupState(POPUP_STATES.tokenValidity.success))
-      .catch((err) => err === 401 && setPopupState(POPUP_STATES.tokenValidity.err401));
-
-  const handleUpdateUserInfo = (name, email, resetState) =>
-    mainApi
-      .updateUser(name, email, localStorage.getItem('token'))
-      .then((res) => res && setUser(res))
-      .then(() => resetState())
-      .then(() => setPopupState(POPUP_STATES.profile.success))
-      .catch((err) => {
-        err === 409 && setPopupState(POPUP_STATES.profile.err409);
-        err === 500 && setPopupState(POPUP_STATES.profile.err500);
-      });
-
-  const render = (cards) => setRenderedCards(cards);
-
-  const searchMovies = (isChecked, words) => {
-    setIsPreloaderVisible(true);
-    moviesApi
-      .getMovies()
-      .then((res) => {
-        return res.map((item) => {
-          const { country, director, duration, year, description, image, trailerLink, id, nameRU, nameEN } = item;
-          return {
-            country: country,
-            director: director,
-            duration: duration,
-            year: year,
-            description: description,
-            image: `https://api.nomoreparties.co/${item.image.url}`,
-            trailerLink: trailerLink,
-            thumbnail: `https://api.nomoreparties.co/${image.formats.thumbnail.url}`,
-            movieId: id,
-            nameRU: nameRU,
-            nameEN: nameEN,
-          };
-        });
-      })
-      .then((cards) => search(cards, isChecked, words))
-      .then((filteredCards) => {
-        localStorage.setItem('movies-state', JSON.stringify({ cards: filteredCards, isChecked: isChecked, words: [...words] }));
-        return filteredCards;
-      })
-      .then((filteredCards) => render(filteredCards))
-      .then(() => setIsPreloaderVisible(false))
-      .catch((err) => {
-        setIsPreloaderVisible(false);
-        err === 500 && setPopupState(POPUP_STATES.movies.err500);
-      });
-  };
-
-  // !!!
-  const searchSavedMovies = () => mainApi.getMovies(localStorage.getItem).then((res) => console.log(res));
-  // !!!
-
-  useEffect(() => {
-    checkTokenValidity();
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    location === '/movies' &&
-      JSON.parse(localStorage.getItem('movies-state')) &&
-      render(JSON.parse(localStorage.getItem('movies-state')).cards); // !!!
-    location === '/saved-movies' && render([]); // !!!
-  }, [location]);
-
-  return (
-    <UserContext.Provider value={{ isLoggedIn, user }}>
-      <AppContext.Provider value={{ searchMovies, isPreloaderVisible, renderedCards }}>
-        <div className="app">
-          {headerIsRendered && <Header mix="app__header" />}
-          <Routes>
-            <Route path="*" element={<NotFound mix="app__not-found" />} />
-            <Route path="/" element={<Main mix="app__main" />} />
-            <Route path="/signup" element={<Register mix="app__register" handleSignup={handleSignup} />} />
-            <Route path="/signin" element={<Login mix="app__login" handleSignin={handleSignin} />} />
-
-            <Route path="/movies" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<Movies mix="app__movies" />} />} />
-            <Route
-              path="/saved-movies"
-              element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<SavedMovies mix="app__saved-movies" />} />}
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={<Profile mix="app__profile" handleSignout={handleSignout} handleUpdateUserInfo={handleUpdateUserInfo} />}
-                />
-              }
-            />
-          </Routes>
-          {footerIsRendered && <Footer mix="app__footer" />}
-
-          <InfoPopup mix="app__info-popup" popupState={popupState} setPopupState={setPopupState} />
-        </div>
-      </AppContext.Provider>
-    </UserContext.Provider>
-  );
+					<InfoPopup
+						mix="app__info-popup"
+						popupState={popupState}
+						setPopupState={setPopupState}
+					/>
+				</div>
+			</AppContext.Provider>
+		</UserContext.Provider>
+	);
 };
 
 export default App;
