@@ -1,24 +1,24 @@
 @import url(./variables/root.css);
 
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-	line-height: 0;
-	scroll-behavior: smooth;
+  line-height: 0;
+  scroll-behavior: smooth;
 }
 
 a {
-	text-decoration: none;
-	display: block;
+  text-decoration: none;
+  display: block;
 }
 
 button {
-	border: none;
-	cursor: pointer;
-	display: block;
+  border: none;
+  cursor: pointer;
+  display: block;
 }
 
 div,
@@ -29,7 +29,7 @@ section,
 main,
 form,
 button {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 h1,
@@ -38,19 +38,19 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 0;
+  margin: 0;
 }
 
 input {
-	line-height: 0;
-	border: none;
-	background: transparent;
+  line-height: 0;
+  border: none;
+  background: transparent;
 }
 
 input:focus {
-	outline: none;
+  outline: none;
 }
 
 span {
-	display: block;
+  display: block;
 }
