@@ -99,6 +99,20 @@
   opacity: 0.6;
 }
 
+.profile__discard {
+  width: 100%;
+  margin: 16px 0 0 0;
+  font: 500 13px/16px 'Inter', arial, sans-serif;
+  text-align: center;
+  color: var(--er-01);
+  background: transparent;
+  transition: opacity 0.2s ease-out;
+}
+
+.profile__discard:hover {
+  opacity: 0.6;
+}
+
 .profile__logout {
   width: 100%;
   font: 500 13px/16px 'Inter', arial, sans-serif;

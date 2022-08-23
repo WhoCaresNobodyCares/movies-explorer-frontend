@@ -1,84 +1,68 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Login.css';
 
-import useFormValidation from '../../utils/customHooks/useFormValidation';
+import form from '../../classes/Form';
 
-const Login = ({ mix, userLogic }) => {
+const Login = ({ mix, formValidator }) => {
+
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-  const { values, errors, handleChange, isValid, resetForm } = useFormValidation();
+  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } = formValidator;
 
-  const { handleSignIn } = userLogic;
+  useEffect(() => {
+    return () => {
+      resetForm({}, {}, false);
+    };
+  }, []);
 
   return (
     <main className={`${mix} login`}>
       <section className="login__section">
         <h1 className="login__title" children={CONTENT_CONFIG.Login.title} />
-        <form
-          id="loginForm"
-          className="login__form"
-          name="loginForm"
-          action="#"
-          method="post"
-          target="_self"
-          autoComplete="on"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSignIn(values.loginFormEmailInput, values.loginFormPasswordInput);
-            resetForm(
-              {
-                loginFormEmailInput: values.loginFormEmailInput,
-                loginFormPasswordInput: values.loginFormPasswordInput,
-              },
-              {},
-              false
-            );
-          }}
-        >
+        <form id="loginForm" className="login__form" name="loginForm" action="#" method="post" target="_self" autoComplete="on" onSubmit={(e) => form.handleLoginFormSubmit(e)}>
           <div className="login__block">
             <span className="login__label" children="E-mail" />
             <input
               id="loginFormEmailInput"
-              className={isValid ? 'login__input' : `${!errors.loginFormEmailInput ? 'login__input' : 'login__input login__input_invalid'}`}
+              className={isFormValid || !inputErrors.loginFormEmailInput ? 'login__input' : 'login__input login__input_invalid'}
               name="loginFormEmailInput"
               type="email"
               placeholder="E-mail"
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-              autoComplete="on"
               autoFocus
               required
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleInputChange(e, inputValues)}
             />
           </div>
-          <div className={isValid ? 'login__separator' : `${!errors.loginFormEmailInput ? 'login__separator' : 'login__separator login__separator_error'}`} />
-          <span className={isValid ? 'login__error' : 'login__error login__error_visible'} children={errors.loginFormEmailInput} />
+          <div className={isFormValid || !inputErrors.loginFormEmailInput ? 'login__separator' : 'login__separator login__separator_error'} />
+          <span className={isFormValid ? 'login__error' : 'login__error login__error_visible'} children={inputErrors.loginFormEmailInput} />
           <div className="login__block">
             <span className="login__label" children="Пароль" />
             <input
               id="loginFormPasswordInput"
-              className={isValid ? 'login__input' : `${!errors.loginFormPasswordInput ? 'login__input' : 'login__input login__input_invalid'}`}
+              className={isFormValid || !inputErrors.loginFormPasswordInput ? 'login__input' : 'login__input login__input_invalid'}
               name="loginFormPasswordInput"
               type="password"
               placeholder="Пароль"
-              autoComplete="on"
               pattern="^\S*$"
               minLength={4}
               required
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleInputChange(e)}
             />
           </div>
-          <div className={isValid ? 'login__separator' : `${!errors.loginFormPasswordInput ? 'login__separator' : 'login__separator login__separator_error'}`} />
-          <span className={isValid ? 'login__error' : 'login__error login__error_visible'} children={errors.loginFormPasswordInput} />
+          <div className={isFormValid || !inputErrors.loginFormPasswordInput ? 'login__separator' : 'login__separator login__separator_error'} />
+          <span className={isFormValid ? 'login__error' : 'login__error login__error_visible'} children={inputErrors.loginFormPasswordInput} />
           <div className="login__bottom">
             <button
               id="loginFormEdit"
-              className={isValid ? 'login__submit' : 'login__submit login__submit_disabled'}
+              className={isFormValid ? 'login__submit' : 'login__submit login__submit_disabled'}
               name="loginFormEdit"
               aria-label="Войти"
               type="submit"
               children={CONTENT_CONFIG.Login.button}
-              disabled={isValid ? false : true}
+              disabled={isFormValid ? false : true}
             />
             <div className="login__already">
               <span className="login__description" children={CONTENT_CONFIG.Login.description} />

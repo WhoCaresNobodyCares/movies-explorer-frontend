@@ -179,7 +179,9 @@
     "Profile": {
       "editButton": "Редактировать",
       "logoutButton": "Выйти из аккаунта",
-      "saveButton": "Сохранить"
+      "saveButton": "Сохранить",
+      "discardButtonCancel": "Отменить изменения",
+      "discardButtonReturn": "Прекратить редактирование"
     },
     "Footer": {
       "links": [

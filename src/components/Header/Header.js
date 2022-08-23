@@ -10,12 +10,15 @@ import User from './User/User';
 import Burger from './Burger/Burger';
 import Menu from './Menu/Menu';
 
-import useWidth from '../../utils/customHooks/useWidth';
-
-const Header = ({ mix, isLoggedIn, location }) => {
-  const viewportWidth = useWidth();
-
+const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  const burgerMenu = (
+    <>
+      <Burger mix="header__burger" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+      <Menu mix="header__menu" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+    </>
+  );
 
   const header = (
     <>
@@ -25,13 +28,10 @@ const Header = ({ mix, isLoggedIn, location }) => {
           {viewportWidth > 800 ? (
             <>
               <NavHor mix="header__nav-hor" />
-              <User mix="header__user" />
+              <User mix="header__user" viewportWidth={viewportWidth} />
             </>
           ) : (
-            <>
-              <Burger mix="header__burger" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
-              <Menu mix="header__menu" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
-            </>
+            burgerMenu
           )}
         </div>
       </header>
@@ -47,13 +47,10 @@ const Header = ({ mix, isLoggedIn, location }) => {
             viewportWidth > 800 ? (
               <>
                 <NavHor mix="header__nav-hor" />
-                <User mix="header__user" location="/" />
+                <User mix="header__user" viewportWidth={viewportWidth} location="/" />
               </>
             ) : (
-              <>
-                <Burger mix="header__burger" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
-                <Menu mix="header__menu" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
-              </>
+              burgerMenu
             )
           ) : (
             <Auth mix="header__auth" />

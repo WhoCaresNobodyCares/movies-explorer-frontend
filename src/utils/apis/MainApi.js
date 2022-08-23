@@ -25,7 +25,7 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 
-  checkValidity(token) {
+  checkTokenValidity(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
@@ -39,8 +39,6 @@ class MainApi {
       body: JSON.stringify({ name, email }),
     }).then((res) => this._handleRes(res));
   }
-
-  // !!!
 
   getMovies(token) {
     return fetch(`${this._url}/movies`, {

@@ -1,20 +1,12 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-
-import UserContext from '../../../contexts/UserContext';
 
 import './User.css';
 import userIcon from '../../../images/user-icon.svg';
-import useWidth from '../../../utils/customHooks/useWidth';
 
-const User = ({ mix, location }) => {
-  const { email } = useContext(UserContext);
-
-  const viewportWidth = useWidth();
-
+const User = ({ mix, location, viewportWidth }) => {
   return (
     <div className={`${mix} user`}>
-      <span className="user__email" children={email} />
+      <span className="user__email" children={'test@gmail.com'} />
       <Link
         className={location === '/' ? `user__link ${viewportWidth > 800 && `user__link_main`}` : 'user__link'}
         to="/profile"
