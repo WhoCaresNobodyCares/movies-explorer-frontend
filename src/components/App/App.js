@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import useWidth from '../../utils/customHooks/useWidth';
 import useFormValidator from '../../utils/customHooks/useFormValidator';
+import useFormHandler from '../../utils/customHooks/useFormHandler';
 
 // !!! STYLES
 import './App.css';
@@ -26,27 +27,91 @@ const App = () => {
   const navigate = useNavigate();
   const viewportWidth = useWidth();
   const formValidator = useFormValidator();
+  const formHandler = useFormHandler();
 
   // * STATES
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [popupState, setPopupState] = useState({ isOpened: false, title: '', button: '' });
+  const [popupState, setPopupState] = useState({
+    isOpened: false,
+    title: '',
+    button: '',
+  });
 
   // * EFFECTS
 
   return (
     <div className="app">
-      <Header mix="app__header" isLoggedIn={isLoggedIn} location={location} viewportWidth={viewportWidth} />
+      <Header
+        mix="app__header"
+        isLoggedIn={isLoggedIn}
+        location={location}
+        viewportWidth={viewportWidth}
+      />
       <Routes>
-        <Route path="/" element={<Main mix="app__main" viewportWidth={viewportWidth} />} />
+        <Route
+          path="/"
+          element={<Main mix="app__main" viewportWidth={viewportWidth} />}
+        />
 
-        <Route path="/signup" element={<Register mix="app__register" formValidator={formValidator} />} />
-        <Route path="/signin" element={<Login mix="app__login" formValidator={formValidator} />} />
+        <Route
+          path="/signup"
+          element={
+            <Register mix="app__register" formValidator={formValidator} />
+          }
+        />
+        <Route
+          path="/signin"
+          element={<Login mix="app__login" formValidator={formValidator} />}
+        />
 
-        <Route path="/movies" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<Movies mix="app__movies" viewportWidth={viewportWidth} />} />} />
-        <Route path="/saved-movies" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<SavedMovies mix="app__saved-movies" viewportWidth={viewportWidth} />} />} />
-        <Route path="/profile" element={<ProtectedRoute isLoggedIn={isLoggedIn} element={<Profile mix="app__profile" formValidator={formValidator} />} />} />
+        <Route
+          path="/movies"
+          element={
+            <ProtectedRoute
+              isLoggedIn={isLoggedIn}
+              element={
+                <Movies
+                  mix="app__movies"
+                  viewportWidth={viewportWidth}
+                  formHandler={formHandler}
+                  location={location}
+                />
+              }
+            />
+          }
+        />
+        <Route
+          path="/saved-movies"
+          element={
+            <ProtectedRoute
+              isLoggedIn={isLoggedIn}
+              element={
+                <SavedMovies
+                  mix="app__saved-movies"
+                  viewportWidth={viewportWidth}
+                  formHandler={formHandler}
+                  location={location}
+                />
+              }
+            />
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute
+              isLoggedIn={isLoggedIn}
+              element={
+                <Profile mix="app__profile" formValidator={formValidator} />
+              }
+            />
+          }
+        />
 
-        <Route path="*" element={<NotFound mix="app__not-found" navigate={navigate} />} />
+        <Route
+          path="*"
+          element={<NotFound mix="app__not-found" navigate={navigate} />}
+        />
       </Routes>
       <Footer mix="app__footer" />
 

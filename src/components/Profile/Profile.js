@@ -7,15 +7,28 @@ import form from '../../classes/Form';
 const Profile = ({ mix, formValidator }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } = formValidator;
+  const {
+    inputValues,
+    inputErrors,
+    handleInputChange,
+    isFormValid,
+    resetForm,
+  } = formValidator;
 
   const [isProfileEditMode, setIsProfileEditMode] = useState(false);
   const [isNameSame, setIsNameSame] = useState(true);
   const [initialValues, setInitialValues] = useState({});
 
   useEffect(() => {
-    resetForm({ profileFormNameInput: 'test', profileFormEmailInput: 'test@gmail.com' }, {}, false); // !!! setUserDatatoValues
-    setInitialValues({ profileFormNameInput: 'test', profileFormEmailInput: 'test@gmail.com' });
+    resetForm(
+      { profileFormNameInput: 'test', profileFormEmailInput: 'test@gmail.com' },
+      {},
+      false
+    ); // !!! setUserDatatoValues
+    setInitialValues({
+      profileFormNameInput: 'test',
+      profileFormEmailInput: 'test@gmail.com',
+    });
     return () => {
       resetForm({}, {}, false);
       setInitialValues({});
@@ -33,7 +46,9 @@ const Profile = ({ mix, formValidator }) => {
           action="#"
           method="post"
           target="_self"
-          onSubmit={(e) => form.handleProfileFormSubmit(e, inputValues, setIsProfileEditMode)}
+          onSubmit={(e) =>
+            form.handleProfileFormSubmit(e, inputValues, setIsProfileEditMode)
+          }
         >
           <span className="profile__label" children="Имя" />
           <input
@@ -41,7 +56,11 @@ const Profile = ({ mix, formValidator }) => {
             className={
               !isProfileEditMode
                 ? 'profile__input'
-                : `${isFormValid || !inputErrors.profileFormNameInput ? 'profile__input profile__input_enabled' : 'profile__input profile__input_enabled profile__input_invalid'}`
+                : `${
+                    isFormValid || !inputErrors.profileFormNameInput
+                      ? 'profile__input profile__input_enabled'
+                      : 'profile__input profile__input_enabled profile__input_invalid'
+                  }`
             }
             name="profileFormNameInput"
             type="text"
@@ -51,17 +70,31 @@ const Profile = ({ mix, formValidator }) => {
             maxLength={30}
             defaultValue={initialValues.profileFormNameInput}
             required
-            onKeyUp={(e) => form.handleProfileFormSameNames(e, initialValues, setIsNameSame)}
+            onKeyUp={(e) =>
+              form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
+            }
             onChange={(e) => handleInputChange(e)}
           />
-          <div className={isFormValid || (!inputErrors.profileFormNameInput && !inputErrors.profileFormEmailInput) ? 'profile__separator' : 'profile__separator profile__separator_error'} />
+          <div
+            className={
+              isFormValid ||
+              (!inputErrors.profileFormNameInput &&
+                !inputErrors.profileFormEmailInput)
+                ? 'profile__separator'
+                : 'profile__separator profile__separator_error'
+            }
+          />
           <span className="profile__label" children="E-mail" />
           <input
             id="profileFormEmailInput"
             className={
               !isProfileEditMode
                 ? 'profile__input'
-                : `${isFormValid || !inputErrors.profileFormEmailInput ? 'profile__input profile__input_enabled' : 'profile__input profile__input_enabled profile__input_invalid'}`
+                : `${
+                    isFormValid || !inputErrors.profileFormEmailInput
+                      ? 'profile__input profile__input_enabled'
+                      : 'profile__input profile__input_enabled profile__input_invalid'
+                  }`
             }
             name="profileFormEmailInput"
             type="email"
@@ -96,10 +129,24 @@ const Profile = ({ mix, formValidator }) => {
             )}
             {isProfileEditMode && (
               <>
-                <span className={!isFormValid ? 'profile__error profile__error_visible' : 'profile__error'} children={inputErrors.profileFormNameInput || inputErrors.profileFormEmailInput} />
+                <span
+                  className={
+                    !isFormValid
+                      ? 'profile__error profile__error_visible'
+                      : 'profile__error'
+                  }
+                  children={
+                    inputErrors.profileFormNameInput ||
+                    inputErrors.profileFormEmailInput
+                  }
+                />
                 <button
                   id="profileFormSubmit"
-                  className={isFormValid && !isNameSame ? 'profile__submit' : 'profile__submit profile__submit_disabled'}
+                  className={
+                    isFormValid && !isNameSame
+                      ? 'profile__submit'
+                      : 'profile__submit profile__submit_disabled'
+                  }
                   name="profileFormSubmit"
                   aria-label="Подтвердить изменения"
                   type="submit"
@@ -114,8 +161,14 @@ const Profile = ({ mix, formValidator }) => {
                   name="profileFormDiscard"
                   aria-label="Отменить изменения"
                   type="button"
-                  onClick={() => form.handleProfileDiscard(resetForm, setIsProfileEditMode)}
-                  children={!isNameSame ? CONTENT_CONFIG.Profile.discardButtonCancel : CONTENT_CONFIG.Profile.discardButtonReturn}
+                  onClick={() =>
+                    form.handleProfileDiscard(resetForm, setIsProfileEditMode)
+                  }
+                  children={
+                    !isNameSame
+                      ? CONTENT_CONFIG.Profile.discardButtonCancel
+                      : CONTENT_CONFIG.Profile.discardButtonReturn
+                  }
                 />
               </>
             )}

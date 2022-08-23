@@ -7,7 +7,13 @@ import form from '../../classes/Form';
 
 const Register = ({ mix, formValidator }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
-  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } = formValidator;
+  const {
+    inputValues,
+    inputErrors,
+    handleInputChange,
+    isFormValid,
+    resetForm,
+  } = formValidator;
 
   useEffect(() => {
     return () => {
@@ -18,13 +24,29 @@ const Register = ({ mix, formValidator }) => {
   return (
     <main className={`${mix} register`}>
       <section className="register__section">
-        <h1 className="register__title" children={CONTENT_CONFIG.Register.title} />
-        <form id="registerForm" className="register__form" name="registerForm" action="#" method="post" target="_self" autoComplete="on" onSubmit={(e) => form.handleRegisterFormSubmit(e)}>
+        <h1
+          className="register__title"
+          children={CONTENT_CONFIG.Register.title}
+        />
+        <form
+          id="registerForm"
+          className="register__form"
+          name="registerForm"
+          action="#"
+          method="post"
+          target="_self"
+          autoComplete="on"
+          onSubmit={(e) => form.handleRegisterFormSubmit(e)}
+        >
           <div className="register__block">
             <span className="register__label" children="Имя" />
             <input
               id="registerFormNameInput"
-              className={isFormValid || !inputErrors.registerFormNameInput ? 'register__input' : 'register__input register__input_invalid'}
+              className={
+                isFormValid || !inputErrors.registerFormNameInput
+                  ? 'register__input'
+                  : 'register__input register__input_invalid'
+              }
               name="registerFormNameInput"
               type="text"
               placeholder="Имя"
@@ -36,13 +58,30 @@ const Register = ({ mix, formValidator }) => {
               onChange={(e) => handleInputChange(e, inputValues)}
             />
           </div>
-          <div className={isFormValid || !inputErrors.registerFormNameInput ? 'register__separator' : 'register__separator register__separator_error'} />
-          <span className={isFormValid ? 'register__error' : 'register__error register__error_visible'} children={inputErrors.registerFormNameInput} />
+          <div
+            className={
+              isFormValid || !inputErrors.registerFormNameInput
+                ? 'register__separator'
+                : 'register__separator register__separator_error'
+            }
+          />
+          <span
+            className={
+              isFormValid
+                ? 'register__error'
+                : 'register__error register__error_visible'
+            }
+            children={inputErrors.registerFormNameInput}
+          />
           <div className="register__block">
             <span className="register__label" children="E-mail" />
             <input
               id="registerFormEmailInput"
-              className={isFormValid || !inputErrors.registerFormEmailInput ? 'register__input' : 'register__input register__input_invalid'}
+              className={
+                isFormValid || !inputErrors.registerFormEmailInput
+                  ? 'register__input'
+                  : 'register__input register__input_invalid'
+              }
               name="registerFormEmailInput"
               type="email"
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
@@ -51,13 +90,30 @@ const Register = ({ mix, formValidator }) => {
               onChange={(e) => handleInputChange(e)}
             />
           </div>
-          <div className={isFormValid || !inputErrors.registerFormEmailInput ? 'register__separator' : 'register__separator register__separator_error'} />
-          <span className={isFormValid ? 'register__error' : 'register__error register__error_visible'} children={inputErrors.registerFormEmailInput} />
+          <div
+            className={
+              isFormValid || !inputErrors.registerFormEmailInput
+                ? 'register__separator'
+                : 'register__separator register__separator_error'
+            }
+          />
+          <span
+            className={
+              isFormValid
+                ? 'register__error'
+                : 'register__error register__error_visible'
+            }
+            children={inputErrors.registerFormEmailInput}
+          />
           <div className="register__block">
             <span className="register__label" children="Password" />
             <input
               id="registerFormPasswordInput"
-              className={isFormValid || !inputErrors.registerFormPasswordInput ? 'register__input' : 'register__input register__input_invalid'}
+              className={
+                isFormValid || !inputErrors.registerFormPasswordInput
+                  ? 'register__input'
+                  : 'register__input register__input_invalid'
+              }
               name="registerFormPasswordInput"
               type="password"
               placeholder="Пароль"
@@ -67,12 +123,29 @@ const Register = ({ mix, formValidator }) => {
               onChange={(e) => handleInputChange(e)}
             />
           </div>
-          <div className={isFormValid || !inputErrors.registerFormPasswordInput ? 'register__separator' : 'register__separator register__separator_error'} />
-          <span className={isFormValid ? 'register__error' : 'register__error register__error_visible'} children={inputErrors.registerFormPasswordInput} />
+          <div
+            className={
+              isFormValid || !inputErrors.registerFormPasswordInput
+                ? 'register__separator'
+                : 'register__separator register__separator_error'
+            }
+          />
+          <span
+            className={
+              isFormValid
+                ? 'register__error'
+                : 'register__error register__error_visible'
+            }
+            children={inputErrors.registerFormPasswordInput}
+          />
           <div className="register__bottom">
             <button
               id="registerFormEdit"
-              className={isFormValid ? 'register__submit' : 'register__submit register__submit_disabled'}
+              className={
+                isFormValid
+                  ? 'register__submit'
+                  : 'register__submit register__submit_disabled'
+              }
               name="registerFormEdit"
               aria-label="Зарегистрироваться"
               type="submit"
@@ -80,8 +153,15 @@ const Register = ({ mix, formValidator }) => {
               disabled={isFormValid ? false : true}
             />
             <div className="register__already">
-              <span className="register__description" children={CONTENT_CONFIG.Register.description} />
-              <Link className="register__link" to="/signin" children={CONTENT_CONFIG.Register.link} />
+              <span
+                className="register__description"
+                children={CONTENT_CONFIG.Register.description}
+              />
+              <Link
+                className="register__link"
+                to="/signin"
+                children={CONTENT_CONFIG.Register.link}
+              />
             </div>
           </div>
         </form>

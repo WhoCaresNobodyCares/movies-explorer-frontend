@@ -6,10 +6,15 @@ import './Login.css';
 import form from '../../classes/Form';
 
 const Login = ({ mix, formValidator }) => {
-
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } = formValidator;
+  const {
+    inputValues,
+    inputErrors,
+    handleInputChange,
+    isFormValid,
+    resetForm,
+  } = formValidator;
 
   useEffect(() => {
     return () => {
@@ -21,12 +26,25 @@ const Login = ({ mix, formValidator }) => {
     <main className={`${mix} login`}>
       <section className="login__section">
         <h1 className="login__title" children={CONTENT_CONFIG.Login.title} />
-        <form id="loginForm" className="login__form" name="loginForm" action="#" method="post" target="_self" autoComplete="on" onSubmit={(e) => form.handleLoginFormSubmit(e)}>
+        <form
+          id="loginForm"
+          className="login__form"
+          name="loginForm"
+          action="#"
+          method="post"
+          target="_self"
+          autoComplete="on"
+          onSubmit={(e) => form.handleLoginFormSubmit(e)}
+        >
           <div className="login__block">
             <span className="login__label" children="E-mail" />
             <input
               id="loginFormEmailInput"
-              className={isFormValid || !inputErrors.loginFormEmailInput ? 'login__input' : 'login__input login__input_invalid'}
+              className={
+                isFormValid || !inputErrors.loginFormEmailInput
+                  ? 'login__input'
+                  : 'login__input login__input_invalid'
+              }
               name="loginFormEmailInput"
               type="email"
               placeholder="E-mail"
@@ -36,13 +54,28 @@ const Login = ({ mix, formValidator }) => {
               onChange={(e) => handleInputChange(e, inputValues)}
             />
           </div>
-          <div className={isFormValid || !inputErrors.loginFormEmailInput ? 'login__separator' : 'login__separator login__separator_error'} />
-          <span className={isFormValid ? 'login__error' : 'login__error login__error_visible'} children={inputErrors.loginFormEmailInput} />
+          <div
+            className={
+              isFormValid || !inputErrors.loginFormEmailInput
+                ? 'login__separator'
+                : 'login__separator login__separator_error'
+            }
+          />
+          <span
+            className={
+              isFormValid ? 'login__error' : 'login__error login__error_visible'
+            }
+            children={inputErrors.loginFormEmailInput}
+          />
           <div className="login__block">
             <span className="login__label" children="Пароль" />
             <input
               id="loginFormPasswordInput"
-              className={isFormValid || !inputErrors.loginFormPasswordInput ? 'login__input' : 'login__input login__input_invalid'}
+              className={
+                isFormValid || !inputErrors.loginFormPasswordInput
+                  ? 'login__input'
+                  : 'login__input login__input_invalid'
+              }
               name="loginFormPasswordInput"
               type="password"
               placeholder="Пароль"
@@ -52,12 +85,27 @@ const Login = ({ mix, formValidator }) => {
               onChange={(e) => handleInputChange(e)}
             />
           </div>
-          <div className={isFormValid || !inputErrors.loginFormPasswordInput ? 'login__separator' : 'login__separator login__separator_error'} />
-          <span className={isFormValid ? 'login__error' : 'login__error login__error_visible'} children={inputErrors.loginFormPasswordInput} />
+          <div
+            className={
+              isFormValid || !inputErrors.loginFormPasswordInput
+                ? 'login__separator'
+                : 'login__separator login__separator_error'
+            }
+          />
+          <span
+            className={
+              isFormValid ? 'login__error' : 'login__error login__error_visible'
+            }
+            children={inputErrors.loginFormPasswordInput}
+          />
           <div className="login__bottom">
             <button
               id="loginFormEdit"
-              className={isFormValid ? 'login__submit' : 'login__submit login__submit_disabled'}
+              className={
+                isFormValid
+                  ? 'login__submit'
+                  : 'login__submit login__submit_disabled'
+              }
               name="loginFormEdit"
               aria-label="Войти"
               type="submit"
@@ -65,8 +113,15 @@ const Login = ({ mix, formValidator }) => {
               disabled={isFormValid ? false : true}
             />
             <div className="login__already">
-              <span className="login__description" children={CONTENT_CONFIG.Login.description} />
-              <Link className="login__link" to="/signup" children={CONTENT_CONFIG.Login.link} />
+              <span
+                className="login__description"
+                children={CONTENT_CONFIG.Login.description}
+              />
+              <Link
+                className="login__link"
+                to="/signup"
+                children={CONTENT_CONFIG.Login.link}
+              />
             </div>
           </div>
         </form>

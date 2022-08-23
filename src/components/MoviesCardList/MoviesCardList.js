@@ -39,10 +39,23 @@ const MoviesCardList = ({ mix }) => {
           children={CONTENT_CONFIG.MoviesCardList.button}
         />
       )}
-      <Preloader mix="movies-card-list__preloader" mod_visible={isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''} />
+      <Preloader
+        mix="movies-card-list__preloader"
+        mod_visible={
+          isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''
+        }
+      />
       <div
-        className={isNotFoundVisible ? 'movies-card-list__not-found movies-card-list__not-found_visible' : 'movies-card-list__not-found'}
-        children={<span className="movies-card-list__not-found-message">{CONTENT_CONFIG.MoviesCardList.notFound}</span>}
+        className={
+          isNotFoundVisible
+            ? 'movies-card-list__not-found movies-card-list__not-found_visible'
+            : 'movies-card-list__not-found'
+        }
+        children={
+          <span className="movies-card-list__not-found-message">
+            {CONTENT_CONFIG.MoviesCardList.notFound}
+          </span>
+        }
       />
     </section>
   );

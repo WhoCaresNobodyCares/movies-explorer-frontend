@@ -24,7 +24,13 @@ const useFormValidator = () => {
     [setInputValues, setInputErrors, setIsFormValid]
   );
 
-  return { inputValues, inputErrors, handleInputChange, isFormValid, resetForm };
+  return {
+    inputValues,
+    inputErrors,
+    handleInputChange,
+    isFormValid,
+    resetForm,
+  };
 };
 
 export default useFormValidator;

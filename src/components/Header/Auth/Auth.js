@@ -9,7 +9,12 @@ const Auth = ({ mix }) => {
     <nav
       className={`${mix} auth`}
       children={CONTENT_CONFIG.Header.auth.links.map((item) => (
-        <Link className={item.className} to={item.to} key={item.key} children={item.text} />
+        <Link
+          className={item.className}
+          to={item.to}
+          key={item.key}
+          children={item.text}
+        />
       ))}
     />
   );

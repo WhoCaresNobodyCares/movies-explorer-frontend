@@ -23,7 +23,11 @@ const Promo = ({ mix, viewportWidth }) => {
   return (
     <section className={`${mix} promo`}>
       {viewportWidth > 600 ? wideTitle : narrowTitle}
-      <img className="promo__background" src={landingPicture} alt="Фоновое изображение секции" />
+      <img
+        className="promo__background"
+        src={landingPicture}
+        alt="Фоновое изображение секции"
+      />
     </section>
   );
 };

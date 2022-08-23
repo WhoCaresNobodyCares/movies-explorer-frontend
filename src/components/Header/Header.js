@@ -15,8 +15,27 @@ const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
 
   const burgerMenu = (
     <>
-      <Burger mix="header__burger" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
-      <Menu mix="header__menu" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+      <Burger
+        mix="header__burger"
+        isMenuOpened={isMenuOpened}
+        setIsMenuOpened={setIsMenuOpened}
+      />
+      <Menu
+        mix="header__menu"
+        isMenuOpened={isMenuOpened}
+        setIsMenuOpened={setIsMenuOpened}
+      />
+    </>
+  );
+
+  const completeMenu = (
+    <>
+      <NavHor mix="header__nav-hor" />
+      <User
+        mix="header__user"
+        viewportWidth={viewportWidth}
+        location={location}
+      />
     </>
   );
 
@@ -24,15 +43,14 @@ const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
     <>
       <header className={`${mix} header`}>
         <div className={'header__grid'}>
-          <Link to="/" className={'header__link'} children={<img className="header__logo" src={logoIcon} alt="Логотип" />} />
-          {viewportWidth > 800 ? (
-            <>
-              <NavHor mix="header__nav-hor" />
-              <User mix="header__user" viewportWidth={viewportWidth} />
-            </>
-          ) : (
-            burgerMenu
-          )}
+          <Link
+            to="/"
+            className={'header__link'}
+            children={
+              <img className="header__logo" src={logoIcon} alt="Логотип" />
+            }
+          />
+          {viewportWidth > 800 ? completeMenu : burgerMenu}
         </div>
       </header>
     </>
@@ -42,13 +60,16 @@ const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
     <>
       <header className={`${mix} header header_blue`}>
         <div className={'header__grid'}>
-          <Link to="/" className={'header__link'} children={<img className="header__logo" src={logoIcon} alt="Логотип" />} />
+          <Link
+            to="/"
+            className={'header__link'}
+            children={
+              <img className="header__logo" src={logoIcon} alt="Логотип" />
+            }
+          />
           {isLoggedIn ? (
             viewportWidth > 800 ? (
-              <>
-                <NavHor mix="header__nav-hor" />
-                <User mix="header__user" viewportWidth={viewportWidth} location="/" />
-              </>
+              completeMenu
             ) : (
               burgerMenu
             )
@@ -64,7 +85,13 @@ const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
     <>
       <header className={`${mix} header header_narrow`}>
         <div className={'header__grid header__grid_narrow'}>
-          <Link to="/" className={'header__link header__link_narrow'} children={<img className="header__logo" src={logoIcon} alt="Логотип" />} />
+          <Link
+            to="/"
+            className={'header__link header__link_narrow'}
+            children={
+              <img className="header__logo" src={logoIcon} alt="Логотип" />
+            }
+          />
         </div>
       </header>
     </>
@@ -72,7 +99,7 @@ const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
 
   useEffect(() => {
     setIsMenuOpened(false);
-  }, [location, viewportWidth]);
+  }, [location.pathname, viewportWidth]);
 
   return (
     <Routes>
