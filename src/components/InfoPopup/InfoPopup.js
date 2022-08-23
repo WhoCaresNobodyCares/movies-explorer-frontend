@@ -1,11 +1,6 @@
-import { useContext } from 'react';
-import UserContext from '../../contexts/UserContext';
-
 import './InfoPopup.css';
 
 const InfoPopup = ({ mix, popupState, setPopupState }) => {
-  const { user } = useContext(UserContext);
-
   return (
     <div className={`${mix} info-popup`}>
       <div
@@ -31,7 +26,7 @@ const InfoPopup = ({ mix, popupState, setPopupState }) => {
       >
         <h2 className="info-popup__title">
           {popupState.title === 'Добро пожаловать,'
-            ? `${popupState.title} ${user.name}`
+            ? `${popupState.title} ${'user.name'}`
             : popupState.title}
         </h2>
         <button

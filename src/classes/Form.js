@@ -1,5 +1,9 @@
-class Form {
-  constructor() {}
+export class Form {
+  constructor(user, setPopupState, POPUP_STATES) {
+    this._user = user;
+    this._setPopupState = setPopupState;
+    this._POPUP_STATES = POPUP_STATES;
+  }
 
   _innerMethod() {}
 
@@ -7,22 +11,55 @@ class Form {
 
   handleRegisterFormSubmit(event, inputValues) {
     event.preventDefault();
-    console.log('register');
+    if (
+      inputValues.registerFormNameInput &&
+      inputValues.registerFormEmailInput &&
+      inputValues.registerFormPasswordInput
+    ) {
+      const [name, email, password] = [
+        inputValues.registerFormNameInput,
+        inputValues.registerFormEmailInput,
+        inputValues.registerFormPasswordInput,
+      ];
+      this._user.handleSignup(name, email, password);
+    } else {
+      this._setPopupState(this._POPUP_STATES.register.noInput);
+    }
   }
 
   // LOGIN
 
   handleLoginFormSubmit(event, inputValues) {
     event.preventDefault();
-    console.log('login');
+    if (inputValues.loginFormEmailInput && inputValues.loginFormPasswordInput) {
+      const [email, password] = [
+        inputValues.loginFormEmailInput,
+        inputValues.loginFormPasswordInput,
+      ];
+      this._user.handleSignin(email, password);
+    } else {
+      this._setPopupState(this._POPUP_STATES.login.noInput);
+    }
   }
 
   // PROFILE
 
-  handleProfileFormSubmit(event, inputValues) {
+  handleProfileFormSubmit(event, inputValues, token, setIsProfileEditMode) {
     event.preventDefault();
-
-    console.log('profile');
+    if (
+      inputValues.profileFormNameInput &&
+      inputValues.profileFormEmailInput &&
+      token
+    ) {
+      const [name, email] = [
+        inputValues.profileFormNameInput,
+        inputValues.profileFormEmailInput,
+      ];
+      this._user.handleProfileUpdate(name, email, token);
+    } else {
+      this._setPopupState(this._POPUP_STATES.profile.noInput);
+    }
+    setIsProfileEditMode(false);
   }
 
   handleProfileFormSameNames(event, initialValues, setIsNameSame) {
@@ -36,8 +73,15 @@ class Form {
     }
   }
 
-  handleProfileDiscard(resetForm, setIsProfileEditMode) {
-    resetForm({}, {}, false);
+  handleProfileDiscard(resetForm, userState, setIsProfileEditMode) {
+    resetForm(
+      {
+        profileFormNameInput: userState.name,
+        profileFormEmailInput: userState.email,
+      },
+      {},
+      false
+    );
     setIsProfileEditMode(false);
   }
 
@@ -50,9 +94,6 @@ class Form {
   }
 
   handleCheckBoxChange(event, inputValue) {
-    console.log('checkbox')
+    console.log('checkbox');
   }
 }
-
-const form = new Form();
-export default form;

@@ -1,6 +1,4 @@
-const { MAIN_API_URL } = require('../../configs/apiConfig.json');
-
-class MainApi {
+export class MainApi {
   constructor(url) {
     this._url = url;
   }
@@ -25,7 +23,7 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 
-  checkTokenValidity(token) {
+  checkValidity(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
@@ -80,6 +78,3 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 }
-
-const mainApi = new MainApi(MAIN_API_URL);
-export default mainApi;

@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './Register.css';
 
-import form from '../../classes/Form';
-
-const Register = ({ mix, formValidator }) => {
+const Register = ({ mix, form, formValidator }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
   const {
     inputValues,
@@ -35,8 +33,8 @@ const Register = ({ mix, formValidator }) => {
           action="#"
           method="post"
           target="_self"
-          autoComplete="on"
-          onSubmit={(e) => form.handleRegisterFormSubmit(e)}
+          autoComplete="off"
+          onSubmit={(e) => form.handleRegisterFormSubmit(e, inputValues)}
         >
           <div className="register__block">
             <span className="register__label" children="Имя" />
@@ -51,6 +49,7 @@ const Register = ({ mix, formValidator }) => {
               type="text"
               placeholder="Имя"
               pattern="^\S*$"
+              autoComplete="off"
               minLength={2}
               maxLength={30}
               autoFocus
@@ -86,6 +85,7 @@ const Register = ({ mix, formValidator }) => {
               type="email"
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
               placeholder="E-mail"
+              autoComplete="off"
               required
               onChange={(e) => handleInputChange(e)}
             />
@@ -118,6 +118,7 @@ const Register = ({ mix, formValidator }) => {
               type="password"
               placeholder="Пароль"
               pattern="^\S*$"
+              autoComplete="off"
               minLength={4}
               required
               onChange={(e) => handleInputChange(e)}

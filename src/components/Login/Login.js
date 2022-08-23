@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './Login.css';
 
-import form from '../../classes/Form';
-
-const Login = ({ mix, formValidator }) => {
+const Login = ({ mix, form, formValidator }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const {
@@ -33,8 +31,8 @@ const Login = ({ mix, formValidator }) => {
           action="#"
           method="post"
           target="_self"
-          autoComplete="on"
-          onSubmit={(e) => form.handleLoginFormSubmit(e)}
+          autoComplete="off"
+          onSubmit={(e) => form.handleLoginFormSubmit(e, inputValues)}
         >
           <div className="login__block">
             <span className="login__label" children="E-mail" />
@@ -48,6 +46,7 @@ const Login = ({ mix, formValidator }) => {
               name="loginFormEmailInput"
               type="email"
               placeholder="E-mail"
+              autoComplete="off"
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
               autoFocus
               required
@@ -79,6 +78,7 @@ const Login = ({ mix, formValidator }) => {
               name="loginFormPasswordInput"
               type="password"
               placeholder="Пароль"
+              autoComplete="off"
               pattern="^\S*$"
               minLength={4}
               required

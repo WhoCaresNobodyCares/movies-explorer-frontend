@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom';
+import UserContext from '../../../contexts/UserContext';
 
 import './User.css';
 import userIcon from '../../../images/user-icon.svg';
 
+
 const User = ({ mix, location, viewportWidth }) => {
   return (
     <div className={`${mix} user`}>
-      <span className="user__email" children={'test@gmail.com'} />
+      <UserContext.Consumer>
+        {(userState) => (
+          <span className="user__email" children={userState.email} />
+        )}
+      </UserContext.Consumer>
       <Link
         className={
           location.pathname === '/'

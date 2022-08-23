@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 
 import './Profile.css';
 
-import form from '../../classes/Form';
-
-const Profile = ({ mix, formValidator }) => {
+const Profile = ({ mix, form, user, token, userState, formValidator }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const {
@@ -21,24 +19,30 @@ const Profile = ({ mix, formValidator }) => {
 
   useEffect(() => {
     resetForm(
-      { profileFormNameInput: 'test', profileFormEmailInput: 'test@gmail.com' },
+      {
+        profileFormNameInput: userState.name,
+        profileFormEmailInput: userState.email,
+      },
       {},
       false
-    ); // !!! setUserDatatoValues
+    );
     setInitialValues({
-      profileFormNameInput: 'test',
-      profileFormEmailInput: 'test@gmail.com',
+      profileFormNameInput: userState.name,
+      profileFormEmailInput: userState.email,
     });
     return () => {
       resetForm({}, {}, false);
       setInitialValues({});
     };
-  }, []);
+  }, [userState, isProfileEditMode]);
 
   return (
     <main className={`${mix} profile`}>
       <section className="profile__section">
-        <h1 className="profile__title" children={`Привет, ${`NAME`}!`} />
+        <h1
+          className="profile__title"
+          children={`Привет, ${userState.name}!`}
+        />
         <form
           id="profileForm"
           className="profile__form"
@@ -46,8 +50,14 @@ const Profile = ({ mix, formValidator }) => {
           action="#"
           method="post"
           target="_self"
+          autoComplete="off"
           onSubmit={(e) =>
-            form.handleProfileFormSubmit(e, inputValues, setIsProfileEditMode)
+            form.handleProfileFormSubmit(
+              e,
+              inputValues,
+              token,
+              setIsProfileEditMode
+            )
           }
         >
           <span className="profile__label" children="Имя" />
@@ -66,9 +76,10 @@ const Profile = ({ mix, formValidator }) => {
             type="text"
             placeholder="Имя"
             pattern="^\S*$"
+            autoComplete="off"
             minLength={2}
             maxLength={30}
-            defaultValue={initialValues.profileFormNameInput}
+            value={inputValues.profileFormNameInput}
             required
             onKeyUp={(e) =>
               form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
@@ -98,10 +109,14 @@ const Profile = ({ mix, formValidator }) => {
             }
             name="profileFormEmailInput"
             type="email"
+            autoComplete="off"
             placeholder="E-mail"
             pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-            defaultValue={initialValues.profileFormEmailInput}
+            value={inputValues.profileFormEmailInput}
             required
+            onKeyUp={(e) =>
+              form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
+            }
             onChange={(e) => handleInputChange(e)}
           />
           <div className="profile__bottom">
@@ -113,7 +128,7 @@ const Profile = ({ mix, formValidator }) => {
                   name="profileFormEdit"
                   aria-label="Разблокировать форму"
                   type="button"
-                  onClick={() => setIsProfileEditMode(!isProfileEditMode)}
+                  onClick={() => setIsProfileEditMode(true)}
                   children={CONTENT_CONFIG.Profile.editButton}
                 />
                 <button
@@ -122,7 +137,7 @@ const Profile = ({ mix, formValidator }) => {
                   name="profileFormLogout"
                   aria-label="Выйти из профиля"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => user.handleSignout()}
                   children={CONTENT_CONFIG.Profile.logoutButton}
                 />
               </>
@@ -162,7 +177,11 @@ const Profile = ({ mix, formValidator }) => {
                   aria-label="Отменить изменения"
                   type="button"
                   onClick={() =>
-                    form.handleProfileDiscard(resetForm, setIsProfileEditMode)
+                    form.handleProfileDiscard(
+                      resetForm,
+                      userState,
+                      setIsProfileEditMode
+                    )
                   }
                   children={
                     !isNameSame

@@ -1,11 +1,6 @@
 {
   "POPUP_STATES": {
     "tokenValidity": {
-      "success": {
-        "isOpened": true,
-        "title": "Добро пожаловать,",
-        "button": "Начать"
-      },
       "err401": {
         "isOpened": true,
         "title": "Зарегистрируйтесь или войдите",
@@ -13,6 +8,16 @@
       }
     },
     "register": {
+      "success": {
+        "isOpened": true,
+        "title": "Добро пожаловать,",
+        "button": "Ок"
+      },
+      "noInput": {
+        "isOpened": true,
+        "title": "Поля регистрации пусты",
+        "button": "Ок"
+      },
       "err400": {
         "isOpened": true,
         "title": "Некорректный e-mail",
@@ -26,6 +31,16 @@
       "err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
     },
     "login": {
+      "success": {
+        "isOpened": true,
+        "title": "Ура, вы вернулись!",
+        "button": "Ок"
+      },
+      "noInput": {
+        "isOpened": true,
+        "title": "Поля авторизации пусты",
+        "button": "Ок"
+      },
       "err401": {
         "isOpened": true,
         "title": "Неверный логин или пароль",
@@ -38,6 +53,11 @@
         "isOpened": true,
         "title": "Данные обновлены",
         "button": "Хорошо"
+      },
+      "noInput": {
+        "isOpened": true,
+        "title": "Поля профиля пусты или вы не авторизованы",
+        "button": "Ок"
       },
       "err409": {
         "isOpened": true,

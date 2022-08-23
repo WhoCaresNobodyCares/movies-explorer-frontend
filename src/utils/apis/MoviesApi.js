@@ -1,6 +1,4 @@
-const { MOVIES_API_URL } = require('../../configs/apiConfig.json');
-
-class MoviesApi {
+export class MoviesApi {
   constructor(url) {
     this._url = url;
   }
@@ -15,6 +13,3 @@ class MoviesApi {
     );
   }
 }
-
-const moviesApi = new MoviesApi(MOVIES_API_URL);
-export default moviesApi;

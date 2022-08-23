@@ -4,14 +4,10 @@ import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 
-import form from '../../classes/Form';
-
-const SearchForm = ({ mix, viewportWidth, formHandler, location }) => {
+const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
   const { inputValue, handleInputChange, resetForm } = formHandler;
 
   const [initialValues, setInitialValues] = useState({});
-
-console.log(location)
 
   useEffect(() => {
     if (location.pathname === '/movies') {
@@ -20,7 +16,9 @@ console.log(location)
     }
     if (location.pathname === '/saved-movies') {
       resetForm({ searchFormInput: ['сохраненные', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValues({ searchFormInput: ['сохраненные', 'фильмы'].join(' ') });
+      setInitialValues({
+        searchFormInput: ['сохраненные', 'фильмы'].join(' '),
+      });
     }
     return () => {
       resetForm([]);
@@ -37,6 +35,7 @@ console.log(location)
         action="#"
         method="post"
         target="_self"
+        autoComplete="off"
         noValidate
         onSubmit={(e) => form.handleSearchFormSubmit(e, inputValue)}
       >
@@ -58,6 +57,7 @@ console.log(location)
               maxLength={80}
               defaultValue={initialValues.searchFormInput}
               placeholder="Фильм"
+              autoComplete="off"
               required
               autoFocus
               onChange={(e) => handleInputChange(e)}
@@ -90,7 +90,7 @@ console.log(location)
                     name="searchFormCheckbox"
                     type="checkbox"
                     form="searchForm"
-                    onChange={(e) => form.handleCheckBoxChange(e)}
+                    onChange={(e) => form.handleCheckBoxChange(e, inputValue)}
                   />
                   <span className="search-form__slider" />
                 </label>
