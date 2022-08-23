@@ -47,11 +47,6 @@
       "err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
     },
     "movies": {
-      "emptyReq": {
-        "isOpened": true,
-        "title": "Введите ключевые слова",
-        "button": "Ок"
-      },
       "invalid": {
         "isOpened": true,
         "title": "Вы не можете сохранить этот фильм",

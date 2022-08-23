@@ -13,14 +13,7 @@ const Footer = ({ mix }) => {
         <div className="footer__bottom">
           <span className="footer__date" children={<>&#169; {new Date().getFullYear()}</>} />
           {CONTENT_CONFIG.Footer.links.map((item) => (
-            <a
-              className="footer__link"
-              href={item.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              key={item.key}
-              children={item.text}
-            />
+            <a className="footer__link" href={item.href} target="_blank" rel="noreferrer noopener" key={item.key} children={item.text} />
           ))}
         </div>
       </div>

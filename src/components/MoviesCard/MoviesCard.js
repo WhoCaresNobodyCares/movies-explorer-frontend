@@ -1,43 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ mix, path }) => {
+import useConvertDuration from '../../utils/customHooks/useConvertDuration';
+
+const MoviesCard = ({ mix, item, path, moviesLogic, savedMoviesIds }) => {
   const [isCardLiked, setIsCardLiked] = useState(false);
+
+  const { image, nameRU, duration, trailerLink } = item;
+  const { saveMovie } = moviesLogic;
+
+  const convertedDuration = useConvertDuration(duration);
+
+  useEffect(() => {
+    path === '/movies' && savedMoviesIds.includes(item.movieId) && setIsCardLiked(true);
+  }, [savedMoviesIds]);
 
   return (
     <div className={`${mix} movies-card`}>
       <div className="movies-card__container">
-        <a
-          href={'https/'}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="movies-card__link"
-          children=""
-        />
-        <img
-          className="movies-card__image"
-          src="https://hddesktopwallpapers.in/wp-content/uploads/2015/09/kitty-cat-wallpaper.jpg"
-          alt="Изображение карточки"
-        />
+        <a href={trailerLink} target="_blank" rel="noreferrer noopener" className="movies-card__link" children="" />
+        <img className="movies-card__image" src={image} alt="Изображение карточки" />
       </div>
       <div className="movies-card__description">
-        <h2 className="movies-card__title" children="33 слова о дизайне" />
+        <h2 className="movies-card__title" children={nameRU} />
         <button
           id="moviesCardButton"
-          className={
-            path === '/movies'
-              ? `movies-card__movies-button${
-                  isCardLiked ? ' movies-card__movies-button_active' : ''
-                }`
-              : 'movies-card__saved-movies-button'
-          }
+          className={path === '/movies' ? `movies-card__movies-button${isCardLiked ? ' movies-card__movies-button_active' : ''}` : 'movies-card__saved-movies-button'}
           name="moviesCardButton"
           aria-label="Совершить действие с карточкой"
           type="button"
-          onClick={path === '/movies' ? () => setIsCardLiked(!isCardLiked) : () => {}}
+          onClick={path === '/movies' ? () => saveMovie(item, setIsCardLiked) : () => {}}
         />
-        <span className="movies-card__length" children="1ч 3м" />
+        <span className="movies-card__length" children={convertedDuration} />
       </div>
     </div>
   );

@@ -21,11 +21,7 @@ const Header = ({ mix, isLoggedIn, location }) => {
     <>
       <header className={`${mix} header`}>
         <div className={'header__grid'}>
-          <Link
-            to="/"
-            className={'header__link'}
-            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
-          />
+          <Link to="/" className={'header__link'} children={<img className="header__logo" src={logoIcon} alt="Логотип" />} />
           {viewportWidth > 800 ? (
             <>
               <NavHor mix="header__nav-hor" />
@@ -33,16 +29,8 @@ const Header = ({ mix, isLoggedIn, location }) => {
             </>
           ) : (
             <>
-              <Burger
-                mix="header__burger"
-                isMenuOpened={isMenuOpened}
-                setIsMenuOpened={setIsMenuOpened}
-              />
-              <Menu
-                mix="header__menu"
-                isMenuOpened={isMenuOpened}
-                setIsMenuOpened={setIsMenuOpened}
-              />
+              <Burger mix="header__burger" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+              <Menu mix="header__menu" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
             </>
           )}
         </div>
@@ -54,11 +42,7 @@ const Header = ({ mix, isLoggedIn, location }) => {
     <>
       <header className={`${mix} header header_blue`}>
         <div className={'header__grid'}>
-          <Link
-            to="/"
-            className={'header__link'}
-            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
-          />
+          <Link to="/" className={'header__link'} children={<img className="header__logo" src={logoIcon} alt="Логотип" />} />
           {isLoggedIn ? (
             viewportWidth > 800 ? (
               <>
@@ -67,16 +51,8 @@ const Header = ({ mix, isLoggedIn, location }) => {
               </>
             ) : (
               <>
-                <Burger
-                  mix="header__burger"
-                  isMenuOpened={isMenuOpened}
-                  setIsMenuOpened={setIsMenuOpened}
-                />
-                <Menu
-                  mix="header__menu"
-                  isMenuOpened={isMenuOpened}
-                  setIsMenuOpened={setIsMenuOpened}
-                />
+                <Burger mix="header__burger" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+                <Menu mix="header__menu" isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
               </>
             )
           ) : (
@@ -91,11 +67,7 @@ const Header = ({ mix, isLoggedIn, location }) => {
     <>
       <header className={`${mix} header header_narrow`}>
         <div className={'header__grid header__grid_narrow'}>
-          <Link
-            to="/"
-            className={'header__link header__link_narrow'}
-            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
-          />
+          <Link to="/" className={'header__link header__link_narrow'} children={<img className="header__logo" src={logoIcon} alt="Логотип" />} />
         </div>
       </header>
     </>

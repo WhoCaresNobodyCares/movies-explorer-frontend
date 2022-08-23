@@ -15,9 +15,7 @@ const Portfolio = ({ mix }) => {
             children={
               <>
                 <a
-                  className={
-                    index === 2 ? 'portfolio__link portfolio__link_no-margin' : 'portfolio__link'
-                  }
+                  className={index === 2 ? 'portfolio__link portfolio__link_no-margin' : 'portfolio__link'}
                   href={item.href}
                   target="_blank"
                   rel="noreferrer noopener"

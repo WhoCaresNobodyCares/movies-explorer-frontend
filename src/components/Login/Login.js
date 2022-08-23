@@ -1,25 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Login.css';
 
 import useFormValidation from '../../utils/customHooks/useFormValidation';
 
-const Login = ({ mix }) => {
+const Login = ({ mix, userLogic }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-  const isMounted = useRef(false);
-
   const { values, errors, handleChange, isValid, resetForm } = useFormValidation();
-  const [isSubmitButtonDefault, setIsSubmitButtonDefault] = useState(false);
 
-  useEffect(() => {
-    if (isMounted.current === true) {
-      setIsSubmitButtonDefault(true);
-    } else {
-      isMounted.current = true;
-    }
-  }, [isValid]);
+  const { handleSignIn } = userLogic;
 
   return (
     <main className={`${mix} login`}>
@@ -35,22 +25,22 @@ const Login = ({ mix }) => {
           autoComplete="on"
           onSubmit={(e) => {
             e.preventDefault();
-            resetForm();
+            handleSignIn(values.loginFormEmailInput, values.loginFormPasswordInput);
+            resetForm(
+              {
+                loginFormEmailInput: values.loginFormEmailInput,
+                loginFormPasswordInput: values.loginFormPasswordInput,
+              },
+              {},
+              false
+            );
           }}
         >
           <div className="login__block">
             <span className="login__label" children="E-mail" />
             <input
               id="loginFormEmailInput"
-              className={
-                isValid
-                  ? 'login__input'
-                  : `${
-                      !errors.loginFormEmailInput
-                        ? 'login__input'
-                        : 'login__input login__input_invalid'
-                    }`
-              }
+              className={isValid ? 'login__input' : `${!errors.loginFormEmailInput ? 'login__input' : 'login__input login__input_invalid'}`}
               name="loginFormEmailInput"
               type="email"
               placeholder="E-mail"
@@ -61,34 +51,13 @@ const Login = ({ mix }) => {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div
-            className={
-              isValid
-                ? 'login__separator'
-                : `${
-                    !errors.loginFormEmailInput
-                      ? 'login__separator'
-                      : 'login__separator login__separator_error'
-                  }`
-            }
-          />
-          <span
-            className={isValid ? 'login__error' : 'login__error login__error_visible'}
-            children={errors.loginFormEmailInput}
-          />
+          <div className={isValid ? 'login__separator' : `${!errors.loginFormEmailInput ? 'login__separator' : 'login__separator login__separator_error'}`} />
+          <span className={isValid ? 'login__error' : 'login__error login__error_visible'} children={errors.loginFormEmailInput} />
           <div className="login__block">
             <span className="login__label" children="Пароль" />
             <input
               id="loginFormPasswordInput"
-              className={
-                isValid
-                  ? 'login__input'
-                  : `${
-                      !errors.loginFormPasswordInput
-                        ? 'login__input'
-                        : 'login__input login__input_invalid'
-                    }`
-              }
+              className={isValid ? 'login__input' : `${!errors.loginFormPasswordInput ? 'login__input' : 'login__input login__input_invalid'}`}
               name="loginFormPasswordInput"
               type="password"
               placeholder="Пароль"
@@ -99,34 +68,17 @@ const Login = ({ mix }) => {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div
-            className={
-              isValid
-                ? 'login__separator'
-                : `${
-                    !errors.loginFormPasswordInput
-                      ? 'login__separator'
-                      : 'login__separator login__separator_error'
-                  }`
-            }
-          />
-          <span
-            className={isValid ? 'login__error' : 'login__error login__error_visible'}
-            children={errors.loginFormPasswordInput}
-          />
+          <div className={isValid ? 'login__separator' : `${!errors.loginFormPasswordInput ? 'login__separator' : 'login__separator login__separator_error'}`} />
+          <span className={isValid ? 'login__error' : 'login__error login__error_visible'} children={errors.loginFormPasswordInput} />
           <div className="login__bottom">
             <button
               id="loginFormEdit"
-              className={
-                isValid && isSubmitButtonDefault
-                  ? 'login__submit'
-                  : 'login__submit login__submit_disabled'
-              }
+              className={isValid ? 'login__submit' : 'login__submit login__submit_disabled'}
               name="loginFormEdit"
               aria-label="Войти"
               type="submit"
               children={CONTENT_CONFIG.Login.button}
-              disabled={isValid && isSubmitButtonDefault ? false : true}
+              disabled={isValid ? false : true}
             />
             <div className="login__already">
               <span className="login__description" children={CONTENT_CONFIG.Login.description} />

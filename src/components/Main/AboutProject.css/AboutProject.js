@@ -12,12 +12,7 @@ const AboutProject = ({ mix }) => {
       <div
         className="about-project__description"
         children={CONTENT_CONFIG.Main.aboutProject.description.map((item) => (
-          <TextColumn
-            mix="about-project__text-column"
-            title={item.title}
-            text={item.text}
-            key={item.key}
-          />
+          <TextColumn mix="about-project__text-column" title={item.title} text={item.text} key={item.key} />
         ))}
       />
       <div

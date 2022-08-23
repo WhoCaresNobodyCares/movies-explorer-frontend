@@ -1,42 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 
 import './Profile.css';
 
 import useFormValidation from '../../utils/customHooks/useFormValidation';
+import useProfileState from '../../utils/customHooks/useProfileState';
 
-const Profile = ({ mix }) => {
+const Profile = ({ mix, userLogic, userState }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-  const isMounted = useRef(false);
-
   const { values, errors, handleChange, isValid, resetForm } = useFormValidation();
+  const { isProfileNameSame, isProfileEmailSame, handleStateChange, isProfileEditMode, setIsProfileEditMode } = useProfileState(userState);
 
-  const [isProfileEditMode, setIsProfileEditMode] = useState(false);
-  const [isProfileNameSame, setIsProfileNameSame] = useState(false);
-  const [isProfileEmailSame, setIsProfileEmailSame] = useState(false);
-  const [isSubmitButtonDefault, setIsSubmitButtonDefault] = useState(false);
-
-  const resetState = () => {
-    setIsProfileNameSame(false);
-    setIsProfileEmailSame(false);
-    setIsProfileEditMode(false);
-    setIsSubmitButtonDefault(false);
-  };
+  const { handleSignOut, handleUpdateUser } = userLogic;
 
   useEffect(() => {
-    if (isMounted.current === true) {
-      setIsSubmitButtonDefault(true);
-    } else {
-      // formValidation.values.profileFormNameInput = user.name;
-      // formValidation.values.profileFormEmailInput = user.email;
-      isMounted.current = true;
-    }
-  }, [isValid, values]);
+    resetForm(
+      {
+        profileFormNameInput: userState.name,
+        profileFormEmailInput: userState.email,
+      },
+      {},
+      false
+    );
+  }, [resetForm]);
 
   return (
     <main className={`${mix} profile`}>
       <section className="profile__section">
-        <h1 className="profile__title" children={`Привет, ${`NAME`}!`} />
+        <h1 className="profile__title" children={`Привет, ${userState.name}!`} />
         <form
           id="profileForm"
           className="profile__form"
@@ -47,7 +38,15 @@ const Profile = ({ mix }) => {
           autoComplete="on"
           onSubmit={(e) => {
             e.preventDefault();
-            resetForm();
+            handleUpdateUser(values.profileFormNameInput, values.profileFormEmailInput);
+            resetForm(
+              {
+                profileFormNameInput: values.profileFormNameInput,
+                profileFormEmailInput: values.profileFormEmailInput,
+              },
+              {},
+              false
+            );
             setIsProfileEditMode(false);
           }}
         >
@@ -55,13 +54,7 @@ const Profile = ({ mix }) => {
           <input
             id="profileFormNameInput"
             className={
-              !isProfileEditMode
-                ? 'profile__input'
-                : `${
-                    !errors.profileFormNameInput
-                      ? 'profile__input profile__input_enabled'
-                      : 'profile__input profile__input_enabled profile__input_invalid'
-                  }`
+              !isProfileEditMode ? 'profile__input' : `${!errors.profileFormNameInput ? 'profile__input profile__input_enabled' : 'profile__input profile__input_enabled profile__input_invalid'}`
             }
             name="profileFormNameInput"
             type="text"
@@ -70,44 +63,31 @@ const Profile = ({ mix }) => {
             pattern="^\S*$"
             minLength={2}
             maxLength={30}
-            defaultValue={'user.name'}
+            defaultValue={userState.name}
             required
-            // onChange={(e) => {
-            // 	e.target.value === user.email
-            // 		? setIsEmailSame(false)
-            // 		: setIsEmailSame(true);
-            // 	handleChange(e);
-            // }}
+            onChange={(e) => {
+              handleChange(e);
+              handleStateChange(e);
+            }}
           />
-          <div
-            className={
-              isValid ? 'profile__separator' : 'profile__separator profile__separator_error'
-            }
-          />
+          <div className={errors.profileFormNameInput || errors.profileFormEmailInput ? 'profile__separator profile__separator_error' : 'profile__separator'} />
           <span className="profile__label" children="E-mail" />
           <input
             id="profileFormEmailInput"
             className={
-              !isProfileEditMode
-                ? 'profile__input'
-                : `${
-                    !errors.profileFormEmailInput
-                      ? 'profile__input profile__input_enabled'
-                      : 'profile__input profile__input_enabled profile__input_invalid'
-                  }`
+              !isProfileEditMode ? 'profile__input' : `${!errors.profileFormEmailInput ? 'profile__input profile__input_enabled' : 'profile__input profile__input_enabled profile__input_invalid'}`
             }
             name="profileFormEmailInput"
             type="email"
             placeholder="E-mail"
             autoComplete="on"
+            defaultValue={userState.email}
             pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
             required
-            // onChange={(e) => {
-            // 	e.target.value === user.email
-            // 		? setIsEmailSame(false)
-            // 		: setIsEmailSame(true);
-            // 	handleChange(e);
-            // }}
+            onChange={(e) => {
+              handleChange(e);
+              handleStateChange(e);
+            }}
           />
           <div className="profile__bottom">
             {!isProfileEditMode && (
@@ -127,35 +107,24 @@ const Profile = ({ mix }) => {
                   name="profileFormLogout"
                   aria-label="Выйти из профиля"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => handleSignOut()}
                   children={CONTENT_CONFIG.Profile.logoutButton}
                 />
               </>
             )}
             {isProfileEditMode && (
               <>
-                <span
-                  className={!isValid ? 'profile__error profile__error_visible' : 'profile__error'}
-                  children={errors.profileFormNameInput || errors.profileFormEmailInput}
-                />
+                <span className={!isValid ? 'profile__error profile__error_visible' : 'profile__error'} children={errors.profileFormNameInput || errors.profileFormEmailInput} />
                 <button
-                  id="profileF0ormSubmit"
-                  className={
-                    isValid && isSubmitButtonDefault /*&& (isNameSame || isEmailSame) */
-                      ? 'profile__submit'
-                      : 'profile__submit profile__submit_disabled'
-                  }
-                  name="profileF0ormSubmit"
+                  id="profileFormSubmit"
+                  className={isValid && isProfileNameSame && isProfileEmailSame ? 'profile__submit' : 'profile__submit profile__submit_disabled'}
+                  name="profileFormSubmit"
                   aria-label="Подтвердить изменения"
                   type="submit"
                   formMethod="post"
-                  form="profile-form"
+                  form="profileForm"
                   children={CONTENT_CONFIG.Profile.saveButton}
-                  disabled={
-                    isValid && isSubmitButtonDefault /*&& (isNameSame || isEmailSame) */
-                      ? false
-                      : true
-                  }
+                  disabled={isValid && isProfileNameSame && isProfileEmailSame ? false : true}
                 />
               </>
             )}

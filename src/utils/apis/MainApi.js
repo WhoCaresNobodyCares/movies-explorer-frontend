@@ -25,7 +25,7 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 
-  checkTokenValidity(token) {
+  checkValidity(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
@@ -40,6 +40,8 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 
+  // !!!
+
   getMovies(token) {
     return fetch(`${this._url}/movies`, {
       method: 'GET',
@@ -47,20 +49,7 @@ class MainApi {
     }).then((res) => this._handleRes(res));
   }
 
-  addMovie({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    movieId,
-    nameRU,
-    nameEN,
-    token,
-  }) {
+  addMovie({ country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN, token }) {
     return fetch(`${this._url}/movies/`, {
       method: 'POST',
       headers: { authorization: token, 'Content-Type': 'application/json' },

@@ -10,9 +10,7 @@ class MoviesApi {
   }
 
   getMovies() {
-    return fetch(`${this._url}/beatfilm-movies`, { method: 'GET' }).then((res) =>
-      this._handleRes(res)
-    );
+    return fetch(`${this._url}/beatfilm-movies`, { method: 'GET' }).then((res) => this._handleRes(res));
   }
 }
 

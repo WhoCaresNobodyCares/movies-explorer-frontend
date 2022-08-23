@@ -20,10 +20,7 @@ const Menu = ({ mix, isMenuOpened, setIsMenuOpened }) => {
         <NavVert mix="menu__nav-vert" />
         <User mix="menu__user" />
       </aside>
-      <div
-        className={!isMenuOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'}
-        onClick={() => setIsMenuOpened(!isMenuOpened)}
-      />
+      <div className={!isMenuOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'} onClick={() => setIsMenuOpened(!isMenuOpened)} />
     </div>
   );
 };
