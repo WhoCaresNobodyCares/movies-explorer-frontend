@@ -22,8 +22,9 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import InfoPopup from '../InfoPopup/InfoPopup';
 
 // !!! LOGIC
-import { User } from '../../classes/User';
-import { Form } from '../../classes/Form';
+import { UserLogic } from '../../classes/UserLogic';
+import { MoviesLogic } from '../../classes/MoviesLogic';
+import { FormLogic } from '../../classes/FormLogic';
 import { MainApi } from '../../utils/apis/MainApi';
 import { MoviesApi } from '../../utils/apis/MoviesApi';
 
@@ -50,6 +51,7 @@ const App = () => {
   // * STATES
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userState, setUserState] = useState({});
+  const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
   const [popupState, setPopupState] = useState({
     isOpened: false,
     title: '',
@@ -61,13 +63,14 @@ const App = () => {
 
   // * LOCALSTORAGEITEMS
   const token = localStorage.getItem('token');
-  const state = JSON.parse(localStorage.getItem(`${userState.email}-state`)) || {};
+  const state =
+    JSON.parse(localStorage.getItem(`${userState.email}-state`)) || {};
 
   // * LOGIC
   const mainApi = new MainApi(MAIN_API_URL);
   const moviesApi = new MoviesApi(MOVIES_API_URL);
 
-  const user = new User(
+  const userLogic = new UserLogic(
     mainApi,
     setPopupState,
     setRegisterApiError,
@@ -80,14 +83,23 @@ const App = () => {
     navigate
   );
 
-  const form = new Form(user, setPopupState, POPUP_STATES);
+  const moviesLogic = new MoviesLogic(
+    mainApi,
+    moviesApi,
+    setIsPreloaderVisible
+  );
+
+  const formLogic = new FormLogic(
+    userLogic,
+    moviesLogic,
+    setPopupState,
+    POPUP_STATES
+  );
 
   // * EFFECTS
   useEffect(() => {
-    user.checkValidity(token);
+    userLogic.checkValidity(token);
   }, [token, isLoggedIn]);
-
-  console.log(state)
 
   return (
     <IsLoggedInContext.Provider value={isLoggedIn}>
@@ -109,7 +121,7 @@ const App = () => {
               element={
                 <Register
                   mix="app__register"
-                  form={form}
+                  formLogic={formLogic}
                   formValidator={formValidator}
                   registerApiError={registerApiError}
                   setRegisterApiError={setRegisterApiError}
@@ -121,7 +133,7 @@ const App = () => {
               element={
                 <Login
                   mix="app__login"
-                  form={form}
+                  formLogic={formLogic}
                   formValidator={formValidator}
                   loginApiError={loginApiError}
                   setLoginApiError={setLoginApiError}
@@ -137,11 +149,15 @@ const App = () => {
                   element={
                     <Movies
                       mix="app__movies"
+                      token={token}
                       state={state}
-                      form={form}
+                      formLogic={formLogic}
+                      moviesLogic={moviesLogic}
                       viewportWidth={viewportWidth}
                       formHandler={formHandler}
                       location={location}
+                      isPreloaderVisible={isPreloaderVisible}
+                      setIsPreloaderVisible={setIsPreloaderVisible}
                     />
                   }
                 />
@@ -155,11 +171,15 @@ const App = () => {
                   element={
                     <SavedMovies
                       mix="app__saved-movies"
+                      token={token}
                       state={state}
-                      form={form}
+                      formLogic={formLogic}
+                      moviesLogic={moviesLogic}
                       viewportWidth={viewportWidth}
                       formHandler={formHandler}
                       location={location}
+                      isPreloaderVisible={isPreloaderVisible}
+                      setIsPreloaderVisible={setIsPreloaderVisible}
                     />
                   }
                 />
@@ -173,8 +193,8 @@ const App = () => {
                   element={
                     <Profile
                       mix="app__profile"
-                      form={form}
-                      user={user}
+                      formLogic={formLogic}
+                      userLogic={userLogic}
                       token={token}
                       formValidator={formValidator}
                       profileApiError={profileApiError}

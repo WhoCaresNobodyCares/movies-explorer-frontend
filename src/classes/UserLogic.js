@@ -1,4 +1,4 @@
-export class User {
+export class UserLogic {
   constructor(
     mainApi,
     setPopupState,
@@ -114,6 +114,7 @@ export class User {
 
   handleSignout() {
     localStorage.removeItem('token');
+    localStorage.clear(); // !!! remove later
     this._setUserState({});
     this._setIsLoggedIn(false);
     this._navigate('/');
@@ -137,8 +138,10 @@ export class User {
               localStorage.setItem(
                 `${user.email}-state`,
                 JSON.stringify({
+                  userEmail: user.email,
                   allCards: [],
                   savedCards: res,
+                  savedCardsIds: [],
                   moviesState: {
                     inputValue: {
                       searchFormInput: ['Фильмы'],
@@ -168,7 +171,7 @@ export class User {
                 this._setPopupState(this._POPUP_STATES.movies.err500)
             );
         } else {
-          console.log('localStorage has such item');
+          console.log('localStorage has such item'); // !!! do some
         }
       })
       .then(() => this._navigate('/movies'))

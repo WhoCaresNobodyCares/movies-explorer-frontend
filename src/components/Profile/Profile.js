@@ -5,8 +5,8 @@ import './Profile.css';
 
 const Profile = ({
   mix,
-  form,
-  user,
+  formLogic,
+  userLogic,
   token,
   formValidator,
   profileApiError,
@@ -68,7 +68,7 @@ const Profile = ({
           target="_self"
           autoComplete="off"
           onSubmit={(e) =>
-            form.handleProfileFormSubmit(
+            formLogic.handleProfileFormSubmit(
               e,
               inputValues,
               token,
@@ -101,7 +101,11 @@ const Profile = ({
             value={inputValues.profileFormNameInput}
             required
             onKeyUp={(e) =>
-              form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
+              formLogic.handleProfileFormSameNames(
+                e,
+                initialValues,
+                setIsNameSame
+              )
             }
             onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
@@ -134,7 +138,11 @@ const Profile = ({
             value={inputValues.profileFormEmailInput}
             required
             onKeyUp={(e) =>
-              form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
+              formLogic.handleProfileFormSameNames(
+                e,
+                initialValues,
+                setIsNameSame
+              )
             }
             onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
@@ -156,7 +164,7 @@ const Profile = ({
                   name="profileFormLogout"
                   aria-label="Выйти из профиля"
                   type="button"
-                  onClick={() => user.handleSignout()}
+                  onClick={() => userLogic.handleSignout()}
                   children={CONTENT_CONFIG.Profile.logoutButton}
                 />
               </>
@@ -201,7 +209,7 @@ const Profile = ({
                   aria-label="Отменить изменения"
                   type="button"
                   onClick={() =>
-                    form.handleProfileDiscard(
+                    formLogic.handleProfileDiscard(
                       resetForm,
                       userState,
                       setProfileApiError,

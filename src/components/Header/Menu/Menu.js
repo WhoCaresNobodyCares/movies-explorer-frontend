@@ -4,7 +4,7 @@ import closeIcon from '../../../images/close-icon.svg';
 import NavVert from '../NavVert/NavVert';
 import User from '../User/User';
 
-const Menu = ({ mix, isMenuOpened, setIsMenuOpened }) => {
+const Menu = ({ mix, isMenuOpened, setIsMenuOpened, location }) => {
   return (
     <div className={`${mix} menu`}>
       <aside
@@ -28,7 +28,7 @@ const Menu = ({ mix, isMenuOpened, setIsMenuOpened }) => {
           }
         />
         <NavVert mix="menu__nav-vert" />
-        <User mix="menu__user" />
+        <User mix="menu__user" location={location} />
       </aside>
       <div
         className={

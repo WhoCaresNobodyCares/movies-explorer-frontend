@@ -1,6 +1,7 @@
-export class Form {
-  constructor(user, setPopupState, POPUP_STATES) {
-    this._user = user;
+export class FormLogic {
+  constructor(userLogic, moviesLogic, setPopupState, POPUP_STATES) {
+    this._userLogic = userLogic;
+    this._moviesLogic = moviesLogic;
     this._setPopupState = setPopupState;
     this._POPUP_STATES = POPUP_STATES;
   }
@@ -21,7 +22,7 @@ export class Form {
         inputValues.registerFormEmailInput,
         inputValues.registerFormPasswordInput,
       ];
-      this._user.handleSignup(name, email, password);
+      this._userLogic.handleSignup(name, email, password);
     } else {
       this._setPopupState(this._POPUP_STATES.register.noInput);
     }
@@ -36,7 +37,7 @@ export class Form {
         inputValues.loginFormEmailInput,
         inputValues.loginFormPasswordInput,
       ];
-      this._user.handleSignin(email, password);
+      this._userLogic.handleSignin(email, password);
     } else {
       this._setPopupState(this._POPUP_STATES.login.noInput);
     }
@@ -63,7 +64,7 @@ export class Form {
         inputValues.profileFormNameInput,
         inputValues.profileFormEmailInput,
       ];
-      this._user.handleProfileUpdate(
+      this._userLogic.handleProfileUpdate(
         name,
         email,
         token,
@@ -108,15 +109,28 @@ export class Form {
 
   // SEARCHFORM
 
-  handleSearchFormSubmit(event, inputValue, isCheckboxChecked) {
+  handleSearchFormSubmit(
+    event,
+    inputValue,
+    isCheckboxChecked,
+    state,
+    token,
+    path
+  ) {
     event.preventDefault();
 
-
-
-
-
-    console.log('search-form');
-    console.log(inputValue, isCheckboxChecked);
+    if (inputValue.searchFormInput.length !== 0) {
+      const [words] = [inputValue.searchFormInput];
+      this._moviesLogic.handleSearch(
+        words,
+        isCheckboxChecked,
+        state,
+        token,
+        path
+      );
+    } else {
+      this._setPopupState(this._POPUP_STATES.movies.noInput);
+    }
   }
 
   handleCheckBoxChange(event, setIsCheckboxChecked) {
