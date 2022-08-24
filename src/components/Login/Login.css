@@ -97,6 +97,20 @@
   flex-direction: column;
 }
 
+.login__apiError {
+  width: 100%;
+  margin: 0 0 20px 0;
+  font: 500 11px/14px 'Inter', arial, sans-serif;
+  text-align: center;
+  color: var(--er-01);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.login__apiError_visible {
+  opacity: 1;
+}
+
 .login__submit {
   width: 100%;
   height: 45px;
@@ -177,6 +191,10 @@
 
   .login__form {
     top: 110px;
+  }
+
+  .login__apiError {
+    font: 500 12px/15px 'Inter', arial, sans-serif;
   }
 
   .login__submit {

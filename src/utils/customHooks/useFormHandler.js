@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 const useFormHandler = () => {
   const [inputValue, setInputValue] = useState([]);
+  const [isFormValid, setIsFormValid] = useState(true);
 
   const prepareValue = (value) =>
     value !== undefined
@@ -18,6 +19,7 @@ const useFormHandler = () => {
     const name = target.name;
 
     setInputValue({ ...inputValue, [name]: prepareValue(value) });
+    setIsFormValid(target.closest('form').checkValidity());
   };
 
   const resetForm = useCallback(
@@ -27,7 +29,7 @@ const useFormHandler = () => {
     [setInputValue]
   );
 
-  return { inputValue, handleInputChange, resetForm };
+  return { inputValue, handleInputChange, isFormValid, resetForm };
 };
 
 export default useFormHandler;

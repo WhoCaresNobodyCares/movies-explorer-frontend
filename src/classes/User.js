@@ -2,14 +2,22 @@ export class User {
   constructor(
     mainApi,
     setPopupState,
+    setRegisterApiError,
+    setLoginApiError,
+    setProfileApiError,
     POPUP_STATES,
+    API_ERRORS,
     setIsLoggedIn,
     setUserState,
     navigate
   ) {
     this._mainApi = mainApi;
     this._setPopupState = setPopupState;
+    this._setRegisterApiError = setRegisterApiError;
+    this._setLoginApiError = setLoginApiError;
+    this._setProfileApiError = setProfileApiError;
     this._POPUP_STATES = POPUP_STATES;
+    this._API_ERRORS = API_ERRORS;
     this._setIsLoggedIn = setIsLoggedIn;
     this._setUserState = setUserState;
     this._navigate = navigate;
@@ -30,14 +38,24 @@ export class User {
           .then(() => this._navigate('/movies'))
           .then(() => this._setPopupState(this._POPUP_STATES.register.success))
           .catch((err) => {
-            err === 401 && this._setPopupState(this._POPUP_STATES.login.err401);
-            err === 500 && this._setPopupState(this._POPUP_STATES.login.err500);
+            if (err === 401) {
+              throw 401;
+            } else if (err === 500) {
+              throw 500;
+            } else {
+              console.log(err);
+            }
           })
       )
       .catch((err) => {
-        err === 400 && this._setPopupState(this._POPUP_STATES.register.err400);
-        err === 409 && this._setPopupState(this._POPUP_STATES.register.err409);
-        err === 500 && this._setPopupState(this._POPUP_STATES.register.err500);
+        err === 400 &&
+          this._setRegisterApiError(this._API_ERRORS.register.err400);
+        err === 401 &&
+          this._setRegisterApiError(this._API_ERRORS.register.err401);
+        err === 409 &&
+          this._setRegisterApiError(this._API_ERRORS.register.err409);
+        err === 500 &&
+          this._setRegisterApiError(this._API_ERRORS.register.err500);
       });
   }
 
@@ -51,21 +69,46 @@ export class User {
       .then(() => this._navigate('/movies'))
       .then(() => this._setPopupState(this._POPUP_STATES.login.success))
       .catch((err) => {
-        err === 401 && this._setPopupState(this._POPUP_STATES.login.err401);
-        err === 500 && this._setPopupState(this._POPUP_STATES.login.err500);
+        err === 401 && this._setLoginApiError(this._API_ERRORS.login.err401);
+        err === 500 && this._setLoginApiError(this._API_ERRORS.login.err500);
       });
   }
 
   // PROFILE
 
-  handleProfileUpdate(name, email, token) {
+  handleProfileUpdate(
+    name,
+    email,
+    token,
+    setIsProfileEditMode,
+    resetForm,
+    setInitialValues,
+    userState
+  ) {
     this._mainApi
       .updateUser(name, email, token)
       .then((res) => this._setUserState(res))
       .then(() => this._setPopupState(this._POPUP_STATES.profile.success))
+      .then(() => setIsProfileEditMode(false))
       .catch((err) => {
-        err === 409 && this._setPopupState(this._POPUP_STATES.profile.err409);
-        err === 500 && this._setPopupState(this._POPUP_STATES.profile.err500);
+        err === 409 &&
+          this._setProfileApiError(this._API_ERRORS.profile.err409);
+        err === 500 &&
+          this._setProfileApiError(this._API_ERRORS.profile.err500);
+      })
+      .finally(() => {
+        resetForm(
+          {
+            profileFormNameInput: userState.name,
+            profileFormEmailInput: userState.email,
+          },
+          {},
+          false
+        );
+        setInitialValues({
+          profileFormNameInput: userState.name,
+          profileFormEmailInput: userState.email,
+        });
       });
   }
 

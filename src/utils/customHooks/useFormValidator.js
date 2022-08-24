@@ -5,7 +5,9 @@ const useFormValidator = () => {
   const [inputErrors, setInputErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event, resetApiError) => {
+    resetApiError('');
+
     const target = event.target;
     const name = target.name;
     const value = target.value;

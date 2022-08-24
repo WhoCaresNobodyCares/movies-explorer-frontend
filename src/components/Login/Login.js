@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 
 import './Login.css';
 
-const Login = ({ mix, form, formValidator }) => {
+const Login = ({
+  mix,
+  form,
+  formValidator,
+  loginApiError,
+  setLoginApiError,
+}) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const {
@@ -50,7 +56,7 @@ const Login = ({ mix, form, formValidator }) => {
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
               autoFocus
               required
-              onChange={(e) => handleInputChange(e, inputValues)}
+              onChange={(e) => handleInputChange(e, setLoginApiError)}
             />
           </div>
           <div
@@ -82,7 +88,7 @@ const Login = ({ mix, form, formValidator }) => {
               pattern="^\S*$"
               minLength={4}
               required
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => handleInputChange(e, setLoginApiError)}
             />
           </div>
           <div
@@ -99,10 +105,18 @@ const Login = ({ mix, form, formValidator }) => {
             children={inputErrors.loginFormPasswordInput}
           />
           <div className="login__bottom">
+            <span
+              className={
+                loginApiError
+                  ? 'login__apiError login__apiError_visible'
+                  : 'login__apiError'
+              }
+              children={loginApiError}
+            />
             <button
               id="loginFormEdit"
               className={
-                isFormValid
+                isFormValid && !loginApiError
                   ? 'login__submit'
                   : 'login__submit login__submit_disabled'
               }
@@ -110,7 +124,7 @@ const Login = ({ mix, form, formValidator }) => {
               aria-label="Войти"
               type="submit"
               children={CONTENT_CONFIG.Login.button}
-              disabled={isFormValid ? false : true}
+              disabled={isFormValid && !loginApiError ? false : true}
             />
             <div className="login__already">
               <span

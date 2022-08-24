@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 
 import './Header.css';
@@ -10,8 +10,13 @@ import User from './User/User';
 import Burger from './Burger/Burger';
 import Menu from './Menu/Menu';
 
-const Header = ({ mix, isLoggedIn, location, viewportWidth }) => {
+import IsLoggedInContext from '../../contexts/IsLoggedInContext';
+
+const Header = ({ mix, location, viewportWidth }) => {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  const isLoggedIn = useContext(IsLoggedInContext);
+
 
   const burgerMenu = (
     <>

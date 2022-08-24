@@ -26,7 +26,10 @@ import { User } from '../../classes/User';
 import { Form } from '../../classes/Form';
 import { MainApi } from '../../utils/apis/MainApi';
 import { MoviesApi } from '../../utils/apis/MoviesApi';
+
+// !!! CONTEXT
 import UserContext from '../../contexts/UserContext';
+import IsLoggedInContext from '../../contexts/IsLoggedInContext';
 
 const App = () => {
   // * CONFIGS
@@ -35,6 +38,7 @@ const App = () => {
     MOVIES_API_URL,
   } = require('../../configs/apiConfig.json');
   const { POPUP_STATES } = require('../../configs/popupConfig.json');
+  const { API_ERRORS } = require('../../configs/apiErrors.json');
 
   // * LOCALSTORAGEITEMS
   const token = localStorage.getItem('token');
@@ -54,6 +58,9 @@ const App = () => {
     title: '',
     button: '',
   });
+  const [registerApiError, setRegisterApiError] = useState('');
+  const [loginApiError, setLoginApiError] = useState('');
+  const [profileApiError, setProfileApiError] = useState('');
 
   // * LOGIC
   const mainApi = new MainApi(MAIN_API_URL);
@@ -62,7 +69,11 @@ const App = () => {
   const user = new User(
     mainApi,
     setPopupState,
+    setRegisterApiError,
+    setLoginApiError,
+    setProfileApiError,
     POPUP_STATES,
+    API_ERRORS,
     setIsLoggedIn,
     setUserState,
     navigate
@@ -76,108 +87,114 @@ const App = () => {
   }, [token, isLoggedIn]);
 
   return (
-    <UserContext.Provider value={userState}>
-      <div className="app">
-        <Header
-          mix="app__header"
-          isLoggedIn={isLoggedIn}
-          location={location}
-          viewportWidth={viewportWidth}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={<Main mix="app__main" viewportWidth={viewportWidth} />}
+    <IsLoggedInContext.Provider value={isLoggedIn}>
+      <UserContext.Provider value={userState}>
+        <div className="app">
+          <Header
+            mix="app__header"
+            location={location}
+            viewportWidth={viewportWidth}
           />
+          <Routes>
+            <Route
+              path="/"
+              element={<Main mix="app__main" viewportWidth={viewportWidth} />}
+            />
 
-          <Route
-            path="/signup"
-            element={
-              <Register
-                mix="app__register"
-                form={form}
-                formValidator={formValidator}
-              />
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <Login
-                mix="app__login"
-                form={form}
-                formValidator={formValidator}
-              />
-            }
-          />
+            <Route
+              path="/signup"
+              element={
+                <Register
+                  mix="app__register"
+                  form={form}
+                  formValidator={formValidator}
+                  registerApiError={registerApiError}
+                  setRegisterApiError={setRegisterApiError}
+                />
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <Login
+                  mix="app__login"
+                  form={form}
+                  formValidator={formValidator}
+                  loginApiError={loginApiError}
+                  setLoginApiError={setLoginApiError}
+                />
+              }
+            />
 
-          <Route
-            path="/movies"
-            element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                element={
-                  <Movies
-                    mix="app__movies"
-                    form={form}
-                    viewportWidth={viewportWidth}
-                    formHandler={formHandler}
-                    location={location}
-                  />
-                }
-              />
-            }
-          />
-          <Route
-            path="/saved-movies"
-            element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                element={
-                  <SavedMovies
-                    mix="app__saved-movies"
-                    form={form}
-                    viewportWidth={viewportWidth}
-                    formHandler={formHandler}
-                    location={location}
-                  />
-                }
-              />
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                element={
-                  <Profile
-                    mix="app__profile"
-                    form={form}
-                    user={user}
-                    token={token}
-                    userState={userState}
-                    formValidator={formValidator}
-                  />
-                }
-              />
-            }
-          />
+            <Route
+              path="/movies"
+              element={
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  element={
+                    <Movies
+                      mix="app__movies"
+                      form={form}
+                      viewportWidth={viewportWidth}
+                      formHandler={formHandler}
+                      location={location}
+                    />
+                  }
+                />
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  element={
+                    <SavedMovies
+                      mix="app__saved-movies"
+                      form={form}
+                      viewportWidth={viewportWidth}
+                      formHandler={formHandler}
+                      location={location}
+                    />
+                  }
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  element={
+                    <Profile
+                      mix="app__profile"
+                      form={form}
+                      user={user}
+                      token={token}
+                      formValidator={formValidator}
+                      profileApiError={profileApiError}
+                      setProfileApiError={setProfileApiError}
+                    />
+                  }
+                />
+              }
+            />
 
-          <Route
-            path="*"
-            element={<NotFound mix="app__not-found" navigate={navigate} />}
-          />
-        </Routes>
-        <Footer mix="app__footer" />
+            <Route
+              path="*"
+              element={<NotFound mix="app__not-found" navigate={navigate} />}
+            />
+          </Routes>
+          <Footer mix="app__footer" />
 
-        <InfoPopup
-          mix="app__info-popup"
-          popupState={popupState}
-          setPopupState={setPopupState}
-        />
-      </div>
-    </UserContext.Provider>
+          <InfoPopup
+            mix="app__info-popup"
+            popupState={popupState}
+            setPopupState={setPopupState}
+          />
+        </div>
+      </UserContext.Provider>
+    </IsLoggedInContext.Provider>
   );
 };
 

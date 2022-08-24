@@ -1,9 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import UserContext from '../../contexts/UserContext';
 
 import './Profile.css';
 
-const Profile = ({ mix, form, user, token, userState, formValidator }) => {
+const Profile = ({
+  mix,
+  form,
+  user,
+  token,
+  formValidator,
+  profileApiError,
+  setProfileApiError,
+}) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
+
+  const userState = useContext(UserContext);
 
   const {
     inputValues,
@@ -33,16 +44,21 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
     return () => {
       resetForm({}, {}, false);
       setInitialValues({});
+      setProfileApiError('');
     };
   }, [userState, isProfileEditMode]);
 
   return (
     <main className={`${mix} profile`}>
       <section className="profile__section">
-        <h1
-          className="profile__title"
-          children={`Привет, ${userState.name}!`}
-        />
+        <UserContext.Consumer>
+          {(userState) => (
+            <h1
+              className="profile__title"
+              children={`Привет, ${userState.name}!`}
+            />
+          )}
+        </UserContext.Consumer>
         <form
           id="profileForm"
           className="profile__form"
@@ -56,7 +72,10 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
               e,
               inputValues,
               token,
-              setIsProfileEditMode
+              setIsProfileEditMode,
+              resetForm,
+              setInitialValues,
+              userState
             )
           }
         >
@@ -75,7 +94,7 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
             name="profileFormNameInput"
             type="text"
             placeholder="Имя"
-            pattern="^\S*$"
+            pattern="^[a-zа-я|А-ЯA-Z\-]+(?: [a-zа-я|А-ЯA-Z\-]+)*$"
             autoComplete="off"
             minLength={2}
             maxLength={30}
@@ -84,7 +103,7 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
             onKeyUp={(e) =>
               form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
             }
-            onChange={(e) => handleInputChange(e)}
+            onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
           <div
             className={
@@ -117,7 +136,7 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
             onKeyUp={(e) =>
               form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
             }
-            onChange={(e) => handleInputChange(e)}
+            onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
           <div className="profile__bottom">
             {!isProfileEditMode && (
@@ -146,19 +165,20 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
               <>
                 <span
                   className={
-                    !isFormValid
+                    !isFormValid || profileApiError
                       ? 'profile__error profile__error_visible'
                       : 'profile__error'
                   }
                   children={
                     inputErrors.profileFormNameInput ||
-                    inputErrors.profileFormEmailInput
+                    inputErrors.profileFormEmailInput ||
+                    profileApiError
                   }
                 />
                 <button
                   id="profileFormSubmit"
                   className={
-                    isFormValid && !isNameSame
+                    isFormValid && !isNameSame && !profileApiError
                       ? 'profile__submit'
                       : 'profile__submit profile__submit_disabled'
                   }
@@ -168,7 +188,11 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
                   formMethod="post"
                   form="profileForm"
                   children={CONTENT_CONFIG.Profile.saveButton}
-                  disabled={isFormValid && !isNameSame ? false : true}
+                  disabled={
+                    isFormValid && !isNameSame && !profileApiError
+                      ? false
+                      : true
+                  }
                 />
                 <button
                   id="profileFormDiscard"
@@ -180,6 +204,7 @@ const Profile = ({ mix, form, user, token, userState, formValidator }) => {
                     form.handleProfileDiscard(
                       resetForm,
                       userState,
+                      setProfileApiError,
                       setIsProfileEditMode
                     )
                   }

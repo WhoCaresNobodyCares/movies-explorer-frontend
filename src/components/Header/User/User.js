@@ -4,7 +4,6 @@ import UserContext from '../../../contexts/UserContext';
 import './User.css';
 import userIcon from '../../../images/user-icon.svg';
 
-
 const User = ({ mix, location, viewportWidth }) => {
   return (
     <div className={`${mix} user`}>

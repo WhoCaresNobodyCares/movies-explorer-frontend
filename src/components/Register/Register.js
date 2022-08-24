@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 
 import './Register.css';
 
-const Register = ({ mix, form, formValidator }) => {
+const Register = ({
+  mix,
+  form,
+  formValidator,
+  registerApiError,
+  setRegisterApiError,
+}) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
   const {
     inputValues,
@@ -48,13 +54,13 @@ const Register = ({ mix, form, formValidator }) => {
               name="registerFormNameInput"
               type="text"
               placeholder="Имя"
-              pattern="^\S*$"
+              pattern="^[a-zа-я|А-ЯA-Z\-]+(?: [a-zа-я|А-ЯA-Z\-]+)*$"
               autoComplete="off"
               minLength={2}
               maxLength={30}
               autoFocus
               required
-              onChange={(e) => handleInputChange(e, inputValues)}
+              onChange={(e) => handleInputChange(e, setRegisterApiError)}
             />
           </div>
           <div
@@ -87,7 +93,7 @@ const Register = ({ mix, form, formValidator }) => {
               placeholder="E-mail"
               autoComplete="off"
               required
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => handleInputChange(e, setRegisterApiError)}
             />
           </div>
           <div
@@ -121,7 +127,7 @@ const Register = ({ mix, form, formValidator }) => {
               autoComplete="off"
               minLength={4}
               required
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => handleInputChange(e, setRegisterApiError)}
             />
           </div>
           <div
@@ -140,10 +146,18 @@ const Register = ({ mix, form, formValidator }) => {
             children={inputErrors.registerFormPasswordInput}
           />
           <div className="register__bottom">
+            <span
+              className={
+                registerApiError
+                  ? 'register__apiError register__apiError_visible'
+                  : 'register__apiError'
+              }
+              children={registerApiError}
+            />
             <button
               id="registerFormEdit"
               className={
-                isFormValid
+                isFormValid && !registerApiError
                   ? 'register__submit'
                   : 'register__submit register__submit_disabled'
               }
@@ -151,7 +165,7 @@ const Register = ({ mix, form, formValidator }) => {
               aria-label="Зарегистрироваться"
               type="submit"
               children={CONTENT_CONFIG.Register.button}
-              disabled={isFormValid ? false : true}
+              disabled={isFormValid && !registerApiError ? false : true}
             />
             <div className="register__already">
               <span

@@ -44,7 +44,15 @@ export class Form {
 
   // PROFILE
 
-  handleProfileFormSubmit(event, inputValues, token, setIsProfileEditMode) {
+  handleProfileFormSubmit(
+    event,
+    inputValues,
+    token,
+    setIsProfileEditMode,
+    resetForm,
+    setInitialValues,
+    userState
+  ) {
     event.preventDefault();
     if (
       inputValues.profileFormNameInput &&
@@ -55,11 +63,18 @@ export class Form {
         inputValues.profileFormNameInput,
         inputValues.profileFormEmailInput,
       ];
-      this._user.handleProfileUpdate(name, email, token);
+      this._user.handleProfileUpdate(
+        name,
+        email,
+        token,
+        setIsProfileEditMode,
+        resetForm,
+        setInitialValues,
+        userState
+      );
     } else {
       this._setPopupState(this._POPUP_STATES.profile.noInput);
     }
-    setIsProfileEditMode(false);
   }
 
   handleProfileFormSameNames(event, initialValues, setIsNameSame) {
@@ -73,7 +88,12 @@ export class Form {
     }
   }
 
-  handleProfileDiscard(resetForm, userState, setIsProfileEditMode) {
+  handleProfileDiscard(
+    resetForm,
+    userState,
+    setProfileApiError,
+    setIsProfileEditMode
+  ) {
     resetForm(
       {
         profileFormNameInput: userState.name,
@@ -82,18 +102,19 @@ export class Form {
       {},
       false
     );
+    setProfileApiError('');
     setIsProfileEditMode(false);
   }
 
   // SEARCHFORM
 
-  handleSearchFormSubmit(event, inputValue) {
+  handleSearchFormSubmit(event, inputValue, isCheckboxChecked) {
     event.preventDefault();
     console.log('search-form');
-    console.log(inputValue);
+    console.log(inputValue, isCheckboxChecked);
   }
 
-  handleCheckBoxChange(event, inputValue) {
-    console.log('checkbox');
+  handleCheckBoxChange(event, setIsCheckboxChecked) {
+    setIsCheckboxChecked(event.target.checked)
   }
 }

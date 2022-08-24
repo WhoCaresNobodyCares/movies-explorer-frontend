@@ -5,26 +5,32 @@ import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 
 const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
-  const { inputValue, handleInputChange, resetForm } = formHandler;
+  const { inputValue, handleInputChange, isFormValid, resetForm } = formHandler;
 
-  const [initialValues, setInitialValues] = useState({});
+  const [initialValue, setInitialValue] = useState({});
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   useEffect(() => {
     if (location.pathname === '/movies') {
       resetForm({ searchFormInput: ['фильмы', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValues({ searchFormInput: ['фильмы', 'фильмы'].join(' ') });
+      setInitialValue({ searchFormInput: ['фильмы', 'фильмы'].join(' ') });
+      setIsCheckboxChecked(true);
     }
     if (location.pathname === '/saved-movies') {
       resetForm({ searchFormInput: ['сохраненные', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValues({
+      setInitialValue({
         searchFormInput: ['сохраненные', 'фильмы'].join(' '),
       });
+      setIsCheckboxChecked(false);
     }
     return () => {
       resetForm([]);
-      setInitialValues({});
+      setInitialValue({});
+      setIsCheckboxChecked(false);
     };
   }, []);
+
+  console.log(inputValue, initialValue, isCheckboxChecked, isFormValid);
 
   return (
     <section className={`${mix} search-form`}>
@@ -36,8 +42,9 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
         method="post"
         target="_self"
         autoComplete="off"
-        noValidate
-        onSubmit={(e) => form.handleSearchFormSubmit(e, inputValue)}
+        onSubmit={(e) =>
+          form.handleSearchFormSubmit(e, inputValue, isCheckboxChecked)
+        }
       >
         <div className="search-form__frame">
           <div className="search-form__search-bar">
@@ -50,29 +57,43 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
             )}
             <input
               id="searchFormInput"
-              className="search-form__input"
+              className={
+                isFormValid
+                  ? 'search-form__input'
+                  : 'search-form__input search-form__input_invalid'
+              }
               name="searchFormInput"
               type="text"
               minLength={0}
               maxLength={80}
-              defaultValue={initialValues.searchFormInput}
+              defaultValue={initialValue.searchFormInput}
               placeholder="Фильм"
               autoComplete="off"
+              pattern="^[а-яА-Яa-zA-Z\s\d]+$"
               required
               autoFocus
               onChange={(e) => handleInputChange(e)}
             />
             <button
               id="searchFormSubmit"
-              className="search-form__submit"
+              className={
+                isFormValid
+                  ? 'search-form__submit'
+                  : 'search-form__submit search-form__submit_disabled'
+              }
               name="searchFormSubmit"
               aria-label="Начать поиск"
               type="submit"
               formMethod="post"
               form="searchForm"
+              disabled={isFormValid ? false : true}
               children={
                 <img
-                  className="search-form__submit-icon"
+                  className={
+                    isFormValid
+                      ? 'search-form__submit-icon'
+                      : 'search-form__submit-icon search-form__submit-icon_disabled'
+                  }
                   src={searchButtonIcon}
                   alt="Иконка кнопки"
                 />
@@ -90,7 +111,10 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
                     name="searchFormCheckbox"
                     type="checkbox"
                     form="searchForm"
-                    onChange={(e) => form.handleCheckBoxChange(e, inputValue)}
+                    checked={isCheckboxChecked}
+                    onChange={(e) =>
+                      form.handleCheckBoxChange(e, setIsCheckboxChecked)
+                    }
                   />
                   <span className="search-form__slider" />
                 </label>
@@ -112,7 +136,10 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
                   name="searchFormCheckbox"
                   type="checkbox"
                   form="searchForm"
-                  onChange={(e) => form.handleCheckBoxChange(e, inputValue)}
+                  checked={isCheckboxChecked}
+                  onChange={(e) =>
+                    form.handleCheckBoxChange(e, setIsCheckboxChecked)
+                  }
                 />
                 <span className="search-form__slider" />
               </label>

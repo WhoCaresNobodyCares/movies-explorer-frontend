@@ -1,3 +1,5 @@
+import UserContext from '../../contexts/UserContext';
+
 import './InfoPopup.css';
 
 const InfoPopup = ({ mix, popupState, setPopupState }) => {
@@ -24,11 +26,15 @@ const InfoPopup = ({ mix, popupState, setPopupState }) => {
             : 'info-popup__content'
         }
       >
-        <h2 className="info-popup__title">
-          {popupState.title === 'Добро пожаловать,'
-            ? `${popupState.title} ${'user.name'}`
-            : popupState.title}
-        </h2>
+        <UserContext.Consumer>
+          {(userState) => (
+            <h2 className="info-popup__title">
+              {popupState.title === 'Добро пожаловать,'
+                ? `${popupState.title} ${userState.name}!`
+                : popupState.title}
+            </h2>
+          )}
+        </UserContext.Consumer>
         <button
           id="infoPopupButton"
           className="info-popup__button"
