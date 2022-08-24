@@ -1,9 +1,6 @@
 // !!! REACT AND HOOKS
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import useWidth from '../../utils/customHooks/useWidth';
-import useFormValidator from '../../utils/customHooks/useFormValidator';
-import useFormHandler from '../../utils/customHooks/useFormHandler';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 // !!! STYLES
 import './App.css';
@@ -22,33 +19,28 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import InfoPopup from '../InfoPopup/InfoPopup';
 
 // !!! LOGIC
-import { User } from '../../classes/User';
-import { Form } from '../../classes/Form';
+import { UserLogic } from '../../classes/UserLogic';
+import { FormLogic } from '../../classes/FormLogic';
 import { MainApi } from '../../utils/apis/MainApi';
 import { MoviesApi } from '../../utils/apis/MoviesApi';
 
 // !!! CONTEXT
 import UserContext from '../../contexts/UserContext';
 import IsLoggedInContext from '../../contexts/IsLoggedInContext';
+import FormLogicContext from '../../contexts/FormLogicContext';
+import UserLogicContext from '../../contexts/UserLogicContext';
+
+// !!! CONFIGS
+const {
+  MAIN_API_URL,
+  MOVIES_API_URL,
+} = require('../../configs/apiConfig.json');
+const { POPUP_STATES } = require('../../configs/popupConfig.json');
+const { API_ERRORS } = require('../../configs/apiErrors.json');
 
 const App = () => {
-  // * CONFIGS
-  const {
-    MAIN_API_URL,
-    MOVIES_API_URL,
-  } = require('../../configs/apiConfig.json');
-  const { POPUP_STATES } = require('../../configs/popupConfig.json');
-  const { API_ERRORS } = require('../../configs/apiErrors.json');
-
-  // * LOCALSTORAGEITEMS
-  const token = localStorage.getItem('token');
-
   // * HOOKS
-  const location = useLocation();
   const navigate = useNavigate();
-  const viewportWidth = useWidth();
-  const formValidator = useFormValidator();
-  const formHandler = useFormHandler();
 
   // * STATES
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -66,7 +58,7 @@ const App = () => {
   const mainApi = new MainApi(MAIN_API_URL);
   const moviesApi = new MoviesApi(MOVIES_API_URL);
 
-  const user = new User(
+  const userLogic = new UserLogic(
     mainApi,
     setPopupState,
     setRegisterApiError,
@@ -79,120 +71,86 @@ const App = () => {
     navigate
   );
 
-  const form = new Form(user, setPopupState, POPUP_STATES);
+  const formLogic = new FormLogic(userLogic, setPopupState, POPUP_STATES);
 
   // * EFFECTS
   useEffect(() => {
-    user.checkValidity(token);
-  }, [token, isLoggedIn]);
+    userLogic.checkValidity();
+  }, [isLoggedIn]);
 
   return (
     <IsLoggedInContext.Provider value={isLoggedIn}>
       <UserContext.Provider value={userState}>
-        <div className="app">
-          <Header
-            mix="app__header"
-            location={location}
-            viewportWidth={viewportWidth}
-          />
-          <Routes>
-            <Route
-              path="/"
-              element={<Main mix="app__main" viewportWidth={viewportWidth} />}
-            />
-
-            <Route
-              path="/signup"
-              element={
-                <Register
-                  mix="app__register"
-                  form={form}
-                  formValidator={formValidator}
-                  registerApiError={registerApiError}
-                  setRegisterApiError={setRegisterApiError}
-                />
-              }
-            />
-            <Route
-              path="/signin"
-              element={
-                <Login
-                  mix="app__login"
-                  form={form}
-                  formValidator={formValidator}
-                  loginApiError={loginApiError}
-                  setLoginApiError={setLoginApiError}
-                />
-              }
-            />
-
-            <Route
-              path="/movies"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
+        <FormLogicContext.Provider value={formLogic}>
+          <UserLogicContext.Provider value={userLogic}>
+            <div className="app">
+              <Header mix="app__header" />
+              <Routes>
+                <Route path="/" element={<Main mix="app__main" />} />
+                <Route
+                  path="/signup"
                   element={
-                    <Movies
-                      mix="app__movies"
-                      form={form}
-                      viewportWidth={viewportWidth}
-                      formHandler={formHandler}
-                      location={location}
+                    <Register
+                      mix="app__register"
+                      registerApiError={registerApiError}
+                      setRegisterApiError={setRegisterApiError}
                     />
                   }
                 />
-              }
-            />
-            <Route
-              path="/saved-movies"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
+                <Route
+                  path="/signin"
                   element={
-                    <SavedMovies
-                      mix="app__saved-movies"
-                      form={form}
-                      viewportWidth={viewportWidth}
-                      formHandler={formHandler}
-                      location={location}
+                    <Login
+                      mix="app__login"
+                      loginApiError={loginApiError}
+                      setLoginApiError={setLoginApiError}
                     />
                   }
                 />
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
+                <Route
+                  path="/movies"
                   element={
-                    <Profile
-                      mix="app__profile"
-                      form={form}
-                      user={user}
-                      token={token}
-                      formValidator={formValidator}
-                      profileApiError={profileApiError}
-                      setProfileApiError={setProfileApiError}
+                    <ProtectedRoute
+                      isLoggedIn={isLoggedIn}
+                      element={<Movies mix="app__movies" />}
                     />
                   }
                 />
-              }
-            />
-
-            <Route
-              path="*"
-              element={<NotFound mix="app__not-found" navigate={navigate} />}
-            />
-          </Routes>
-          <Footer mix="app__footer" />
-
-          <InfoPopup
-            mix="app__info-popup"
-            popupState={popupState}
-            setPopupState={setPopupState}
-          />
-        </div>
+                <Route
+                  path="/saved-movies"
+                  element={
+                    <ProtectedRoute
+                      isLoggedIn={isLoggedIn}
+                      element={<SavedMovies mix="app__saved-movies" />}
+                    />
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute
+                      isLoggedIn={isLoggedIn}
+                      element={
+                        <Profile
+                          mix="app__profile"
+                          profileApiError={profileApiError}
+                          setProfileApiError={setProfileApiError}
+                        />
+                      }
+                    />
+                  }
+                />
+                <Route path="*" element={<NotFound mix="app__not-found" />} />
+              </Routes>
+              <Footer mix="app__footer" />
+              <InfoPopup
+                mix="app__info-popup"
+                popupState={popupState}
+                setPopupState={setPopupState}
+              />
+            </div>
+          </UserLogicContext.Provider>
+        </FormLogicContext.Provider>
       </UserContext.Provider>
     </IsLoggedInContext.Provider>
   );

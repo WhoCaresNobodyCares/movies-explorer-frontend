@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import useWidth from '../../utils/customHooks/useWidth';
 
 import './Header.css';
 import logoIcon from '../../images/logo-icon.svg';
@@ -12,11 +13,13 @@ import Menu from './Menu/Menu';
 
 import IsLoggedInContext from '../../contexts/IsLoggedInContext';
 
-const Header = ({ mix, location, viewportWidth }) => {
+const Header = ({ mix }) => {
+  const viewportWidth = useWidth();
+  const location = useLocation();
+
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   const isLoggedIn = useContext(IsLoggedInContext);
-
 
   const burgerMenu = (
     <>
@@ -36,11 +39,7 @@ const Header = ({ mix, location, viewportWidth }) => {
   const completeMenu = (
     <>
       <NavHor mix="header__nav-hor" />
-      <User
-        mix="header__user"
-        viewportWidth={viewportWidth}
-        location={location}
-      />
+      <User mix="header__user" />
     </>
   );
 

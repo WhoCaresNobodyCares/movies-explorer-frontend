@@ -1,23 +1,22 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import FormLogicContext from '../../contexts/FormLogicContext';
+import useFormValidator from '../../utils/customHooks/useFormValidator';
 
 import './Register.css';
 
-const Register = ({
-  mix,
-  form,
-  formValidator,
-  registerApiError,
-  setRegisterApiError,
-}) => {
+const Register = ({ mix,  registerApiError, setRegisterApiError }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
+
+  const formLogic = useContext(FormLogicContext);
+
   const {
     inputValues,
     inputErrors,
     handleInputChange,
     isFormValid,
     resetForm,
-  } = formValidator;
+  } = useFormValidator();
 
   useEffect(() => {
     return () => {
@@ -40,7 +39,7 @@ const Register = ({
           method="post"
           target="_self"
           autoComplete="off"
-          onSubmit={(e) => form.handleRegisterFormSubmit(e, inputValues)}
+          onSubmit={(e) => formLogic.handleRegisterFormSubmit(e, inputValues)}
         >
           <div className="register__block">
             <span className="register__label" children="Имя" />

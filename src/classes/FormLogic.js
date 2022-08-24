@@ -1,6 +1,6 @@
-export class Form {
-  constructor(user, setPopupState, POPUP_STATES) {
-    this._user = user;
+export class FormLogic {
+  constructor(userLogic, setPopupState, POPUP_STATES) {
+    this._user = userLogic;
     this._setPopupState = setPopupState;
     this._POPUP_STATES = POPUP_STATES;
   }
@@ -47,18 +47,13 @@ export class Form {
   handleProfileFormSubmit(
     event,
     inputValues,
-    token,
     setIsProfileEditMode,
     resetForm,
     setInitialValues,
     userState
   ) {
     event.preventDefault();
-    if (
-      inputValues.profileFormNameInput &&
-      inputValues.profileFormEmailInput &&
-      token
-    ) {
+    if (inputValues.profileFormNameInput && inputValues.profileFormEmailInput) {
       const [name, email] = [
         inputValues.profileFormNameInput,
         inputValues.profileFormEmailInput,
@@ -66,7 +61,6 @@ export class Form {
       this._user.handleProfileUpdate(
         name,
         email,
-        token,
         setIsProfileEditMode,
         resetForm,
         setInitialValues,
@@ -110,11 +104,9 @@ export class Form {
 
   handleSearchFormSubmit(event, inputValue, isCheckboxChecked) {
     event.preventDefault();
-    console.log('search-form');
-    console.log(inputValue, isCheckboxChecked);
   }
 
   handleCheckBoxChange(event, setIsCheckboxChecked) {
-    setIsCheckboxChecked(event.target.checked)
+    setIsCheckboxChecked(event.target.checked);
   }
 }

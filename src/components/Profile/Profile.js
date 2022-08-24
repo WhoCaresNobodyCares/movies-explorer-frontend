@@ -1,20 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
+import FormLogicContext from '../../contexts/FormLogicContext';
 import UserContext from '../../contexts/UserContext';
+import UserLogicContext from '../../contexts/UserLogicContext';
+import useFormValidator from '../../utils/customHooks/useFormValidator';
 
 import './Profile.css';
 
-const Profile = ({
-  mix,
-  form,
-  user,
-  token,
-  formValidator,
-  profileApiError,
-  setProfileApiError,
-}) => {
+const Profile = ({ mix, profileApiError, setProfileApiError }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const userState = useContext(UserContext);
+  const formLogic = useContext(FormLogicContext);
+  const userLogic = useContext(UserLogicContext);
 
   const {
     inputValues,
@@ -22,7 +19,7 @@ const Profile = ({
     handleInputChange,
     isFormValid,
     resetForm,
-  } = formValidator;
+  } = useFormValidator();
 
   const [isProfileEditMode, setIsProfileEditMode] = useState(false);
   const [isNameSame, setIsNameSame] = useState(true);
@@ -68,10 +65,9 @@ const Profile = ({
           target="_self"
           autoComplete="off"
           onSubmit={(e) =>
-            form.handleProfileFormSubmit(
+            formLogic.handleProfileFormSubmit(
               e,
               inputValues,
-              token,
               setIsProfileEditMode,
               resetForm,
               setInitialValues,
@@ -101,7 +97,11 @@ const Profile = ({
             value={inputValues.profileFormNameInput}
             required
             onKeyUp={(e) =>
-              form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
+              formLogic.handleProfileFormSameNames(
+                e,
+                initialValues,
+                setIsNameSame
+              )
             }
             onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
@@ -134,7 +134,11 @@ const Profile = ({
             value={inputValues.profileFormEmailInput}
             required
             onKeyUp={(e) =>
-              form.handleProfileFormSameNames(e, initialValues, setIsNameSame)
+              formLogic.handleProfileFormSameNames(
+                e,
+                initialValues,
+                setIsNameSame
+              )
             }
             onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
@@ -156,7 +160,7 @@ const Profile = ({
                   name="profileFormLogout"
                   aria-label="Выйти из профиля"
                   type="button"
-                  onClick={() => user.handleSignout()}
+                  onClick={() => userLogic.handleSignout()}
                   children={CONTENT_CONFIG.Profile.logoutButton}
                 />
               </>
@@ -201,7 +205,7 @@ const Profile = ({
                   aria-label="Отменить изменения"
                   type="button"
                   onClick={() =>
-                    form.handleProfileDiscard(
+                    formLogic.handleProfileDiscard(
                       resetForm,
                       userState,
                       setProfileApiError,

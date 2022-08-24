@@ -1,11 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import useWidth from '../../utils/customHooks/useWidth';
+import useFormHandler from '../../utils/customHooks/useFormHandler';
 
 import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
+import { useLocation } from 'react-router-dom';
+import FormLogicContext from '../../contexts/FormLogicContext';
 
-const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
-  const { inputValue, handleInputChange, isFormValid, resetForm } = formHandler;
+const SearchForm = ({ mix }) => {
+  const viewportWidth = useWidth();
+  const location = useLocation();
+
+  const formLogic = useContext(FormLogicContext);
+
+  const { inputValue, handleInputChange, isFormValid, resetForm } =
+    useFormHandler();
 
   const [initialValue, setInitialValue] = useState({});
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
@@ -30,8 +40,6 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
     };
   }, []);
 
-  console.log(inputValue, initialValue, isCheckboxChecked, isFormValid);
-
   return (
     <section className={`${mix} search-form`}>
       <form
@@ -43,7 +51,7 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
         target="_self"
         autoComplete="off"
         onSubmit={(e) =>
-          form.handleSearchFormSubmit(e, inputValue, isCheckboxChecked)
+          formLogic.handleSearchFormSubmit(e, inputValue, isCheckboxChecked)
         }
       >
         <div className="search-form__frame">
@@ -113,7 +121,7 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
                     form="searchForm"
                     checked={isCheckboxChecked}
                     onChange={(e) =>
-                      form.handleCheckBoxChange(e, setIsCheckboxChecked)
+                      formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)
                     }
                   />
                   <span className="search-form__slider" />
@@ -138,7 +146,7 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
                   form="searchForm"
                   checked={isCheckboxChecked}
                   onChange={(e) =>
-                    form.handleCheckBoxChange(e, setIsCheckboxChecked)
+                    formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)
                   }
                 />
                 <span className="search-form__slider" />

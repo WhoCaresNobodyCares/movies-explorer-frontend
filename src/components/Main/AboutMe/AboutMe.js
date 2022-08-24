@@ -1,9 +1,13 @@
+import useWidth from '../../../utils/customHooks/useWidth';
+
 import './AboutMe.css';
 
 import ContentTitle from '../ContentTitle/ContentTitle';
 
-const AboutMe = ({ mix, viewportWidth }) => {
+const AboutMe = ({ mix }) => {
   const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
+
+  const viewportWidth = useWidth();
 
   return (
     <section id="about-me" className={`${mix} about-me`}>

@@ -1,4 +1,4 @@
-export class User {
+export class UserLogic {
   constructor(
     mainApi,
     setPopupState,
@@ -42,8 +42,6 @@ export class User {
               throw 401;
             } else if (err === 500) {
               throw 500;
-            } else {
-              console.log(err);
             }
           })
       )
@@ -79,14 +77,13 @@ export class User {
   handleProfileUpdate(
     name,
     email,
-    token,
     setIsProfileEditMode,
     resetForm,
     setInitialValues,
     userState
   ) {
     this._mainApi
-      .updateUser(name, email, token)
+      .updateUser(name, email, localStorage.getItem('token'))
       .then((res) => this._setUserState(res))
       .then(() => this._setPopupState(this._POPUP_STATES.profile.success))
       .then(() => setIsProfileEditMode(false))
@@ -121,9 +118,9 @@ export class User {
 
   // VALIDITY
 
-  checkValidity(token) {
+  checkValidity() {
     this._mainApi
-      .checkValidity(token)
+      .checkValidity(localStorage.getItem('token'))
       .then((res) => this._setUserState(res))
       .then(() => this._setIsLoggedIn(true))
       .then(() => this._navigate('/movies'))

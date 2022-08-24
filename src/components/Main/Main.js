@@ -7,14 +7,14 @@ import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Portfolio from './Portfolio/Portfolio';
 
-const Main = ({ mix, viewportWidth }) => {
+const Main = ({ mix }) => {
   return (
     <main className={`${mix} main`}>
-      <Promo mix="main__promo" viewportWidth={viewportWidth} />
+      <Promo mix="main__promo" />
       <NavTab mix="main__nav-tab" />
       <AboutProject mix="main__about-project" />
       <Techs mix="main__techs" />
-      <AboutMe mix="main__about-me" viewportWidth={viewportWidth} />
+      <AboutMe mix="main__about-me" />
       <Portfolio mix="main__portfolio" />
     </main>
   );

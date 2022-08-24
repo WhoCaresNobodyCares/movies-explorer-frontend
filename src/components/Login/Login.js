@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import FormLogicContext from '../../contexts/FormLogicContext';
+import useFormValidator from '../../utils/customHooks/useFormValidator';
 
 import './Login.css';
 
-const Login = ({
-  mix,
-  form,
-  formValidator,
-  loginApiError,
-  setLoginApiError,
-}) => {
+const Login = ({ mix, loginApiError, setLoginApiError }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
+
+  const formLogic = useContext(FormLogicContext);
+
 
   const {
     inputValues,
@@ -18,7 +17,7 @@ const Login = ({
     handleInputChange,
     isFormValid,
     resetForm,
-  } = formValidator;
+  } = useFormValidator();
 
   useEffect(() => {
     return () => {
@@ -38,7 +37,7 @@ const Login = ({
           method="post"
           target="_self"
           autoComplete="off"
-          onSubmit={(e) => form.handleLoginFormSubmit(e, inputValues)}
+          onSubmit={(e) => formLogic.handleLoginFormSubmit(e, inputValues)}
         >
           <div className="login__block">
             <span className="login__label" children="E-mail" />
