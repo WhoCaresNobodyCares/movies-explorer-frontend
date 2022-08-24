@@ -110,16 +110,11 @@ export class Form {
 
   handleSearchFormSubmit(event, inputValue, isCheckboxChecked) {
     event.preventDefault();
-
-
-
-
-
     console.log('search-form');
     console.log(inputValue, isCheckboxChecked);
   }
 
   handleCheckBoxChange(event, setIsCheckboxChecked) {
-    setIsCheckboxChecked(event.target.checked);
+    setIsCheckboxChecked(event.target.checked)
   }
 }

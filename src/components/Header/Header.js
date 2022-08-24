@@ -17,6 +17,7 @@ const Header = ({ mix, location, viewportWidth }) => {
 
   const isLoggedIn = useContext(IsLoggedInContext);
 
+
   const burgerMenu = (
     <>
       <Burger

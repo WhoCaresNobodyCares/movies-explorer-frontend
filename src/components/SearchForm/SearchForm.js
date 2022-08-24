@@ -4,16 +4,7 @@ import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 
-const SearchForm = ({
-  mix,
-  form,
-  viewportWidth,
-  formHandler,
-  location,
-  initialValueLocal,
-  inputValueLocal,
-  isCheckboxCheckedLocal,
-}) => {
+const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
   const { inputValue, handleInputChange, isFormValid, resetForm } = formHandler;
 
   const [initialValue, setInitialValue] = useState({});
@@ -21,14 +12,16 @@ const SearchForm = ({
 
   useEffect(() => {
     if (location.pathname === '/movies') {
-      resetForm(inputValueLocal);
-      setInitialValue(initialValueLocal);
-      setIsCheckboxChecked(isCheckboxCheckedLocal);
+      resetForm({ searchFormInput: ['фильмы', 'фильмы'] }); // !!! setUserDataValues
+      setInitialValue({ searchFormInput: ['фильмы', 'фильмы'].join(' ') });
+      setIsCheckboxChecked(true);
     }
     if (location.pathname === '/saved-movies') {
-      resetForm(inputValueLocal);
-      setInitialValue(initialValueLocal);
-      setIsCheckboxChecked(isCheckboxCheckedLocal);
+      resetForm({ searchFormInput: ['сохраненные', 'фильмы'] }); // !!! setUserDataValues
+      setInitialValue({
+        searchFormInput: ['сохраненные', 'фильмы'].join(' '),
+      });
+      setIsCheckboxChecked(false);
     }
     return () => {
       resetForm([]);
@@ -36,6 +29,8 @@ const SearchForm = ({
       setIsCheckboxChecked(false);
     };
   }, []);
+
+  console.log(inputValue, initialValue, isCheckboxChecked, isFormValid);
 
   return (
     <section className={`${mix} search-form`}>
@@ -72,6 +67,7 @@ const SearchForm = ({
               minLength={0}
               maxLength={80}
               defaultValue={initialValue.searchFormInput}
+              placeholder="Фильм"
               autoComplete="off"
               pattern="^[а-яА-Яa-zA-Z\s\d]+$"
               required

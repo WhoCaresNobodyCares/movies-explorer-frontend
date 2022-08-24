@@ -34,8 +34,8 @@ export class User {
           .then(
             (res) => res.token && localStorage.setItem('token', `${res.token}`)
           )
-          .then(() => this._navigate('/movies'))
           .then(() => this._setIsLoggedIn(true))
+          .then(() => this._navigate('/movies'))
           .then(() => this._setPopupState(this._POPUP_STATES.register.success))
           .catch((err) => {
             if (err === 401) {
@@ -65,8 +65,8 @@ export class User {
     this._mainApi
       .signin(email, password)
       .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
-      .then(() => this._navigate('/movies'))
       .then(() => this._setIsLoggedIn(true))
+      .then(() => this._navigate('/movies'))
       .then(() => this._setPopupState(this._POPUP_STATES.login.success))
       .catch((err) => {
         err === 401 && this._setLoginApiError(this._API_ERRORS.login.err401);
@@ -124,55 +124,9 @@ export class User {
   checkValidity(token) {
     this._mainApi
       .checkValidity(token)
-      .then((res) => {
-        this._setUserState(res);
-        return res;
-      })
-      .then((res) => {
-        const user = res;
-        if (localStorage.getItem(`${user.email}-state`) === null) {
-          this._mainApi
-            .getMovies(token)
-            .then((res) => {
-              localStorage.setItem(
-                `${user.email}-state`,
-                JSON.stringify({
-                  allCards: [],
-                  savedCards: res,
-                  moviesState: {
-                    inputValue: {
-                      searchFormInput: ['Фильмы'],
-                    },
-                    initialValue: {
-                      searchFormInput: 'Фильмы',
-                    },
-                    isCheckboxChecked: false,
-                    lastFoundMovies: [],
-                  },
-                  savedMoviesState: {
-                    inputValue: {
-                      searchFormInput: ['Сохраненные', 'фильмы'],
-                    },
-                    initialValue: {
-                      searchFormInput: 'Сохраненные фильмы',
-                    },
-                    isCheckboxChecked: false,
-                    lastFoundMovies: res,
-                  },
-                })
-              );
-            })
-            .catch(
-              (err) =>
-                err === 500 &&
-                this._setPopupState(this._POPUP_STATES.movies.err500)
-            );
-        } else {
-          console.log('localStorage has such item');
-        }
-      })
-      .then(() => this._navigate('/movies'))
+      .then((res) => this._setUserState(res))
       .then(() => this._setIsLoggedIn(true))
+      .then(() => this._navigate('/movies'))
       .catch(
         (err) =>
           err === 401 &&

@@ -3,15 +3,7 @@ import './Movies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 
-const Movies = ({ mix, state, form, viewportWidth, formHandler, location }) => {
-  const { moviesState = {} } = state;
-  const {
-    initialValue = { searchFormInput: 'Фильмы' },
-    inputValue = { searchFormInput: ['Фильмы'] },
-    isCheckboxChecked = false,
-    lastFoundMovies = [],
-  } = moviesState;
-
+const Movies = ({ mix, form, viewportWidth, formHandler, location }) => {
   return (
     <main className={`${mix} movies`}>
       <SearchForm
@@ -20,9 +12,6 @@ const Movies = ({ mix, state, form, viewportWidth, formHandler, location }) => {
         viewportWidth={viewportWidth}
         formHandler={formHandler}
         location={location}
-        initialValueLocal={initialValue}
-        inputValueLocal={inputValue}
-        isCheckboxCheckedLocal={isCheckboxChecked}
       />
       <MoviesCardList mix="movies__movies-card-list" />
     </main>

@@ -69,7 +69,7 @@
 }
 
 .search-form__input_invalid {
-  color: var(--er-01);
+  color: var(--er-01)
 }
 
 .search-form__submit {
