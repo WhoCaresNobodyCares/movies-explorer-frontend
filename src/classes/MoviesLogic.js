@@ -259,7 +259,6 @@ export class MoviesLogic {
 
   handleLike(card, savedMoviesIds, setIsCardLiked, userState) {
     if (savedMoviesIds.some((item) => item === card.movieId)) {
-
       // !!! handle delete
     } else {
       Promise.all([
@@ -295,8 +294,9 @@ export class MoviesLogic {
           return { state, savedMoviesIds, likedMovie, user };
         })
         .then(({ state, savedMoviesIds, likedMovie, user }) => {
-          const { movies, savedMovies, moviesState, savedMoviesState  } = state
-          const{ name, email } = user
+          const { movies, savedMovies, moviesState, savedMoviesState } = state;
+          const { name, email } = user;
+          savedMovies.push(likedMovie)
           localStorage.setItem(
             `${user.email}-state`,
             JSON.stringify({
@@ -306,7 +306,7 @@ export class MoviesLogic {
               savedMovies,
               savedMoviesIds,
               moviesState,
-              savedMoviesState
+              savedMoviesState,
             })
           );
         })
@@ -314,11 +314,83 @@ export class MoviesLogic {
         .then(() => setIsCardLiked(true))
         .then(() => console.log());
 
-        // !!! handle Errors
+      // !!! handle Errors
     }
   }
 
   handleDelete(card, savedMoviesIds, userState) {
+    Promise.all([
+      this._mainApi.deleteMovie(card._id, localStorage.getItem('token')),
+      this._mainApi.checkValidity(localStorage.getItem('token')),
+    ])
+      .then((res) => {
+        const [deletedMovie, user] = [res[0], res[1]];
+        return { deletedMovie, user };
+      })
+      .then(({ deletedMovie, user }) => {
+        const state = JSON.parse(localStorage.getItem(`${user.email}-state`));
+        const savedMoviesIds = JSON.parse(
+          localStorage.getItem(`${user.email}-state`)
+        ).savedMoviesIds;
+        return { state, savedMoviesIds, deletedMovie, user };
+      })
+      .then(({ state, savedMoviesIds, deletedMovie, user }) => {
+        for (var index = savedMoviesIds.length - 1; index >= 0; index--) {
+          if (savedMoviesIds[index] === deletedMovie.movieId) {
+            savedMoviesIds.splice(index, 1);
+          }
+        }
+        return { state, savedMoviesIds, deletedMovie, user };
+      })
+      .then(({ state, savedMoviesIds, deletedMovie, user }) => {
+        console.log(savedMoviesIds);
+        return { state, savedMoviesIds, deletedMovie, user };
+      })
+      .then(({ state, savedMoviesIds, deletedMovie, user }) => {
+        const { movies, savedMovies, moviesState, savedMoviesState } = state;
+        const { name, email } = user;
+        console.log(deletedMovie)
+        console.log(savedMovies);
 
+        for (let index = 0; index < savedMovies.length; index++) {
+          const element = savedMovies[index];
+          element._id === deletedMovie._id &&
+            savedMovies.splice(index, 1);
+        }
+
+        // for (let index = savedMovies.length; index >= 0; index--) {
+        //   const element = savedMovies[index];
+        //   for (let i = 0; i < savedMoviesIds.length; i++) {
+        //     const movieId = savedMoviesIds[i];
+        //     movieId === element.movieId && savedMovies.splice(index, 1)
+        //   }
+        // }
+        console.log(savedMovies);
+        return {
+          state,
+          savedMoviesIds,
+          deletedMovie,
+          name,
+          email,
+          savedMovies,
+          moviesState,
+          savedMoviesState,
+          movies,
+        };
+      })
+      .then(
+        ({
+          state,
+          savedMoviesIds,
+          deletedMovie,
+          name,
+          email,
+          savedMovies,
+          moviesState,
+          savedMoviesState,
+          movies,
+        }) => {}
+      )
+      .catch((err) => console.log(err));
   }
 }

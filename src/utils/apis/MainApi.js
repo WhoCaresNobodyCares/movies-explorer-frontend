@@ -59,7 +59,7 @@ export class MainApi {
     nameEN,
     token,
   }) {
-    return fetch(`${this._url}/movies/`, {
+    return fetch(`${this._url}/movies`, {
       method: 'POST',
       headers: { authorization: token, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -75,6 +75,13 @@ export class MainApi {
         nameRU,
         nameEN,
       }),
+    }).then((res) => this._handleRes(res));
+  }
+
+  deleteMovie(id, token) {
+    return fetch(`${this._url}/movies/${id}`, {
+      method: 'DELETE',
+      headers: { authorization: token, 'Content-Type': 'application/json' },
     }).then((res) => this._handleRes(res));
   }
 }

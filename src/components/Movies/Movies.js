@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './Movies.css';
 
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -15,6 +15,15 @@ const Movies = ({ mix }) => {
       : []
   );
   const [savedMoviesIds, setSavedMoviesIds] = useState([]);
+
+  useEffect(() => {
+    setRenderedMovies(
+      JSON.parse(localStorage.getItem(`${email}-state`))
+        ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
+            .foundMovies
+        : []
+    );
+  }, []);
 
   return (
     <main className={`${mix} movies`}>
