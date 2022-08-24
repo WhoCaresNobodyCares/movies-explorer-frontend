@@ -13,8 +13,8 @@ const SavedMovies = ({
 }) => {
   const { savedMoviesState = {} } = state;
   const {
-    initialValue = {},
-    inputValue = {},
+    initialValue = { searchFormInput: 'Сохраненные фильмы' },
+    inputValue = { searchFormInput: ['Сохраненные', 'фильмы'] },
     isCheckboxChecked = false,
     lastFoundMovies = [],
   } = savedMoviesState;

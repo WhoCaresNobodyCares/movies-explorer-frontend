@@ -19,8 +19,6 @@ const SearchForm = ({
   const [initialValue, setInitialValue] = useState({});
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
-  console.log(isCheckboxCheckedLocal);
-
   useEffect(() => {
     if (location.pathname === '/movies') {
       resetForm(inputValueLocal);
@@ -38,8 +36,6 @@ const SearchForm = ({
       setIsCheckboxChecked(false);
     };
   }, []);
-
-  console.log(initialValue, inputValue);
 
   return (
     <section className={`${mix} search-form`}>

@@ -129,40 +129,50 @@ export class User {
         return res;
       })
       .then((res) => {
-        if (localStorage.getItem(`${res.email}-state`) === null) {
-          localStorage.setItem(
-            `${res.email}-state`,
-            JSON.stringify({
-              allCards: [],
-              savedCards: [],
-              moviesState: {
-                inputValue: {
-                  searchFormInput: ['Фильмы'],
-                },
-                initialValue: {
-                  searchFormInput: 'Фильмы',
-                },
-                isCheckboxChecked: false,
-                lastFoundMovies: [],
-              },
-              savedMoviesState: {
-                inputValue: {
-                  searchFormInput: ['Фильмы'],
-                },
-                initialValue: {
-                  searchFormInput: 'Фильмы',
-                },
-                isCheckboxChecked: false,
-                lastFoundMovies: [],
-              },
+        const user = res;
+        if (localStorage.getItem(`${user.email}-state`) === null) {
+          this._mainApi
+            .getMovies(token)
+            .then((res) => {
+              localStorage.setItem(
+                `${user.email}-state`,
+                JSON.stringify({
+                  allCards: [],
+                  savedCards: res,
+                  moviesState: {
+                    inputValue: {
+                      searchFormInput: ['Фильмы'],
+                    },
+                    initialValue: {
+                      searchFormInput: 'Фильмы',
+                    },
+                    isCheckboxChecked: false,
+                    lastFoundMovies: [],
+                  },
+                  savedMoviesState: {
+                    inputValue: {
+                      searchFormInput: ['Сохраненные', 'фильмы'],
+                    },
+                    initialValue: {
+                      searchFormInput: 'Сохраненные фильмы',
+                    },
+                    isCheckboxChecked: false,
+                    lastFoundMovies: res,
+                  },
+                })
+              );
             })
-          );
+            .catch(
+              (err) =>
+                err === 500 &&
+                this._setPopupState(this._POPUP_STATES.movies.err500)
+            );
         } else {
           console.log('localStorage has such item');
         }
       })
-      .then(() => this._setIsLoggedIn(true))
       .then(() => this._navigate('/movies'))
+      .then(() => this._setIsLoggedIn(true))
       .catch(
         (err) =>
           err === 401 &&

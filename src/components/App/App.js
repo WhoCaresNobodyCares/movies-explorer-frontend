@@ -61,8 +61,7 @@ const App = () => {
 
   // * LOCALSTORAGEITEMS
   const token = localStorage.getItem('token');
-  const state =
-    JSON.parse(localStorage.getItem(`${userState.email}-state`)) || {};
+  const state = JSON.parse(localStorage.getItem(`${userState.email}-state`)) || {};
 
   // * LOGIC
   const mainApi = new MainApi(MAIN_API_URL);
@@ -88,7 +87,7 @@ const App = () => {
     user.checkValidity(token);
   }, [token, isLoggedIn]);
 
-  console.log(state);
+  console.log(state)
 
   return (
     <IsLoggedInContext.Provider value={isLoggedIn}>
