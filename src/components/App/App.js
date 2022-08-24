@@ -40,9 +40,6 @@ const App = () => {
   const { POPUP_STATES } = require('../../configs/popupConfig.json');
   const { API_ERRORS } = require('../../configs/apiErrors.json');
 
-  // * LOCALSTORAGEITEMS
-  const token = localStorage.getItem('token');
-
   // * HOOKS
   const location = useLocation();
   const navigate = useNavigate();
@@ -61,6 +58,11 @@ const App = () => {
   const [registerApiError, setRegisterApiError] = useState('');
   const [loginApiError, setLoginApiError] = useState('');
   const [profileApiError, setProfileApiError] = useState('');
+
+  // * LOCALSTORAGEITEMS
+  const token = localStorage.getItem('token');
+  const state =
+    JSON.parse(localStorage.getItem(`${userState.email}-state`)) || {};
 
   // * LOGIC
   const mainApi = new MainApi(MAIN_API_URL);
@@ -85,6 +87,8 @@ const App = () => {
   useEffect(() => {
     user.checkValidity(token);
   }, [token, isLoggedIn]);
+
+  console.log(state);
 
   return (
     <IsLoggedInContext.Provider value={isLoggedIn}>
@@ -134,6 +138,7 @@ const App = () => {
                   element={
                     <Movies
                       mix="app__movies"
+                      state={state}
                       form={form}
                       viewportWidth={viewportWidth}
                       formHandler={formHandler}
@@ -151,6 +156,7 @@ const App = () => {
                   element={
                     <SavedMovies
                       mix="app__saved-movies"
+                      state={state}
                       form={form}
                       viewportWidth={viewportWidth}
                       formHandler={formHandler}

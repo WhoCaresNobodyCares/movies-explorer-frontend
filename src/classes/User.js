@@ -34,8 +34,8 @@ export class User {
           .then(
             (res) => res.token && localStorage.setItem('token', `${res.token}`)
           )
-          .then(() => this._setIsLoggedIn(true))
           .then(() => this._navigate('/movies'))
+          .then(() => this._setIsLoggedIn(true))
           .then(() => this._setPopupState(this._POPUP_STATES.register.success))
           .catch((err) => {
             if (err === 401) {
@@ -65,8 +65,8 @@ export class User {
     this._mainApi
       .signin(email, password)
       .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
-      .then(() => this._setIsLoggedIn(true))
       .then(() => this._navigate('/movies'))
+      .then(() => this._setIsLoggedIn(true))
       .then(() => this._setPopupState(this._POPUP_STATES.login.success))
       .catch((err) => {
         err === 401 && this._setLoginApiError(this._API_ERRORS.login.err401);
@@ -124,7 +124,43 @@ export class User {
   checkValidity(token) {
     this._mainApi
       .checkValidity(token)
-      .then((res) => this._setUserState(res))
+      .then((res) => {
+        this._setUserState(res);
+        return res;
+      })
+      .then((res) => {
+        if (localStorage.getItem(`${res.email}-state`) === null) {
+          localStorage.setItem(
+            `${res.email}-state`,
+            JSON.stringify({
+              allCards: [],
+              savedCards: [],
+              moviesState: {
+                inputValue: {
+                  searchFormInput: ['Фильмы'],
+                },
+                initialValue: {
+                  searchFormInput: 'Фильмы',
+                },
+                isCheckboxChecked: false,
+                lastFoundMovies: [],
+              },
+              savedMoviesState: {
+                inputValue: {
+                  searchFormInput: ['Фильмы'],
+                },
+                initialValue: {
+                  searchFormInput: 'Фильмы',
+                },
+                isCheckboxChecked: false,
+                lastFoundMovies: [],
+              },
+            })
+          );
+        } else {
+          console.log('localStorage has such item');
+        }
+      })
       .then(() => this._setIsLoggedIn(true))
       .then(() => this._navigate('/movies'))
       .catch(

@@ -115,6 +115,6 @@ export class Form {
   }
 
   handleCheckBoxChange(event, setIsCheckboxChecked) {
-    setIsCheckboxChecked(event.target.checked)
+    setIsCheckboxChecked(event.target.checked);
   }
 }

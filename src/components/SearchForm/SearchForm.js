@@ -4,24 +4,33 @@ import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 
-const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
+const SearchForm = ({
+  mix,
+  form,
+  viewportWidth,
+  formHandler,
+  location,
+  initialValueLocal,
+  inputValueLocal,
+  isCheckboxCheckedLocal,
+}) => {
   const { inputValue, handleInputChange, isFormValid, resetForm } = formHandler;
 
   const [initialValue, setInitialValue] = useState({});
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
+  console.log(isCheckboxCheckedLocal);
+
   useEffect(() => {
     if (location.pathname === '/movies') {
-      resetForm({ searchFormInput: ['фильмы', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValue({ searchFormInput: ['фильмы', 'фильмы'].join(' ') });
-      setIsCheckboxChecked(true);
+      resetForm(inputValueLocal);
+      setInitialValue(initialValueLocal);
+      setIsCheckboxChecked(isCheckboxCheckedLocal);
     }
     if (location.pathname === '/saved-movies') {
-      resetForm({ searchFormInput: ['сохраненные', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValue({
-        searchFormInput: ['сохраненные', 'фильмы'].join(' '),
-      });
-      setIsCheckboxChecked(false);
+      resetForm(inputValueLocal);
+      setInitialValue(initialValueLocal);
+      setIsCheckboxChecked(isCheckboxCheckedLocal);
     }
     return () => {
       resetForm([]);
@@ -30,7 +39,7 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
     };
   }, []);
 
-  console.log(inputValue, initialValue, isCheckboxChecked, isFormValid);
+  console.log(initialValue, inputValue);
 
   return (
     <section className={`${mix} search-form`}>
@@ -67,7 +76,6 @@ const SearchForm = ({ mix, form, viewportWidth, formHandler, location }) => {
               minLength={0}
               maxLength={80}
               defaultValue={initialValue.searchFormInput}
-              placeholder="Фильм"
               autoComplete="off"
               pattern="^[а-яА-Яa-zA-Z\s\d]+$"
               required
