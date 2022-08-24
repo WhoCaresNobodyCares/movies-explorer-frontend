@@ -1,15 +1,16 @@
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ApiErrorsContext from '../../contexts/ApiErrorsContext';
 import FormLogicContext from '../../contexts/FormLogicContext';
 import useFormValidator from '../../utils/customHooks/useFormValidator';
 
 import './Login.css';
 
-const Login = ({ mix, loginApiError, setLoginApiError }) => {
+const Login = ({ mix }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const formLogic = useContext(FormLogicContext);
-
+  const { loginApiError, setLoginApiError } = useContext(ApiErrorsContext);
 
   const {
     inputValues,

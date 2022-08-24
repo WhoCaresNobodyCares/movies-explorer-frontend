@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import ApiErrorsContext from '../../contexts/ApiErrorsContext';
 import FormLogicContext from '../../contexts/FormLogicContext';
 import UserContext from '../../contexts/UserContext';
 import UserLogicContext from '../../contexts/UserLogicContext';
@@ -6,12 +7,13 @@ import useFormValidator from '../../utils/customHooks/useFormValidator';
 
 import './Profile.css';
 
-const Profile = ({ mix, profileApiError, setProfileApiError }) => {
+const Profile = ({ mix }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const userState = useContext(UserContext);
   const formLogic = useContext(FormLogicContext);
   const userLogic = useContext(UserLogicContext);
+  const { profileApiError, setProfileApiError } = useContext(ApiErrorsContext);
 
   const {
     inputValues,

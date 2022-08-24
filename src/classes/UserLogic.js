@@ -34,8 +34,8 @@ export class UserLogic {
           .then(
             (res) => res.token && localStorage.setItem('token', `${res.token}`)
           )
-          .then(() => this._setIsLoggedIn(true))
           .then(() => this._navigate('/movies'))
+          .then(() => this._setIsLoggedIn(true))
           .then(() => this._setPopupState(this._POPUP_STATES.register.success))
           .catch((err) => {
             if (err === 401) {
@@ -63,8 +63,8 @@ export class UserLogic {
     this._mainApi
       .signin(email, password)
       .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
-      .then(() => this._setIsLoggedIn(true))
       .then(() => this._navigate('/movies'))
+      .then(() => this._setIsLoggedIn(true))
       .then(() => this._setPopupState(this._POPUP_STATES.login.success))
       .catch((err) => {
         err === 401 && this._setLoginApiError(this._API_ERRORS.login.err401);
@@ -111,6 +111,7 @@ export class UserLogic {
 
   handleSignout() {
     localStorage.removeItem('token');
+    localStorage.clear(); // !!!! remove
     this._setUserState({});
     this._setIsLoggedIn(false);
     this._navigate('/');
@@ -121,9 +122,54 @@ export class UserLogic {
   checkValidity() {
     this._mainApi
       .checkValidity(localStorage.getItem('token'))
-      .then((res) => this._setUserState(res))
-      .then(() => this._setIsLoggedIn(true))
+      .then((res) => {
+        this._setUserState(res);
+        return res;
+      })
+      .then(({ name, email }) => {
+        if (!localStorage.getItem(`${email}-state`)) {
+          localStorage
+            .setItem(
+              `${email}-state`,
+              JSON.stringify({
+                name,
+                email,
+                movies: [],
+                savedMovies: [],
+                savedMoviesIds: [],
+                moviesState: {
+                  inputValue: {
+                    searchFormInput: ['Фильмы'],
+                  },
+                  initialValue: {
+                    searchFormInput: 'Фильмы',
+                  },
+                  isCheckboxChecked: false,
+                  foundMovies: [],
+                },
+                savedMoviesState: {
+                  inputValue: {
+                    searchFormInput: ['Сохраненные', 'фильмы'],
+                  },
+                  initialValue: {
+                    searchFormInput: 'Сохраненные фильмы',
+                  },
+                  isCheckboxChecked: false,
+                  foundMovies: [],
+                },
+              })
+            )
+            .catch(
+              (err) =>
+                err === 500 &&
+                this._setPopupState(this._POPUP_STATES.movies.err500)
+            );
+        } else {
+          console.log('localStorage has such item'); // !!! do some
+        }
+      })
       .then(() => this._navigate('/movies'))
+      .then(() => this._setIsLoggedIn(true))
       .catch(
         (err) =>
           err === 401 &&

@@ -7,12 +7,14 @@ import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 import { useLocation } from 'react-router-dom';
 import FormLogicContext from '../../contexts/FormLogicContext';
+import UserContext from '../../contexts/UserContext';
 
-const SearchForm = ({ mix }) => {
+const SearchForm = ({ mix, searchPath, setRenderedMovies }) => {
   const viewportWidth = useWidth();
   const location = useLocation();
 
   const formLogic = useContext(FormLogicContext);
+  const { email } = useContext(UserContext);
 
   const { inputValue, handleInputChange, isFormValid, resetForm } =
     useFormHandler();
@@ -22,15 +24,41 @@ const SearchForm = ({ mix }) => {
 
   useEffect(() => {
     if (location.pathname === '/movies') {
-      resetForm({ searchFormInput: ['фильмы', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValue({ searchFormInput: ['фильмы', 'фильмы'].join(' ') });
+      resetForm(
+        JSON.parse(localStorage.getItem(`${email}-state`))
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
+              .inputValue
+          : {
+              searchFormInput: ['Фильмы'],
+            }
+      );
+      setInitialValue(
+        JSON.parse(localStorage.getItem(`${email}-state`))
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
+              .initialValue
+          : {
+              searchFormInput: 'Фильмы',
+            }
+      );
       setIsCheckboxChecked(true);
     }
     if (location.pathname === '/saved-movies') {
-      resetForm({ searchFormInput: ['сохраненные', 'фильмы'] }); // !!! setUserDataValues
-      setInitialValue({
-        searchFormInput: ['сохраненные', 'фильмы'].join(' '),
-      });
+      resetForm(
+        JSON.parse(localStorage.getItem(`${email}-state`))
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState
+              .inputValue
+          : {
+              searchFormInput: ['Сохраненные', 'фильмы'],
+            }
+      );
+      setInitialValue(
+        JSON.parse(localStorage.getItem(`${email}-state`))
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState
+              .initialValue
+          : {
+              searchFormInput: 'Сохраненные фильмы',
+            }
+      );
       setIsCheckboxChecked(false);
     }
     return () => {
@@ -38,7 +66,7 @@ const SearchForm = ({ mix }) => {
       setInitialValue({});
       setIsCheckboxChecked(false);
     };
-  }, []);
+  }, [location.pathname]);
 
   return (
     <section className={`${mix} search-form`}>
@@ -51,7 +79,14 @@ const SearchForm = ({ mix }) => {
         target="_self"
         autoComplete="off"
         onSubmit={(e) =>
-          formLogic.handleSearchFormSubmit(e, inputValue, isCheckboxChecked)
+          formLogic.handleSearchFormSubmit(
+            e,
+            inputValue,
+            initialValue,
+            isCheckboxChecked,
+            searchPath,
+            setRenderedMovies
+          )
         }
       >
         <div className="search-form__frame">

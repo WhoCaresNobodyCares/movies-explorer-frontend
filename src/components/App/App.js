@@ -21,6 +21,7 @@ import InfoPopup from '../InfoPopup/InfoPopup';
 // !!! LOGIC
 import { UserLogic } from '../../classes/UserLogic';
 import { FormLogic } from '../../classes/FormLogic';
+import { MoviesLogic } from '../../classes/MoviesLogic';
 import { MainApi } from '../../utils/apis/MainApi';
 import { MoviesApi } from '../../utils/apis/MoviesApi';
 
@@ -29,6 +30,7 @@ import UserContext from '../../contexts/UserContext';
 import IsLoggedInContext from '../../contexts/IsLoggedInContext';
 import FormLogicContext from '../../contexts/FormLogicContext';
 import UserLogicContext from '../../contexts/UserLogicContext';
+import ApiErrorsContext from '../../contexts/ApiErrorsContext';
 
 // !!! CONFIGS
 const {
@@ -71,7 +73,14 @@ const App = () => {
     navigate
   );
 
-  const formLogic = new FormLogic(userLogic, setPopupState, POPUP_STATES);
+  const moviesLogic = new MoviesLogic(mainApi, moviesApi);
+
+  const formLogic = new FormLogic(
+    userLogic,
+    moviesLogic,
+    setPopupState,
+    POPUP_STATES
+  );
 
   // * EFFECTS
   useEffect(() => {
@@ -83,72 +92,62 @@ const App = () => {
       <UserContext.Provider value={userState}>
         <FormLogicContext.Provider value={formLogic}>
           <UserLogicContext.Provider value={userLogic}>
-            <div className="app">
-              <Header mix="app__header" />
-              <Routes>
-                <Route path="/" element={<Main mix="app__main" />} />
-                <Route
-                  path="/signup"
-                  element={
-                    <Register
-                      mix="app__register"
-                      registerApiError={registerApiError}
-                      setRegisterApiError={setRegisterApiError}
-                    />
-                  }
+            <ApiErrorsContext.Provider
+              value={{
+                registerApiError,
+                setRegisterApiError,
+                loginApiError,
+                setLoginApiError,
+                profileApiError,
+                setProfileApiError,
+              }}
+            >
+              <div className="app">
+                <Header mix="app__header" />
+                <Routes>
+                  <Route path="/" element={<Main mix="app__main" />} />
+                  <Route
+                    path="/signup"
+                    element={<Register mix="app__register" />}
+                  />
+                  <Route path="/signin" element={<Login mix="app__login" />} />
+                  <Route
+                    path="/movies"
+                    element={
+                      <ProtectedRoute
+                        isLoggedIn={isLoggedIn}
+                        element={<Movies mix="app__movies" />}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/saved-movies"
+                    element={
+                      <ProtectedRoute
+                        isLoggedIn={isLoggedIn}
+                        element={<SavedMovies mix="app__saved-movies" />}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute
+                        isLoggedIn={isLoggedIn}
+                        element={<Profile mix="app__profile" />}
+                      />
+                    }
+                  />
+                  <Route path="*" element={<NotFound mix="app__not-found" />} />
+                </Routes>
+                <Footer mix="app__footer" />
+                <InfoPopup
+                  mix="app__info-popup"
+                  popupState={popupState}
+                  setPopupState={setPopupState}
                 />
-                <Route
-                  path="/signin"
-                  element={
-                    <Login
-                      mix="app__login"
-                      loginApiError={loginApiError}
-                      setLoginApiError={setLoginApiError}
-                    />
-                  }
-                />
-                <Route
-                  path="/movies"
-                  element={
-                    <ProtectedRoute
-                      isLoggedIn={isLoggedIn}
-                      element={<Movies mix="app__movies" />}
-                    />
-                  }
-                />
-                <Route
-                  path="/saved-movies"
-                  element={
-                    <ProtectedRoute
-                      isLoggedIn={isLoggedIn}
-                      element={<SavedMovies mix="app__saved-movies" />}
-                    />
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute
-                      isLoggedIn={isLoggedIn}
-                      element={
-                        <Profile
-                          mix="app__profile"
-                          profileApiError={profileApiError}
-                          setProfileApiError={setProfileApiError}
-                        />
-                      }
-                    />
-                  }
-                />
-                <Route path="*" element={<NotFound mix="app__not-found" />} />
-              </Routes>
-              <Footer mix="app__footer" />
-              <InfoPopup
-                mix="app__info-popup"
-                popupState={popupState}
-                setPopupState={setPopupState}
-              />
-            </div>
+              </div>
+            </ApiErrorsContext.Provider>
           </UserLogicContext.Provider>
         </FormLogicContext.Provider>
       </UserContext.Provider>

@@ -1,6 +1,7 @@
 export class FormLogic {
-  constructor(userLogic, setPopupState, POPUP_STATES) {
+  constructor(userLogic, moviesLogic, setPopupState, POPUP_STATES) {
     this._user = userLogic;
+    this._moviesLogic = moviesLogic;
     this._setPopupState = setPopupState;
     this._POPUP_STATES = POPUP_STATES;
   }
@@ -102,8 +103,29 @@ export class FormLogic {
 
   // SEARCHFORM
 
-  handleSearchFormSubmit(event, inputValue, isCheckboxChecked) {
+  handleSearchFormSubmit(
+    event,
+    inputValue,
+    initialValue,
+    isCheckboxChecked,
+    searchPath,
+    setRenderedMovies
+  ) {
     event.preventDefault();
+
+    if (inputValue.searchFormInput.length !== 0) {
+      const [words] = [inputValue.searchFormInput];
+      this._moviesLogic.handleSearch(
+        words,
+        isCheckboxChecked,
+        searchPath,
+        inputValue,
+        initialValue,
+        setRenderedMovies
+      );
+    } else {
+      this._setPopupState(this._POPUP_STATES.movies.noInput);
+    }
   }
 
   handleCheckBoxChange(event, setIsCheckboxChecked) {

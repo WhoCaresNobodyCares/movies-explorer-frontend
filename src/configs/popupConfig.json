@@ -44,17 +44,11 @@
       }
     },
     "movies": {
-      "emptyReq": {
+      "noInput": {
         "isOpened": true,
-        "title": "Введите ключевые слова",
+        "title": "Вы не ввели поисковой запрос",
         "button": "Ок"
-      },
-      "err400": {
-        "isOpened": true,
-        "title": "Вы не можете сохранить этот фильм",
-        "button": "Ок"
-      },
-      "err500": { "isOpened": true, "title": "Ошибка сервера", "button": "Ок" }
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
-const MoviesCardList = ({ mix }) => {
+const MoviesCardList = ({ mix, renderedMovies }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
@@ -22,8 +22,12 @@ const MoviesCardList = ({ mix }) => {
             ? 'movies-card-list__cards'
             : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
-        children={cards.map((item) => (
-          <MoviesCard mix={item.mix} key={item.key} />
+        children={renderedMovies.map((item) => (
+          <MoviesCard
+            mix="movies-card-list__movies-card"
+            card={item}
+            key={item.movieId}
+          />
         ))}
       />
       {isButtonVisible && ( // !!!

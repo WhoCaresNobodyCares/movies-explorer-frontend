@@ -1,14 +1,17 @@
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ApiErrorsContext from '../../contexts/ApiErrorsContext';
 import FormLogicContext from '../../contexts/FormLogicContext';
 import useFormValidator from '../../utils/customHooks/useFormValidator';
 
 import './Register.css';
 
-const Register = ({ mix,  registerApiError, setRegisterApiError }) => {
+const Register = ({ mix }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const formLogic = useContext(FormLogicContext);
+  const { registerApiError, setRegisterApiError } =
+    useContext(ApiErrorsContext);
 
   const {
     inputValues,
