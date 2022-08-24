@@ -6,16 +6,13 @@ import searchButtonIcon from '../../images/search-button-icon.svg';
 
 const SearchForm = ({
   mix,
-  formLogic,
+  form,
   viewportWidth,
   formHandler,
   location,
   initialValueLocal,
   inputValueLocal,
   isCheckboxCheckedLocal,
-  state,
-  token,
-  path,
 }) => {
   const { inputValue, handleInputChange, isFormValid, resetForm } = formHandler;
 
@@ -51,14 +48,7 @@ const SearchForm = ({
         target="_self"
         autoComplete="off"
         onSubmit={(e) =>
-          formLogic.handleSearchFormSubmit(
-            e,
-            inputValue,
-            isCheckboxChecked,
-            state,
-            token,
-            path
-          )
+          form.handleSearchFormSubmit(e, inputValue, isCheckboxChecked)
         }
       >
         <div className="search-form__frame">
@@ -127,7 +117,7 @@ const SearchForm = ({
                     form="searchForm"
                     checked={isCheckboxChecked}
                     onChange={(e) =>
-                      formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)
+                      form.handleCheckBoxChange(e, setIsCheckboxChecked)
                     }
                   />
                   <span className="search-form__slider" />
@@ -152,7 +142,7 @@ const SearchForm = ({
                   form="searchForm"
                   checked={isCheckboxChecked}
                   onChange={(e) =>
-                    formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)
+                    form.handleCheckBoxChange(e, setIsCheckboxChecked)
                   }
                 />
                 <span className="search-form__slider" />

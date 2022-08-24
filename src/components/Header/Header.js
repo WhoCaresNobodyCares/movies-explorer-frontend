@@ -28,7 +28,6 @@ const Header = ({ mix, location, viewportWidth }) => {
         mix="header__menu"
         isMenuOpened={isMenuOpened}
         setIsMenuOpened={setIsMenuOpened}
-        location={location}
       />
     </>
   );

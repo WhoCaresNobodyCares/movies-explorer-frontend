@@ -5,7 +5,7 @@ import './Login.css';
 
 const Login = ({
   mix,
-  formLogic,
+  form,
   formValidator,
   loginApiError,
   setLoginApiError,
@@ -38,7 +38,7 @@ const Login = ({
           method="post"
           target="_self"
           autoComplete="off"
-          onSubmit={(e) => formLogic.handleLoginFormSubmit(e, inputValues)}
+          onSubmit={(e) => form.handleLoginFormSubmit(e, inputValues)}
         >
           <div className="login__block">
             <span className="login__label" children="E-mail" />

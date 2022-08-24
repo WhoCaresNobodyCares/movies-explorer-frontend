@@ -1,7 +1,6 @@
-export class FormLogic {
-  constructor(userLogic, moviesLogic, setPopupState, POPUP_STATES) {
-    this._userLogic = userLogic;
-    this._moviesLogic = moviesLogic;
+export class Form {
+  constructor(user, setPopupState, POPUP_STATES) {
+    this._user = user;
     this._setPopupState = setPopupState;
     this._POPUP_STATES = POPUP_STATES;
   }
@@ -22,7 +21,7 @@ export class FormLogic {
         inputValues.registerFormEmailInput,
         inputValues.registerFormPasswordInput,
       ];
-      this._userLogic.handleSignup(name, email, password);
+      this._user.handleSignup(name, email, password);
     } else {
       this._setPopupState(this._POPUP_STATES.register.noInput);
     }
@@ -37,7 +36,7 @@ export class FormLogic {
         inputValues.loginFormEmailInput,
         inputValues.loginFormPasswordInput,
       ];
-      this._userLogic.handleSignin(email, password);
+      this._user.handleSignin(email, password);
     } else {
       this._setPopupState(this._POPUP_STATES.login.noInput);
     }
@@ -64,7 +63,7 @@ export class FormLogic {
         inputValues.profileFormNameInput,
         inputValues.profileFormEmailInput,
       ];
-      this._userLogic.handleProfileUpdate(
+      this._user.handleProfileUpdate(
         name,
         email,
         token,
@@ -109,28 +108,15 @@ export class FormLogic {
 
   // SEARCHFORM
 
-  handleSearchFormSubmit(
-    event,
-    inputValue,
-    isCheckboxChecked,
-    state,
-    token,
-    path
-  ) {
+  handleSearchFormSubmit(event, inputValue, isCheckboxChecked) {
     event.preventDefault();
 
-    if (inputValue.searchFormInput.length !== 0) {
-      const [words] = [inputValue.searchFormInput];
-      this._moviesLogic.handleSearch(
-        words,
-        isCheckboxChecked,
-        state,
-        token,
-        path
-      );
-    } else {
-      this._setPopupState(this._POPUP_STATES.movies.noInput);
-    }
+
+
+
+
+    console.log('search-form');
+    console.log(inputValue, isCheckboxChecked);
   }
 
   handleCheckBoxChange(event, setIsCheckboxChecked) {

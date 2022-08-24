@@ -5,7 +5,7 @@ import './Register.css';
 
 const Register = ({
   mix,
-  formLogic,
+  form,
   formValidator,
   registerApiError,
   setRegisterApiError,
@@ -40,7 +40,7 @@ const Register = ({
           method="post"
           target="_self"
           autoComplete="off"
-          onSubmit={(e) => formLogic.handleRegisterFormSubmit(e, inputValues)}
+          onSubmit={(e) => form.handleRegisterFormSubmit(e, inputValues)}
         >
           <div className="register__block">
             <span className="register__label" children="Имя" />

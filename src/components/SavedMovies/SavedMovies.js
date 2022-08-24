@@ -6,16 +6,12 @@ import SearchForm from '../SearchForm/SearchForm';
 const SavedMovies = ({
   mix,
   state,
-  formLogic,
+  form,
   viewportWidth,
   formHandler,
   location,
-  token,
-  isPreloaderVisible,
-  moviesLogic,
-  setIsPreloaderVisible
 }) => {
-  const { savedMoviesState = {}, savedCardsIds = [] } = state;
+  const { savedMoviesState = {} } = state;
   const {
     initialValue = { searchFormInput: 'Сохраненные фильмы' },
     inputValue = { searchFormInput: ['Сохраненные', 'фильмы'] },
@@ -27,28 +23,15 @@ const SavedMovies = ({
     <main className={`${mix} saved-movies`}>
       <SearchForm
         mix="saved-movies__search-form"
-        token={token}
-        formLogic={formLogic}
+        form={form}
         viewportWidth={viewportWidth}
         formHandler={formHandler}
         location={location}
         initialValueLocal={initialValue}
         inputValueLocal={inputValue}
         isCheckboxCheckedLocal={isCheckboxChecked}
-        state={state}
-        path="/saved-movies"
       />
-      <MoviesCardList
-        mix="saved-movies__movies-card-list"
-        isPreloaderVisible={isPreloaderVisible}
-        lastFoundMovies={lastFoundMovies}
-        savedCardsIds={savedCardsIds}
-        moviesLogic={moviesLogic}
-        path="/saved-movies"
-        state={state}
-        token={token}
-        setIsPreloaderVisible={setIsPreloaderVisible}
-      />
+      <MoviesCardList mix="saved-movies__movies-card-list" />
     </main>
   );
 };
