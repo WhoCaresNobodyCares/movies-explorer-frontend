@@ -5,7 +5,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
-const MoviesCardList = ({ mix, renderedMovies }) => {
+const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => {
   const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
@@ -27,6 +27,8 @@ const MoviesCardList = ({ mix, renderedMovies }) => {
             mix="movies-card-list__movies-card"
             card={item}
             key={item.movieId}
+            savedMoviesIds={savedMoviesIds}
+            renderPath={renderPath}
           />
         ))}
       />

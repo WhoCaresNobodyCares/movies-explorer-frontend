@@ -9,7 +9,12 @@ import { useLocation } from 'react-router-dom';
 import FormLogicContext from '../../contexts/FormLogicContext';
 import UserContext from '../../contexts/UserContext';
 
-const SearchForm = ({ mix, searchPath, setRenderedMovies }) => {
+const SearchForm = ({
+  mix,
+  searchPath,
+  setRenderedMovies,
+  setSavedMoviesIds,
+}) => {
   const viewportWidth = useWidth();
   const location = useLocation();
 
@@ -40,7 +45,12 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies }) => {
               searchFormInput: 'Фильмы',
             }
       );
-      setIsCheckboxChecked(true);
+      setIsCheckboxChecked(
+        JSON.parse(localStorage.getItem(`${email}-state`))
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
+              .isCheckboxChecked
+          : false
+      );
     }
     if (location.pathname === '/saved-movies') {
       resetForm(
@@ -59,7 +69,12 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies }) => {
               searchFormInput: 'Сохраненные фильмы',
             }
       );
-      setIsCheckboxChecked(false);
+      setIsCheckboxChecked(
+        JSON.parse(localStorage.getItem(`${email}-state`))
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState
+              .isCheckboxChecked
+          : false
+      );
     }
     return () => {
       resetForm([]);
@@ -85,7 +100,8 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies }) => {
             initialValue,
             isCheckboxChecked,
             searchPath,
-            setRenderedMovies
+            setRenderedMovies,
+            setSavedMoviesIds
           )
         }
       >

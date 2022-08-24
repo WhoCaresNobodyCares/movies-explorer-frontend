@@ -127,7 +127,15 @@ export class MoviesLogic {
       .filter(Boolean);
   }
 
-  handleSearch(words, isCheckboxChecked, searchPath, inputValue, initialValue, setRenderedMovies) {
+  handleSearch(
+    words,
+    isCheckboxChecked,
+    searchPath,
+    inputValue,
+    initialValue,
+    setRenderedMovies,
+    setSavedMoviesIds
+  ) {
     Promise.all([
       this._moviesApi.getMovies(),
       this._mainApi.getMovies(localStorage.getItem('token')),
@@ -229,26 +237,88 @@ export class MoviesLogic {
             );
           }
 
-          return { movies, savedMovies, savedMoviesIds, foundMovies, name, email }
+          return {
+            movies,
+            savedMovies,
+            savedMoviesIds,
+            foundMovies,
+            name,
+            email,
+          };
         }
       )
-      .then(({ movies, savedMovies, savedMoviesIds, foundMovies, name, email }) => {
-        console.log(foundMovies)
-        setRenderedMovies(foundMovies)
-      });
+      .then(
+        ({ movies, savedMovies, savedMoviesIds, foundMovies, name, email }) => {
+          setSavedMoviesIds(savedMoviesIds);
+          setRenderedMovies(foundMovies);
+        }
+      );
 
-    // this._mainApi
-    //   .checkValidity(localStorage.getItem('token'))
-    //   .then(({ name, email }) => {
-    //     const state = JSON.parse(localStorage.getItem(`${email}-state`));
-    //   })
-    //   .catch(
-    //     (err) =>
-    //       err === 401 &&
-    //       this._setPopupState(this._POPUP_STATES.tokenValidity.err401)
-    //   );
+    // !!! hangle errors
+  }
 
-    // if (!allCards.length || !savedCards.length || !savedCardsIds.length) {
-    // }
+  handleLike(card, savedMoviesIds, setIsCardLiked, userState) {
+    if (savedMoviesIds.some((item) => item === card.movieId)) {
+
+      // !!! handle delete
+    } else {
+      Promise.all([
+        this._mainApi.addMovie({
+          country: card.country,
+          director: card.director,
+          duration: card.duration,
+          year: card.year,
+          description: card.description,
+          image: card.image,
+          trailerLink: card.trailerLink,
+          thumbnail: card.thumbnail,
+          movieId: card.movieId,
+          nameRU: card.nameRU,
+          nameEN: card.nameEN,
+          token: localStorage.getItem('token'),
+        }),
+        this._mainApi.checkValidity(localStorage.getItem('token')),
+      ])
+        .then((res) => {
+          const [likedMovie, user] = [res[0], res[1]];
+          return { likedMovie, user };
+        })
+        .then(({ likedMovie, user }) => {
+          const state = JSON.parse(localStorage.getItem(`${user.email}-state`));
+          const savedMoviesIds = JSON.parse(
+            localStorage.getItem(`${user.email}-state`)
+          ).savedMoviesIds;
+          return { state, savedMoviesIds, likedMovie, user };
+        })
+        .then(({ state, savedMoviesIds, likedMovie, user }) => {
+          savedMoviesIds.push(likedMovie.movieId);
+          return { state, savedMoviesIds, likedMovie, user };
+        })
+        .then(({ state, savedMoviesIds, likedMovie, user }) => {
+          const { movies, savedMovies, moviesState, savedMoviesState  } = state
+          const{ name, email } = user
+          localStorage.setItem(
+            `${user.email}-state`,
+            JSON.stringify({
+              name,
+              email,
+              movies,
+              savedMovies,
+              savedMoviesIds,
+              moviesState,
+              savedMoviesState
+            })
+          );
+        })
+        .then(() => {})
+        .then(() => setIsCardLiked(true))
+        .then(() => console.log());
+
+        // !!! handle Errors
+    }
+  }
+
+  handleDelete(card, savedMoviesIds, userState) {
+
   }
 }

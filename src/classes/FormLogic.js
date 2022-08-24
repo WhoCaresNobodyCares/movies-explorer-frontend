@@ -109,7 +109,8 @@ export class FormLogic {
     initialValue,
     isCheckboxChecked,
     searchPath,
-    setRenderedMovies
+    setRenderedMovies,
+    setSavedMoviesIds
   ) {
     event.preventDefault();
 
@@ -121,7 +122,8 @@ export class FormLogic {
         searchPath,
         inputValue,
         initialValue,
-        setRenderedMovies
+        setRenderedMovies,
+        setSavedMoviesIds
       );
     } else {
       this._setPopupState(this._POPUP_STATES.movies.noInput);

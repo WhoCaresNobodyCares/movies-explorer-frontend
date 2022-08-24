@@ -2,15 +2,33 @@ import './SavedMovies.css';
 
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import UserContext from '../../contexts/UserContext';
 
 const SavedMovies = ({ mix }) => {
-  const [renderedMovies, setRenderedMovies] = useState([])
+  const { email } = useContext(UserContext);
+
+  const [renderedMovies, setRenderedMovies] = useState(
+    JSON.parse(localStorage.getItem(`${email}-state`))
+      ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMovies
+      : []
+  );
+  const [savedMoviesIds, setSavedMoviesIds] = useState([]);
 
   return (
     <main className={`${mix} saved-movies`}>
-      <SearchForm mix="saved-movies__search-form" searchPath="/saved-movies" setRenderedMovies={setRenderedMovies} />
-      <MoviesCardList mix="saved-movies__movies-card-list" renderedMovies={renderedMovies} />
+      <SearchForm
+        mix="saved-movies__search-form"
+        searchPath="/saved-movies"
+        setRenderedMovies={setRenderedMovies}
+        setSavedMoviesIds={setSavedMoviesIds}
+      />
+      <MoviesCardList
+        mix="saved-movies__movies-card-list"
+        renderedMovies={renderedMovies}
+        savedMoviesIds={savedMoviesIds}
+        renderPath="/saved-movies"
+      />
     </main>
   );
 };

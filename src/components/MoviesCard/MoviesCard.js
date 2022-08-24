@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import MoviesLogicContext from '../../contexts/MoviesLogicContext';
+import UserContext from '../../contexts/UserContext';
 import useConvertMinutes from '../../utils/customHooks/useConvertMinutes';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ mix, card }) => {
+const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
   const [isCardLiked, setIsCardLiked] = useState(false);
 
   const { image, nameRU, duration, trailerLink } = card;
 
-  const length = useConvertMinutes(duration)
+  const userState = useContext(UserContext);
+  const moviesLogic = useContext(MoviesLogicContext);
+
+  const length = useConvertMinutes(duration);
+
+  useEffect(() => {
+    savedMoviesIds.some(
+      (item) => item === card.movieId && setIsCardLiked(true)
+    );
+  }, [savedMoviesIds]);
 
   return (
     <div className={`${mix} movies-card`}>
@@ -31,7 +42,7 @@ const MoviesCard = ({ mix, card }) => {
         <button
           id="moviesCardButton"
           className={
-            true
+            renderPath === '/movies'
               ? `movies-card__movies-button${
                   isCardLiked ? ' movies-card__movies-button_active' : ''
                 }`
@@ -40,7 +51,17 @@ const MoviesCard = ({ mix, card }) => {
           name="moviesCardButton"
           aria-label="Совершить действие с карточкой"
           type="button"
-          onClick={true ? () => setIsCardLiked(!isCardLiked) : () => {}}
+          onClick={
+            renderPath === '/movies'
+              ? () =>
+                  moviesLogic.handleLike(
+                    card,
+                    savedMoviesIds,
+                    setIsCardLiked,
+                    userState
+                  )
+              : () => moviesLogic.handleDelete(card, savedMoviesIds, userState)
+          }
         />
         <span className="movies-card__length" children={length} />
       </div>
