@@ -1,25 +1,24 @@
 import { useContext, useEffect, useState } from 'react';
-import MoviesLogicContext from '../../contexts/MoviesLogicContext';
-import UserContext from '../../contexts/UserContext';
+import AppContext from '../../contexts/AppContext';
 import useConvertMinutes from '../../utils/customHooks/useConvertMinutes';
 
 import './MoviesCard.css';
 
 const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
-  const [isCardLiked, setIsCardLiked] = useState(false);
-
+  // * PROPS
   const { image, nameRU, duration, trailerLink } = card;
 
-  const userState = useContext(UserContext);
-  const moviesLogic = useContext(MoviesLogicContext);
-
+  // * HOOKS
+  const { userState, moviesLogic } = useContext(AppContext);
   const length = useConvertMinutes(duration);
 
+  // * STATES
+  const [isCardLiked, setIsCardLiked] = useState(false);
+
+  // * EFFECTS
   useEffect(() => {
-    savedMoviesIds.some(
-      (item) => item === card.movieId && setIsCardLiked(true)
-    );
-  }, [savedMoviesIds]);
+    savedMoviesIds.some((item) => item === card.movieId && setIsCardLiked(true));
+  }, []);
 
   return (
     <div className={`${mix} movies-card`}>
@@ -31,11 +30,7 @@ const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
           className="movies-card__link"
           children=""
         />
-        <img
-          className="movies-card__image"
-          src={image}
-          alt="Изображение карточки"
-        />
+        <img className="movies-card__image" src={image} alt="Изображение карточки" />
       </div>
       <div className="movies-card__description">
         <h2 className="movies-card__title" children={nameRU} />
@@ -54,12 +49,7 @@ const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
           onClick={
             renderPath === '/movies'
               ? () =>
-                  moviesLogic.handleLike(
-                    card,
-                    savedMoviesIds,
-                    setIsCardLiked,
-                    userState
-                  )
+                  moviesLogic.handleLike(card, savedMoviesIds, setIsCardLiked, userState)
               : () => moviesLogic.handleDelete(card, savedMoviesIds, userState)
           }
         />

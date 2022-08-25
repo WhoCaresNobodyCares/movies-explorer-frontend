@@ -39,8 +39,7 @@
   visibility: hidden;
   opacity: 0;
   transform: translate(0, 100vh);
-  transition: visibility 0.2s ease-out, opacity 0.2s ease-out,
-    transform 0.2s ease-out;
+  transition: visibility 0.2s ease-out, opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
 .info-popup__content_visible {

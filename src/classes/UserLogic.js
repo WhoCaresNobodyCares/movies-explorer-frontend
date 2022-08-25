@@ -31,29 +31,20 @@ export class UserLogic {
       .then(() =>
         this._mainApi
           .signin(email, password)
-          .then(
-            (res) => res.token && localStorage.setItem('token', `${res.token}`)
-          )
+          .then(() => {throw 401})
+          .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
           .then(() => this._navigate('/movies'))
           .then(() => this._setIsLoggedIn(true))
           .then(() => this._setPopupState(this._POPUP_STATES.register.success))
           .catch((err) => {
-            if (err === 401) {
-              throw 401;
-            } else if (err === 500) {
-              throw 500;
-            }
+            err === 401 && this._setRegisterApiError(this._API_ERRORS.register.err401);
+            err === 500 && this._setRegisterApiError(this._API_ERRORS.register.err500);
           })
       )
       .catch((err) => {
-        err === 400 &&
-          this._setRegisterApiError(this._API_ERRORS.register.err400);
-        err === 401 &&
-          this._setRegisterApiError(this._API_ERRORS.register.err401);
-        err === 409 &&
-          this._setRegisterApiError(this._API_ERRORS.register.err409);
-        err === 500 &&
-          this._setRegisterApiError(this._API_ERRORS.register.err500);
+        err === 400 && this._setRegisterApiError(this._API_ERRORS.register.err400);
+        err === 409 && this._setRegisterApiError(this._API_ERRORS.register.err409);
+        err === 500 && this._setRegisterApiError(this._API_ERRORS.register.err500);
       });
   }
 
@@ -88,10 +79,8 @@ export class UserLogic {
       .then(() => this._setPopupState(this._POPUP_STATES.profile.success))
       .then(() => setIsProfileEditMode(false))
       .catch((err) => {
-        err === 409 &&
-          this._setProfileApiError(this._API_ERRORS.profile.err409);
-        err === 500 &&
-          this._setProfileApiError(this._API_ERRORS.profile.err500);
+        err === 409 && this._setProfileApiError(this._API_ERRORS.profile.err409);
+        err === 500 && this._setProfileApiError(this._API_ERRORS.profile.err500);
       })
       .finally(() => {
         resetForm(
@@ -161,8 +150,7 @@ export class UserLogic {
             )
             .catch(
               (err) =>
-                err === 500 &&
-                this._setPopupState(this._POPUP_STATES.movies.err500)
+                err === 500 && this._setPopupState(this._POPUP_STATES.movies.err500)
             );
         } else {
           console.log('localStorage has such item'); // !!! do some
@@ -172,8 +160,7 @@ export class UserLogic {
       .then(() => this._setIsLoggedIn(true))
       .catch(
         (err) =>
-          err === 401 &&
-          this._setPopupState(this._POPUP_STATES.tokenValidity.err401)
+          err === 401 && this._setPopupState(this._POPUP_STATES.tokenValidity.err401)
       );
   }
 }

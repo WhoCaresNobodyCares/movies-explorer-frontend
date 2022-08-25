@@ -1,20 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-
 import './NotFound.css';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const NotFound = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
-
+  // * HOOKS
   const navigate = useNavigate();
 
   return (
     <main className={`${mix} not-found`}>
       <section className="not-found__section">
         <div className="not-found__wrap">
-          <h1
-            className="not-found__title"
-            children={CONTENT_CONFIG.NotFound.title}
-          />
+          <h1 className="not-found__title" children={CONTENT_CONFIG.NotFound.title} />
           <span
             className="not-found__subtitle"
             children={CONTENT_CONFIG.NotFound.subtitle}

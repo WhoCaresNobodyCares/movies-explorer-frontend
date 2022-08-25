@@ -1,11 +1,12 @@
 import useWidth from '../../../utils/customHooks/useWidth';
-
 import './Promo.css';
 import landingPicture from '../../../images/landing-picture.svg';
 
 const Promo = ({ mix }) => {
+  // * HOOKS
   const viewportWidth = useWidth();
 
+  // * JSX
   const wideTitle = (
     <h1 className="promo__title">
       Учебный проект студента

@@ -1,11 +1,6 @@
-// !!! REACT AND HOOKS
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-
-// !!! STYLES
 import './App.css';
-
-// !!! COMPONENTS
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -17,27 +12,14 @@ import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import InfoPopup from '../InfoPopup/InfoPopup';
-
-// !!! LOGIC
 import { UserLogic } from '../../classes/UserLogic';
 import { FormLogic } from '../../classes/FormLogic';
 import { MoviesLogic } from '../../classes/MoviesLogic';
 import { MainApi } from '../../utils/apis/MainApi';
 import { MoviesApi } from '../../utils/apis/MoviesApi';
+import AppContext from '../../contexts/AppContext';
 
-// !!! CONTEXT
-import UserContext from '../../contexts/UserContext';
-import IsLoggedInContext from '../../contexts/IsLoggedInContext';
-import FormLogicContext from '../../contexts/FormLogicContext';
-import UserLogicContext from '../../contexts/UserLogicContext';
-import ApiErrorsContext from '../../contexts/ApiErrorsContext';
-import MoviesLogicContext from '../../contexts/MoviesLogicContext';
-
-// !!! CONFIGS
-const {
-  MAIN_API_URL,
-  MOVIES_API_URL,
-} = require('../../configs/apiConfig.json');
+const { MAIN_API_URL, MOVIES_API_URL } = require('../../configs/apiConfig.json');
 const { POPUP_STATES } = require('../../configs/popupConfig.json');
 const { API_ERRORS } = require('../../configs/apiErrors.json');
 
@@ -58,29 +40,31 @@ const App = () => {
   const [profileApiError, setProfileApiError] = useState('');
 
   // * LOGIC
-  const mainApi = new MainApi(MAIN_API_URL);
-  const moviesApi = new MoviesApi(MOVIES_API_URL);
-
-  const userLogic = new UserLogic(
-    mainApi,
-    setPopupState,
-    setRegisterApiError,
-    setLoginApiError,
-    setProfileApiError,
-    POPUP_STATES,
-    API_ERRORS,
-    setIsLoggedIn,
-    setUserState,
-    navigate
+  const mainApi = useMemo(() => new MainApi(MAIN_API_URL), []);
+  const moviesApi = useMemo(() => new MoviesApi(MOVIES_API_URL), []);
+  const userLogic = useMemo(
+    () =>
+      new UserLogic(
+        mainApi,
+        setPopupState,
+        setRegisterApiError,
+        setLoginApiError,
+        setProfileApiError,
+        POPUP_STATES,
+        API_ERRORS,
+        setIsLoggedIn,
+        setUserState,
+        navigate
+      ),
+    []
   );
-
-  const moviesLogic = new MoviesLogic(mainApi, moviesApi);
-
-  const formLogic = new FormLogic(
-    userLogic,
-    moviesLogic,
-    setPopupState,
-    POPUP_STATES
+  const moviesLogic = useMemo(
+    () => new MoviesLogic(mainApi, moviesApi),
+    [mainApi, moviesApi]
+  );
+  const formLogic = useMemo(
+    () => new FormLogic(userLogic, moviesLogic, setPopupState, POPUP_STATES),
+    []
   );
 
   // * EFFECTS
@@ -89,78 +73,68 @@ const App = () => {
   }, [isLoggedIn]);
 
   return (
-    <IsLoggedInContext.Provider value={isLoggedIn}>
-      <UserContext.Provider value={userState}>
-        <FormLogicContext.Provider value={formLogic}>
-          <UserLogicContext.Provider value={userLogic}>
-            <MoviesLogicContext.Provider value={moviesLogic}>
-              <ApiErrorsContext.Provider
-                value={{
-                  registerApiError,
-                  setRegisterApiError,
-                  loginApiError,
-                  setLoginApiError,
-                  profileApiError,
-                  setProfileApiError,
-                }}
-              >
-                <div className="app">
-                  <Header mix="app__header" />
-                  <Routes>
-                    <Route path="/" element={<Main mix="app__main" />} />
-                    <Route
-                      path="/signup"
-                      element={<Register mix="app__register" />}
-                    />
-                    <Route
-                      path="/signin"
-                      element={<Login mix="app__login" />}
-                    />
-                    <Route
-                      path="/movies"
-                      element={
-                        <ProtectedRoute
-                          isLoggedIn={isLoggedIn}
-                          element={<Movies mix="app__movies" />}
-                        />
-                      }
-                    />
-                    <Route
-                      path="/saved-movies"
-                      element={
-                        <ProtectedRoute
-                          isLoggedIn={isLoggedIn}
-                          element={<SavedMovies mix="app__saved-movies" />}
-                        />
-                      }
-                    />
-                    <Route
-                      path="/profile"
-                      element={
-                        <ProtectedRoute
-                          isLoggedIn={isLoggedIn}
-                          element={<Profile mix="app__profile" />}
-                        />
-                      }
-                    />
-                    <Route
-                      path="*"
-                      element={<NotFound mix="app__not-found" />}
-                    />
-                  </Routes>
-                  <Footer mix="app__footer" />
-                  <InfoPopup
-                    mix="app__info-popup"
-                    popupState={popupState}
-                    setPopupState={setPopupState}
-                  />
-                </div>
-              </ApiErrorsContext.Provider>
-            </MoviesLogicContext.Provider>
-          </UserLogicContext.Provider>
-        </FormLogicContext.Provider>
-      </UserContext.Provider>
-    </IsLoggedInContext.Provider>
+    <AppContext.Provider
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        //---
+        userState,
+        setUserState,
+        //---
+        popupState,
+        setPopupState,
+        //---
+        registerApiError,
+        setRegisterApiError,
+        loginApiError,
+        setLoginApiError,
+        profileApiError,
+        setProfileApiError,
+        //---
+        formLogic,
+        userLogic,
+        moviesLogic,
+      }}
+    >
+      <div className="app">
+        <Header mix="app__header" />
+        <Routes>
+          <Route path="/" element={<Main mix="app__main" />} />
+          <Route path="/signup" element={<Register mix="app__register" />} />
+          <Route path="/signin" element={<Login mix="app__login" />} />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={<Movies mix="app__movies" />}
+              />
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={<SavedMovies mix="app__saved-movies" />}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={<Profile mix="app__profile" />}
+              />
+            }
+          />
+          <Route path="*" element={<NotFound mix="app__not-found" />} />
+        </Routes>
+        <Footer mix="app__footer" />
+        <InfoPopup mix="app__info-popup" />
+      </div>
+    </AppContext.Provider>
   );
 };
 

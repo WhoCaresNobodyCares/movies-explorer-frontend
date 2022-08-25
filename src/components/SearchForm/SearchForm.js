@@ -1,46 +1,37 @@
 import { useContext, useEffect, useState } from 'react';
 import useWidth from '../../utils/customHooks/useWidth';
 import useFormHandler from '../../utils/customHooks/useFormHandler';
-
 import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 import { useLocation } from 'react-router-dom';
-import FormLogicContext from '../../contexts/FormLogicContext';
-import UserContext from '../../contexts/UserContext';
+import AppContext from '../../contexts/AppContext';
 
-const SearchForm = ({
-  mix,
-  searchPath,
-  setRenderedMovies,
-  setSavedMoviesIds,
-}) => {
+const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) => {
+  // * HOOKS
+  const { formLogic, userState } = useContext(AppContext);
+  const { email } = userState;
   const viewportWidth = useWidth();
   const location = useLocation();
+  const { inputValue, handleInputChange, isFormValid, resetForm } = useFormHandler();
 
-  const formLogic = useContext(FormLogicContext);
-  const { email } = useContext(UserContext);
-
-  const { inputValue, handleInputChange, isFormValid, resetForm } =
-    useFormHandler();
-
+  // * STATES
   const [initialValue, setInitialValue] = useState({});
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
+  // * EFFECTS
   useEffect(() => {
     if (location.pathname === '/movies') {
       resetForm(
         JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
-              .inputValue
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState.inputValue
           : {
               searchFormInput: ['Фильмы'],
             }
       );
       setInitialValue(
         JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
-              .initialValue
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState.initialValue
           : {
               searchFormInput: 'Фильмы',
             }
@@ -55,8 +46,7 @@ const SearchForm = ({
     if (location.pathname === '/saved-movies') {
       resetForm(
         JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState
-              .inputValue
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState.inputValue
           : {
               searchFormInput: ['Сохраненные', 'фильмы'],
             }
@@ -81,7 +71,7 @@ const SearchForm = ({
       setInitialValue({});
       setIsCheckboxChecked(false);
     };
-  }, [location.pathname]);
+  }, []);
 
   return (
     <section className={`${mix} search-form`}>

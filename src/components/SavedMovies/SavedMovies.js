@@ -1,13 +1,15 @@
 import './SavedMovies.css';
-
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import { useContext, useEffect, useState } from 'react';
-import UserContext from '../../contexts/UserContext';
+import AppContext from '../../contexts/AppContext';
 
 const SavedMovies = ({ mix }) => {
-  const { email } = useContext(UserContext);
+  // * HOOKS
+  const { userState } = useContext(AppContext);
+  const { email } = userState;
 
+  // * STATES
   const [renderedMovies, setRenderedMovies] = useState(
     JSON.parse(localStorage.getItem(`${email}-state`))
       ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMovies
@@ -15,6 +17,7 @@ const SavedMovies = ({ mix }) => {
   );
   const [savedMoviesIds, setSavedMoviesIds] = useState([]);
 
+  // * EFFECTS
   useEffect(() => {
     setRenderedMovies(
       JSON.parse(localStorage.getItem(`${email}-state`))

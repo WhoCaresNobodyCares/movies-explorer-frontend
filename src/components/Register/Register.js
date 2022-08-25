@@ -1,26 +1,18 @@
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ApiErrorsContext from '../../contexts/ApiErrorsContext';
-import FormLogicContext from '../../contexts/FormLogicContext';
+import AppContext from '../../contexts/AppContext';
 import useFormValidator from '../../utils/customHooks/useFormValidator';
-
 import './Register.css';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Register = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
+  // * HOOKS
+  const { registerApiError, setRegisterApiError, formLogic } = useContext(AppContext);
 
-  const formLogic = useContext(FormLogicContext);
-  const { registerApiError, setRegisterApiError } =
-    useContext(ApiErrorsContext);
+  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } =
+    useFormValidator();
 
-  const {
-    inputValues,
-    inputErrors,
-    handleInputChange,
-    isFormValid,
-    resetForm,
-  } = useFormValidator();
-
+  // * EFFECTS
   useEffect(() => {
     return () => {
       resetForm({}, {}, false);
@@ -30,10 +22,7 @@ const Register = ({ mix }) => {
   return (
     <main className={`${mix} register`}>
       <section className="register__section">
-        <h1
-          className="register__title"
-          children={CONTENT_CONFIG.Register.title}
-        />
+        <h1 className="register__title" children={CONTENT_CONFIG.Register.title} />
         <form
           id="registerForm"
           className="register__form"
@@ -74,9 +63,7 @@ const Register = ({ mix }) => {
           />
           <span
             className={
-              isFormValid
-                ? 'register__error'
-                : 'register__error register__error_visible'
+              isFormValid ? 'register__error' : 'register__error register__error_visible'
             }
             children={inputErrors.registerFormNameInput}
           />
@@ -107,9 +94,7 @@ const Register = ({ mix }) => {
           />
           <span
             className={
-              isFormValid
-                ? 'register__error'
-                : 'register__error register__error_visible'
+              isFormValid ? 'register__error' : 'register__error register__error_visible'
             }
             children={inputErrors.registerFormEmailInput}
           />
@@ -141,9 +126,7 @@ const Register = ({ mix }) => {
           />
           <span
             className={
-              isFormValid
-                ? 'register__error'
-                : 'register__error register__error_visible'
+              isFormValid ? 'register__error' : 'register__error register__error_visible'
             }
             children={inputErrors.registerFormPasswordInput}
           />

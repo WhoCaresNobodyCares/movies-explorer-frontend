@@ -1,26 +1,25 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import useWidth from '../../utils/customHooks/useWidth';
-
 import './Header.css';
 import logoIcon from '../../images/logo-icon.svg';
-
 import Auth from './Auth/Auth';
 import NavHor from './NavHor/NavHor';
 import User from './User/User';
 import Burger from './Burger/Burger';
 import Menu from './Menu/Menu';
-
-import IsLoggedInContext from '../../contexts/IsLoggedInContext';
+import AppContext from '../../contexts/AppContext';
 
 const Header = ({ mix }) => {
+  // * HOOKS
+  const { isLoggedIn } = useContext(AppContext);
   const viewportWidth = useWidth();
   const location = useLocation();
 
+  // * STATES
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  const isLoggedIn = useContext(IsLoggedInContext);
-
+  // * JSX
   const burgerMenu = (
     <>
       <Burger
@@ -50,9 +49,7 @@ const Header = ({ mix }) => {
           <Link
             to="/"
             className={'header__link'}
-            children={
-              <img className="header__logo" src={logoIcon} alt="Логотип" />
-            }
+            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
           />
           {viewportWidth > 800 ? completeMenu : burgerMenu}
         </div>
@@ -67,9 +64,7 @@ const Header = ({ mix }) => {
           <Link
             to="/"
             className={'header__link'}
-            children={
-              <img className="header__logo" src={logoIcon} alt="Логотип" />
-            }
+            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
           />
           {isLoggedIn ? (
             viewportWidth > 800 ? (
@@ -92,18 +87,17 @@ const Header = ({ mix }) => {
           <Link
             to="/"
             className={'header__link header__link_narrow'}
-            children={
-              <img className="header__logo" src={logoIcon} alt="Логотип" />
-            }
+            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
           />
         </div>
       </header>
     </>
   );
 
+  // * EFFECTS
   useEffect(() => {
     setIsMenuOpened(false);
-  }, [location.pathname, viewportWidth]);
+  }, [location, viewportWidth]);
 
   return (
     <Routes>

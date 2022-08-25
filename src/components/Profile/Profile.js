@@ -1,32 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
-import ApiErrorsContext from '../../contexts/ApiErrorsContext';
-import FormLogicContext from '../../contexts/FormLogicContext';
-import UserContext from '../../contexts/UserContext';
-import UserLogicContext from '../../contexts/UserLogicContext';
+import AppContext from '../../contexts/AppContext';
 import useFormValidator from '../../utils/customHooks/useFormValidator';
-
 import './Profile.css';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Profile = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
+  // * HOOKS
+  const { userState, profileApiError, setProfileApiError, formLogic, userLogic } =
+    useContext(AppContext);
 
-  const userState = useContext(UserContext);
-  const formLogic = useContext(FormLogicContext);
-  const userLogic = useContext(UserLogicContext);
-  const { profileApiError, setProfileApiError } = useContext(ApiErrorsContext);
+  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } =
+    useFormValidator();
 
-  const {
-    inputValues,
-    inputErrors,
-    handleInputChange,
-    isFormValid,
-    resetForm,
-  } = useFormValidator();
-
+  // * STATES
   const [isProfileEditMode, setIsProfileEditMode] = useState(false);
   const [isNameSame, setIsNameSame] = useState(true);
   const [initialValues, setInitialValues] = useState({});
 
+  // * EFFECTS
   useEffect(() => {
     resetForm(
       {
@@ -45,19 +36,16 @@ const Profile = ({ mix }) => {
       setInitialValues({});
       setProfileApiError('');
     };
-  }, [userState, isProfileEditMode]);
+  }, []);
 
   return (
     <main className={`${mix} profile`}>
       <section className="profile__section">
-        <UserContext.Consumer>
-          {(userState) => (
-            <h1
-              className="profile__title"
-              children={`Привет, ${userState.name}!`}
-            />
+        <AppContext.Consumer>
+          {({ userState }) => (
+            <h1 className="profile__title" children={`Привет, ${userState.name}!`} />
           )}
-        </UserContext.Consumer>
+        </AppContext.Consumer>
         <form
           id="profileForm"
           className="profile__form"
@@ -99,19 +87,14 @@ const Profile = ({ mix }) => {
             value={inputValues.profileFormNameInput}
             required
             onKeyUp={(e) =>
-              formLogic.handleProfileFormSameNames(
-                e,
-                initialValues,
-                setIsNameSame
-              )
+              formLogic.handleProfileFormSameNames(e, initialValues, setIsNameSame)
             }
             onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
           <div
             className={
               isFormValid ||
-              (!inputErrors.profileFormNameInput &&
-                !inputErrors.profileFormEmailInput)
+              (!inputErrors.profileFormNameInput && !inputErrors.profileFormEmailInput)
                 ? 'profile__separator'
                 : 'profile__separator profile__separator_error'
             }
@@ -136,11 +119,7 @@ const Profile = ({ mix }) => {
             value={inputValues.profileFormEmailInput}
             required
             onKeyUp={(e) =>
-              formLogic.handleProfileFormSameNames(
-                e,
-                initialValues,
-                setIsNameSame
-              )
+              formLogic.handleProfileFormSameNames(e, initialValues, setIsNameSame)
             }
             onChange={(e) => handleInputChange(e, setProfileApiError)}
           />
@@ -194,11 +173,7 @@ const Profile = ({ mix }) => {
                   formMethod="post"
                   form="profileForm"
                   children={CONTENT_CONFIG.Profile.saveButton}
-                  disabled={
-                    isFormValid && !isNameSame && !profileApiError
-                      ? false
-                      : true
-                  }
+                  disabled={isFormValid && !isNameSame && !profileApiError ? false : true}
                 />
                 <button
                   id="profileFormDiscard"

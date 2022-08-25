@@ -1,15 +1,11 @@
 import './Portfolio.css';
 import arrowIcon from '../../../images/arrow-icon.svg';
+const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const Portfolio = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
-
   return (
     <section className={`${mix} portfolio`}>
-      <h2
-        className="portfolio__title"
-        children={CONTENT_CONFIG.Main.portfolio.title}
-      />
+      <h2 className="portfolio__title" children={CONTENT_CONFIG.Main.portfolio.title} />
       <div className="portfolio__links">
         {CONTENT_CONFIG.Main.portfolio.links.map((item, index) => (
           <div

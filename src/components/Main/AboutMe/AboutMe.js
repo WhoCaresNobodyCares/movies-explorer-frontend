@@ -1,20 +1,15 @@
 import useWidth from '../../../utils/customHooks/useWidth';
-
 import './AboutMe.css';
-
 import ContentTitle from '../ContentTitle/ContentTitle';
+const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const AboutMe = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
-
+  // * HOOKS
   const viewportWidth = useWidth();
 
   return (
     <section id="about-me" className={`${mix} about-me`}>
-      <ContentTitle
-        mix="about-me__title"
-        title={CONTENT_CONFIG.Main.aboutMe.title}
-      />
+      <ContentTitle mix="about-me__title" title={CONTENT_CONFIG.Main.aboutMe.title} />
       {viewportWidth > 600 ? (
         <>
           <div className="about-me__content">

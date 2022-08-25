@@ -1,16 +1,14 @@
 import { useState } from 'react';
-
 import './MoviesCardList.css';
-
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => {
-  const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
-
+  // * STATES
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
 
-  const cards = [];
+  // !!! BULLSHIT
   const isButtonVisible = false; // !!!
   const isNotFoundVisible = true;
 
@@ -47,9 +45,7 @@ const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => 
       )}
       <Preloader
         mix="movies-card-list__preloader"
-        mod_visible={
-          isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''
-        }
+        mod_visible={isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''}
       />
       <div
         className={

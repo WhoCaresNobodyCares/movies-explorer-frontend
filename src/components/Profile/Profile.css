@@ -148,8 +148,7 @@
   text-align: center;
   color: var(--cl-02);
   background: var(--ac-02);
-  transition: opacity 0.2s ease-out, background 0.2s ease-out,
-    color 0.2s ease-out;
+  transition: opacity 0.2s ease-out, background 0.2s ease-out, color 0.2s ease-out;
 }
 
 .profile__submit:hover {

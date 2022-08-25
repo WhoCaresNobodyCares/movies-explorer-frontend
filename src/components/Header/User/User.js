@@ -1,21 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
-import UserContext from '../../../contexts/UserContext';
 import useWidth from '../../../utils/customHooks/useWidth';
-
 import './User.css';
 import userIcon from '../../../images/user-icon.svg';
+import AppContext from '../../../contexts/AppContext';
 
 const User = ({ mix }) => {
+  // * HOOKS
   const viewportWidth = useWidth();
   const location = useLocation();
-
   return (
     <div className={`${mix} user`}>
-      <UserContext.Consumer>
-        {(userState) => (
-          <span className="user__email" children={userState.email} />
-        )}
-      </UserContext.Consumer>
+      <AppContext.Consumer>
+        {({ userState }) => <span className="user__email" children={userState.email} />}
+      </AppContext.Consumer>
       <Link
         className={
           location.pathname === '/'
@@ -24,11 +21,7 @@ const User = ({ mix }) => {
         }
         to="/profile"
         children={
-          <img
-            className="user__image"
-            src={userIcon}
-            alt="Иконка пользователя"
-          />
+          <img className="user__image" src={userIcon} alt="Иконка пользователя" />
         }
       />
     </div>

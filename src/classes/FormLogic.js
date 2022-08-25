@@ -83,12 +83,7 @@ export class FormLogic {
     }
   }
 
-  handleProfileDiscard(
-    resetForm,
-    userState,
-    setProfileApiError,
-    setIsProfileEditMode
-  ) {
+  handleProfileDiscard(resetForm, userState, setProfileApiError, setIsProfileEditMode) {
     resetForm(
       {
         profileFormNameInput: userState.name,

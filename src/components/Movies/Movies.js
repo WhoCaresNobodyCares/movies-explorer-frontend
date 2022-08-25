@@ -3,26 +3,22 @@ import './Movies.css';
 
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
-import UserContext from '../../contexts/UserContext';
+import AppContext from '../../contexts/AppContext';
 
 const Movies = ({ mix }) => {
-  const { email } = useContext(UserContext);
+  // * HOOKS
+  const { userState } = useContext(AppContext);
+  const { email } = userState;
 
-  const [renderedMovies, setRenderedMovies] = useState(
-    JSON.parse(localStorage.getItem(`${email}-state`))
-      ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
-          .foundMovies
-      : []
-  );
+  // * STATES
+  const [renderedMovies, setRenderedMovies] = useState([]);
   const [savedMoviesIds, setSavedMoviesIds] = useState([]);
 
+  // * EFFECTS
   useEffect(() => {
-    setRenderedMovies(
-      JSON.parse(localStorage.getItem(`${email}-state`))
-        ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
-            .foundMovies
-        : []
-    );
+    const renderedMovies = JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
+      .foundMovies;
+    renderedMovies && setRenderedMovies(renderedMovies);
   }, []);
 
   return (

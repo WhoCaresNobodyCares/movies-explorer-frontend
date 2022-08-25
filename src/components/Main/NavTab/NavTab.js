@@ -1,10 +1,8 @@
 import { Link } from 'react-scroll';
-
 import './NavTab.css';
+const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const NavTab = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
-
   return (
     <section className={`${mix} nav-tab`}>
       <nav className="nav-tab__panel">

@@ -1,25 +1,17 @@
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ApiErrorsContext from '../../contexts/ApiErrorsContext';
-import FormLogicContext from '../../contexts/FormLogicContext';
+import AppContext from '../../contexts/AppContext';
 import useFormValidator from '../../utils/customHooks/useFormValidator';
-
 import './Login.css';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Login = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
+  // * HOOKS
+  const { formLogic, loginApiError, setLoginApiError } = useContext(AppContext);
+  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } =
+    useFormValidator();
 
-  const formLogic = useContext(FormLogicContext);
-  const { loginApiError, setLoginApiError } = useContext(ApiErrorsContext);
-
-  const {
-    inputValues,
-    inputErrors,
-    handleInputChange,
-    isFormValid,
-    resetForm,
-  } = useFormValidator();
-
+  // * EFFECTS
   useEffect(() => {
     return () => {
       resetForm({}, {}, false);
@@ -67,9 +59,7 @@ const Login = ({ mix }) => {
             }
           />
           <span
-            className={
-              isFormValid ? 'login__error' : 'login__error login__error_visible'
-            }
+            className={isFormValid ? 'login__error' : 'login__error login__error_visible'}
             children={inputErrors.loginFormEmailInput}
           />
           <div className="login__block">
@@ -99,9 +89,7 @@ const Login = ({ mix }) => {
             }
           />
           <span
-            className={
-              isFormValid ? 'login__error' : 'login__error login__error_visible'
-            }
+            className={isFormValid ? 'login__error' : 'login__error login__error_visible'}
             children={inputErrors.loginFormPasswordInput}
           />
           <div className="login__bottom">

@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-
 import './Footer.css';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Footer = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
-
+  // * JSX
   const footer = (
     <footer className={`${mix} footer`}>
       <div className="footer__grid">

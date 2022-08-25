@@ -1,11 +1,9 @@
 import './AboutProject.css';
-
 import ContentTitle from '../ContentTitle/ContentTitle';
 import TextColumn from './TextColumn/TextColumn';
+const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const AboutProject = ({ mix }) => {
-  const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
-
   return (
     <section id="about-project" className={`${mix} about-project`}>
       <ContentTitle
