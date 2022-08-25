@@ -23,6 +23,8 @@ const { MAIN_API_URL, MOVIES_API_URL } = require('../../configs/apiConfig.json')
 const { POPUP_STATES } = require('../../configs/popupConfig.json');
 const { API_ERRORS } = require('../../configs/apiErrors.json');
 
+// !!!! ????????
+
 const App = () => {
   // * HOOKS
   const navigate = useNavigate();
@@ -30,11 +32,7 @@ const App = () => {
   // * STATES
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userState, setUserState] = useState({});
-  const [popupState, setPopupState] = useState({
-    isOpened: false,
-    title: '',
-    button: '',
-  });
+  const [popupState, setPopupState] = useState({ isOpened: false, title: '', button: '' });
   const [registerApiError, setRegisterApiError] = useState('');
   const [loginApiError, setLoginApiError] = useState('');
   const [profileApiError, setProfileApiError] = useState('');
@@ -58,10 +56,7 @@ const App = () => {
       ),
     []
   );
-  const moviesLogic = useMemo(
-    () => new MoviesLogic(mainApi, moviesApi),
-    [mainApi, moviesApi]
-  );
+  const moviesLogic = useMemo(() => new MoviesLogic(mainApi, moviesApi), [mainApi, moviesApi]);
   const formLogic = useMemo(
     () => new FormLogic(userLogic, moviesLogic, setPopupState, POPUP_STATES),
     []
@@ -94,45 +89,38 @@ const App = () => {
         formLogic,
         userLogic,
         moviesLogic,
-      }}
-    >
-      <div className="app">
-        <Header mix="app__header" />
+      }}>
+      <div className='app'>
+        <Header mix='app__header' />
         <Routes>
-          <Route path="/" element={<Main mix="app__main" />} />
-          <Route path="/signup" element={<Register mix="app__register" />} />
-          <Route path="/signin" element={<Login mix="app__login" />} />
+          <Route path='/' element={<Main mix='app__main' />} />
+          <Route path='/signup' element={<Register mix='app__register' />} />
+          <Route path='/signin' element={<Login mix='app__login' />} />
           <Route
-            path="/movies"
+            path='/movies'
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn} element={<Movies mix='app__movies' />} />
+            }
+          />
+          <Route
+            path='/saved-movies'
             element={
               <ProtectedRoute
                 isLoggedIn={isLoggedIn}
-                element={<Movies mix="app__movies" />}
+                element={<SavedMovies mix='app__saved-movies' />}
               />
             }
           />
           <Route
-            path="/saved-movies"
+            path='/profile'
             element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                element={<SavedMovies mix="app__saved-movies" />}
-              />
+              <ProtectedRoute isLoggedIn={isLoggedIn} element={<Profile mix='app__profile' />} />
             }
           />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                element={<Profile mix="app__profile" />}
-              />
-            }
-          />
-          <Route path="*" element={<NotFound mix="app__not-found" />} />
+          <Route path='*' element={<NotFound mix='app__not-found' />} />
         </Routes>
-        <Footer mix="app__footer" />
-        <InfoPopup mix="app__info-popup" />
+        <Footer mix='app__footer' />
+        <InfoPopup mix='app__info-popup' />
       </div>
     </AppContext.Provider>
   );

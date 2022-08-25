@@ -6,9 +6,9 @@ const NavVert = ({ mix }) => {
   return (
     <nav
       className={`${mix} nav-vert`}
-      children={CONTENT_CONFIG.Header.navVert.links.map((item) => (
+      children={CONTENT_CONFIG.Header.navVert.links.map(item => (
         <NavLink
-          className={(link) =>
+          className={link =>
             !link.isActive ? 'nav-vert__link' : 'nav-vert__link nav-vert__link_active'
           }
           to={item.to}

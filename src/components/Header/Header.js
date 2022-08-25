@@ -22,23 +22,15 @@ const Header = ({ mix }) => {
   // * JSX
   const burgerMenu = (
     <>
-      <Burger
-        mix="header__burger"
-        isMenuOpened={isMenuOpened}
-        setIsMenuOpened={setIsMenuOpened}
-      />
-      <Menu
-        mix="header__menu"
-        isMenuOpened={isMenuOpened}
-        setIsMenuOpened={setIsMenuOpened}
-      />
+      <Burger mix='header__burger' isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+      <Menu mix='header__menu' isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
     </>
   );
 
   const completeMenu = (
     <>
-      <NavHor mix="header__nav-hor" />
-      <User mix="header__user" />
+      <NavHor mix='header__nav-hor' />
+      <User mix='header__user' />
     </>
   );
 
@@ -47,9 +39,9 @@ const Header = ({ mix }) => {
       <header className={`${mix} header`}>
         <div className={'header__grid'}>
           <Link
-            to="/"
+            to='/'
             className={'header__link'}
-            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
+            children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
           {viewportWidth > 800 ? completeMenu : burgerMenu}
         </div>
@@ -62,9 +54,9 @@ const Header = ({ mix }) => {
       <header className={`${mix} header header_blue`}>
         <div className={'header__grid'}>
           <Link
-            to="/"
+            to='/'
             className={'header__link'}
-            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
+            children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
           {isLoggedIn ? (
             viewportWidth > 800 ? (
@@ -73,7 +65,7 @@ const Header = ({ mix }) => {
               burgerMenu
             )
           ) : (
-            <Auth mix="header__auth" />
+            <Auth mix='header__auth' />
           )}
         </div>
       </header>
@@ -85,9 +77,9 @@ const Header = ({ mix }) => {
       <header className={`${mix} header header_narrow`}>
         <div className={'header__grid header__grid_narrow'}>
           <Link
-            to="/"
+            to='/'
             className={'header__link header__link_narrow'}
-            children={<img className="header__logo" src={logoIcon} alt="Логотип" />}
+            children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
         </div>
       </header>
@@ -101,12 +93,12 @@ const Header = ({ mix }) => {
 
   return (
     <Routes>
-      <Route path="/movies" element={header} />
-      <Route path="/saved-movies" element={header} />
-      <Route path="/profile" element={header} />
-      <Route path="/" element={headerMain} />
-      <Route path="/signup" element={headerAuth} />
-      <Route path="/signin" element={headerAuth} />
+      <Route path='/movies' element={header} />
+      <Route path='/saved-movies' element={header} />
+      <Route path='/profile' element={header} />
+      <Route path='/' element={headerMain} />
+      <Route path='/signup' element={headerAuth} />
+      <Route path='/signin' element={headerAuth} />
     </Routes>
   );
 };

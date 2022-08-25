@@ -24,16 +24,16 @@ const Movies = ({ mix }) => {
   return (
     <main className={`${mix} movies`}>
       <SearchForm
-        mix="movies__search-form"
-        searchPath="/movies"
+        mix='movies__search-form'
+        searchPath='/movies'
         setRenderedMovies={setRenderedMovies}
         setSavedMoviesIds={setSavedMoviesIds}
       />
       <MoviesCardList
-        mix="movies__movies-card-list"
+        mix='movies__movies-card-list'
         renderedMovies={renderedMovies}
         savedMoviesIds={savedMoviesIds}
-        renderPath="/movies"
+        renderPath='/movies'
       />
     </main>
   );

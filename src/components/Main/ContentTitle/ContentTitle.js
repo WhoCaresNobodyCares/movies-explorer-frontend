@@ -6,8 +6,8 @@ const ContentTitle = ({ mix, title }) => {
       className={`${mix} content-title`}
       children={
         <>
-          <h2 className="content-title__title" children={title} />
-          <div className="content-title__separator" />
+          <h2 className='content-title__title' children={title} />
+          <div className='content-title__separator' />
         </>
       }
     />

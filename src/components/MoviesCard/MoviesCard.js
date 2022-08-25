@@ -17,25 +17,25 @@ const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
 
   // * EFFECTS
   useEffect(() => {
-    savedMoviesIds.some((item) => item === card.movieId && setIsCardLiked(true));
+    savedMoviesIds.some(item => item === card.movieId && setIsCardLiked(true));
   }, []);
 
   return (
     <div className={`${mix} movies-card`}>
-      <div className="movies-card__container">
+      <div className='movies-card__container'>
         <a
           href={trailerLink}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="movies-card__link"
-          children=""
+          target='_blank'
+          rel='noreferrer noopener'
+          className='movies-card__link'
+          children=''
         />
-        <img className="movies-card__image" src={image} alt="Изображение карточки" />
+        <img className='movies-card__image' src={image} alt='Изображение карточки' />
       </div>
-      <div className="movies-card__description">
-        <h2 className="movies-card__title" children={nameRU} />
+      <div className='movies-card__description'>
+        <h2 className='movies-card__title' children={nameRU} />
         <button
-          id="moviesCardButton"
+          id='moviesCardButton'
           className={
             renderPath === '/movies'
               ? `movies-card__movies-button${
@@ -43,17 +43,16 @@ const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
                 }`
               : 'movies-card__saved-movies-button'
           }
-          name="moviesCardButton"
-          aria-label="Совершить действие с карточкой"
-          type="button"
+          name='moviesCardButton'
+          aria-label='Совершить действие с карточкой'
+          type='button'
           onClick={
             renderPath === '/movies'
-              ? () =>
-                  moviesLogic.handleLike(card, savedMoviesIds, setIsCardLiked, userState)
+              ? () => moviesLogic.handleLike(card, savedMoviesIds, setIsCardLiked, userState)
               : () => moviesLogic.handleDelete(card, savedMoviesIds, userState)
           }
         />
-        <span className="movies-card__length" children={length} />
+        <span className='movies-card__length' children={length} />
       </div>
     </div>
   );

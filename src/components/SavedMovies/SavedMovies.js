@@ -29,16 +29,16 @@ const SavedMovies = ({ mix }) => {
   return (
     <main className={`${mix} saved-movies`}>
       <SearchForm
-        mix="saved-movies__search-form"
-        searchPath="/saved-movies"
+        mix='saved-movies__search-form'
+        searchPath='/saved-movies'
         setRenderedMovies={setRenderedMovies}
         setSavedMoviesIds={setSavedMoviesIds}
       />
       <MoviesCardList
-        mix="saved-movies__movies-card-list"
+        mix='saved-movies__movies-card-list'
         renderedMovies={renderedMovies}
         savedMoviesIds={savedMoviesIds}
-        renderPath="/saved-movies"
+        renderPath='/saved-movies'
       />
     </main>
   );

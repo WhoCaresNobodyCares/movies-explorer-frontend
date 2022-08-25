@@ -3,13 +3,13 @@ import './Burger.css';
 const Burger = ({ mix, isMenuOpened, setIsMenuOpened }) => {
   return (
     <button
-      id="burgerButton"
+      id='burgerButton'
       className={`${mix} burger`}
-      name="burger-button"
-      aria-label="Вызвать боковое меню"
-      type="button"
+      name='burger-button'
+      aria-label='Вызвать боковое меню'
+      type='button'
       onClick={() => setIsMenuOpened(!isMenuOpened)}
-      children={<span className="burger__center" />}
+      children={<span className='burger__center' />}
     />
   );
 };

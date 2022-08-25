@@ -55,10 +55,7 @@ export class FormLogic {
   ) {
     event.preventDefault();
     if (inputValues.profileFormNameInput && inputValues.profileFormEmailInput) {
-      const [name, email] = [
-        inputValues.profileFormNameInput,
-        inputValues.profileFormEmailInput,
-      ];
+      const [name, email] = [inputValues.profileFormNameInput, inputValues.profileFormEmailInput];
       this._user.handleProfileUpdate(
         name,
         email,

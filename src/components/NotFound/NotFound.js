@@ -8,20 +8,17 @@ const NotFound = ({ mix }) => {
 
   return (
     <main className={`${mix} not-found`}>
-      <section className="not-found__section">
-        <div className="not-found__wrap">
-          <h1 className="not-found__title" children={CONTENT_CONFIG.NotFound.title} />
-          <span
-            className="not-found__subtitle"
-            children={CONTENT_CONFIG.NotFound.subtitle}
-          />
+      <section className='not-found__section'>
+        <div className='not-found__wrap'>
+          <h1 className='not-found__title' children={CONTENT_CONFIG.NotFound.title} />
+          <span className='not-found__subtitle' children={CONTENT_CONFIG.NotFound.subtitle} />
         </div>
         <button
-          id="navigateBack"
-          className="not-found__back"
-          name="navigateBack"
-          aria-label="Назад"
-          type="button"
+          id='navigateBack'
+          className='not-found__back'
+          name='navigateBack'
+          aria-label='Назад'
+          type='button'
           onClick={() => {
             navigate(-1);
           }}

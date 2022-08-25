@@ -6,8 +6,8 @@ const TextColumn = ({ mix, title, text }) => {
       className={`${mix} text-column`}
       children={
         <>
-          <h3 className="text-column__title" children={title} />
-          <p className="text-column__paragraph" children={text} />
+          <h3 className='text-column__title' children={title} />
+          <p className='text-column__paragraph' children={text} />
         </>
       }
     />

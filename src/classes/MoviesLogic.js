@@ -5,9 +5,8 @@ export class MoviesLogic {
   }
 
   _searchMovies(cards, isChecked, words) {
-    const preparedCards = cards.map((item) => {
-      const { country, description, director, duration, movieId, nameEN, nameRU, year } =
-        item;
+    const preparedCards = cards.map(item => {
+      const { country, description, director, duration, movieId, nameEN, nameRU, year } = item;
       return {
         movieId,
         duration,
@@ -21,7 +20,7 @@ export class MoviesLogic {
     });
 
     const completeMatch = preparedCards
-      .map((item) => {
+      .map(item => {
         const { movieId, duration, text } = item;
         const validityArray = [];
 
@@ -39,20 +38,18 @@ export class MoviesLogic {
           }
         }
 
-        return validityArray.every((match) => match === true) ? movieId : false;
+        return validityArray.every(match => match === true) ? movieId : false;
       })
       .filter(Boolean);
 
-    const result = cards
-      .map((item) => completeMatch.includes(item.movieId) && item)
-      .filter(Boolean);
+    const result = cards.map(item => completeMatch.includes(item.movieId) && item).filter(Boolean);
 
     return result;
   }
 
   _getSavedMoviesIds(allMovies, savedMovies) {
     return allMovies
-      .map((item) => {
+      .map(item => {
         let match;
         for (let i = 0; i < savedMovies.length; i++) {
           const element = savedMovies[i];
@@ -67,7 +64,7 @@ export class MoviesLogic {
 
   _formatMovies(array) {
     return array
-      .map((item) => {
+      .map(item => {
         if (
           !item.country ||
           !item.director ||

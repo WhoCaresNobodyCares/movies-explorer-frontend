@@ -12,7 +12,7 @@ export class MainApi {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 
   signin(email, password) {
@@ -20,14 +20,14 @@ export class MainApi {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 
   checkValidity(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 
   updateUser(name, email, token) {
@@ -35,14 +35,14 @@ export class MainApi {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', authorization: token },
       body: JSON.stringify({ name, email }),
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 
   getMovies(token) {
     return fetch(`${this._url}/movies`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', authorization: token },
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 
   addMovie({
@@ -75,13 +75,13 @@ export class MainApi {
         nameRU,
         nameEN,
       }),
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 
   deleteMovie(id, token) {
     return fetch(`${this._url}/movies/${id}`, {
       method: 'DELETE',
       headers: { authorization: token, 'Content-Type': 'application/json' },
-    }).then((res) => this._handleRes(res));
+    }).then(res => this._handleRes(res));
   }
 }

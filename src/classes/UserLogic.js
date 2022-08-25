@@ -31,17 +31,19 @@ export class UserLogic {
       .then(() =>
         this._mainApi
           .signin(email, password)
-          .then(() => {throw 401})
-          .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
+          .then(() => {
+            throw 401;
+          })
+          .then(res => res.token && localStorage.setItem('token', `${res.token}`))
           .then(() => this._navigate('/movies'))
           .then(() => this._setIsLoggedIn(true))
           .then(() => this._setPopupState(this._POPUP_STATES.register.success))
-          .catch((err) => {
+          .catch(err => {
             err === 401 && this._setRegisterApiError(this._API_ERRORS.register.err401);
             err === 500 && this._setRegisterApiError(this._API_ERRORS.register.err500);
           })
       )
-      .catch((err) => {
+      .catch(err => {
         err === 400 && this._setRegisterApiError(this._API_ERRORS.register.err400);
         err === 409 && this._setRegisterApiError(this._API_ERRORS.register.err409);
         err === 500 && this._setRegisterApiError(this._API_ERRORS.register.err500);
@@ -53,11 +55,11 @@ export class UserLogic {
   handleSignin(email, password) {
     this._mainApi
       .signin(email, password)
-      .then((res) => res.token && localStorage.setItem('token', `${res.token}`))
+      .then(res => res.token && localStorage.setItem('token', `${res.token}`))
       .then(() => this._navigate('/movies'))
       .then(() => this._setIsLoggedIn(true))
       .then(() => this._setPopupState(this._POPUP_STATES.login.success))
-      .catch((err) => {
+      .catch(err => {
         err === 401 && this._setLoginApiError(this._API_ERRORS.login.err401);
         err === 500 && this._setLoginApiError(this._API_ERRORS.login.err500);
       });
@@ -65,20 +67,13 @@ export class UserLogic {
 
   // PROFILE
 
-  handleProfileUpdate(
-    name,
-    email,
-    setIsProfileEditMode,
-    resetForm,
-    setInitialValues,
-    userState
-  ) {
+  handleProfileUpdate(name, email, setIsProfileEditMode, resetForm, setInitialValues, userState) {
     this._mainApi
       .updateUser(name, email, localStorage.getItem('token'))
-      .then((res) => this._setUserState(res))
+      .then(res => this._setUserState(res))
       .then(() => this._setPopupState(this._POPUP_STATES.profile.success))
       .then(() => setIsProfileEditMode(false))
-      .catch((err) => {
+      .catch(err => {
         err === 409 && this._setProfileApiError(this._API_ERRORS.profile.err409);
         err === 500 && this._setProfileApiError(this._API_ERRORS.profile.err500);
       })
@@ -111,7 +106,7 @@ export class UserLogic {
   checkValidity() {
     this._mainApi
       .checkValidity(localStorage.getItem('token'))
-      .then((res) => {
+      .then(res => {
         this._setUserState(res);
         return res;
       })
@@ -148,19 +143,13 @@ export class UserLogic {
                 },
               })
             )
-            .catch(
-              (err) =>
-                err === 500 && this._setPopupState(this._POPUP_STATES.movies.err500)
-            );
+            .catch(err => err === 500 && this._setPopupState(this._POPUP_STATES.movies.err500));
         } else {
           console.log('localStorage has such item'); // !!! do some
         }
       })
       .then(() => this._navigate('/movies'))
       .then(() => this._setIsLoggedIn(true))
-      .catch(
-        (err) =>
-          err === 401 && this._setPopupState(this._POPUP_STATES.tokenValidity.err401)
-      );
+      .catch(err => err === 401 && this._setPopupState(this._POPUP_STATES.tokenValidity.err401));
   }
 }

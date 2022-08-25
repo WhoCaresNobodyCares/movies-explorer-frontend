@@ -38,8 +38,7 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
       );
       setIsCheckboxChecked(
         JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState
-              .isCheckboxChecked
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState.isCheckboxChecked
           : false
       );
     }
@@ -53,16 +52,14 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
       );
       setInitialValue(
         JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState
-              .initialValue
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState.initialValue
           : {
               searchFormInput: 'Сохраненные фильмы',
             }
       );
       setIsCheckboxChecked(
         JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState
-              .isCheckboxChecked
+          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState.isCheckboxChecked
           : false
       );
     }
@@ -76,14 +73,14 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
   return (
     <section className={`${mix} search-form`}>
       <form
-        id="searchForm"
-        className="search-form__form"
-        name="searchForm"
-        action="#"
-        method="post"
-        target="_self"
-        autoComplete="off"
-        onSubmit={(e) =>
+        id='searchForm'
+        className='search-form__form'
+        name='searchForm'
+        action='#'
+        method='post'
+        target='_self'
+        autoComplete='off'
+        onSubmit={e =>
           formLogic.handleSearchFormSubmit(
             e,
             inputValue,
@@ -93,48 +90,41 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
             setRenderedMovies,
             setSavedMoviesIds
           )
-        }
-      >
-        <div className="search-form__frame">
-          <div className="search-form__search-bar">
+        }>
+        <div className='search-form__frame'>
+          <div className='search-form__search-bar'>
             {viewportWidth > 600 && (
-              <img
-                className="search-form__search-icon"
-                src={searchIcon}
-                alt="Иконка поиска"
-              />
+              <img className='search-form__search-icon' src={searchIcon} alt='Иконка поиска' />
             )}
             <input
-              id="searchFormInput"
+              id='searchFormInput'
               className={
-                isFormValid
-                  ? 'search-form__input'
-                  : 'search-form__input search-form__input_invalid'
+                isFormValid ? 'search-form__input' : 'search-form__input search-form__input_invalid'
               }
-              name="searchFormInput"
-              type="text"
+              name='searchFormInput'
+              type='text'
               minLength={0}
               maxLength={80}
               defaultValue={initialValue.searchFormInput}
-              placeholder="Фильм"
-              autoComplete="off"
-              pattern="^[а-яА-Яa-zA-Z\s\d]+$"
+              placeholder='Фильм'
+              autoComplete='off'
+              pattern='^[а-яА-Яa-zA-Z\s\d]+$'
               required
               autoFocus
-              onChange={(e) => handleInputChange(e)}
+              onChange={e => handleInputChange(e)}
             />
             <button
-              id="searchFormSubmit"
+              id='searchFormSubmit'
               className={
                 isFormValid
                   ? 'search-form__submit'
                   : 'search-form__submit search-form__submit_disabled'
               }
-              name="searchFormSubmit"
-              aria-label="Начать поиск"
-              type="submit"
-              formMethod="post"
-              form="searchForm"
+              name='searchFormSubmit'
+              aria-label='Начать поиск'
+              type='submit'
+              formMethod='post'
+              form='searchForm'
               disabled={isFormValid ? false : true}
               children={
                 <img
@@ -144,58 +134,48 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
                       : 'search-form__submit-icon search-form__submit-icon_disabled'
                   }
                   src={searchButtonIcon}
-                  alt="Иконка кнопки"
+                  alt='Иконка кнопки'
                 />
               }
             />
           </div>
           {viewportWidth > 600 && (
             <>
-              <div className="search-form__separator" />
-              <div className="search-form__option">
-                <label id="searchFormLabel" className="search-form__switch">
+              <div className='search-form__separator' />
+              <div className='search-form__option'>
+                <label id='searchFormLabel' className='search-form__switch'>
                   <input
-                    id="searchFormCheckbox"
-                    className="search-form__checkbox"
-                    name="searchFormCheckbox"
-                    type="checkbox"
-                    form="searchForm"
+                    id='searchFormCheckbox'
+                    className='search-form__checkbox'
+                    name='searchFormCheckbox'
+                    type='checkbox'
+                    form='searchForm'
                     checked={isCheckboxChecked}
-                    onChange={(e) =>
-                      formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)
-                    }
+                    onChange={e => formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)}
                   />
-                  <span className="search-form__slider" />
+                  <span className='search-form__slider' />
                 </label>
-                <span
-                  className="search-form__switch-description"
-                  children="Короткометражки"
-                />
+                <span className='search-form__switch-description' children='Короткометражки' />
               </div>
             </>
           )}
         </div>
         {viewportWidth <= 600 && (
           <>
-            <div className="search-form__option">
-              <label id="searchFormLabel" className="search-form__switch">
+            <div className='search-form__option'>
+              <label id='searchFormLabel' className='search-form__switch'>
                 <input
-                  id="searchFormCheckbox"
-                  className="search-form__checkbox"
-                  name="searchFormCheckbox"
-                  type="checkbox"
-                  form="searchForm"
+                  id='searchFormCheckbox'
+                  className='search-form__checkbox'
+                  name='searchFormCheckbox'
+                  type='checkbox'
+                  form='searchForm'
                   checked={isCheckboxChecked}
-                  onChange={(e) =>
-                    formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)
-                  }
+                  onChange={e => formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)}
                 />
-                <span className="search-form__slider" />
+                <span className='search-form__slider' />
               </label>
-              <span
-                className="search-form__switch-description"
-                children="Короткометражки"
-              />
+              <span className='search-form__switch-description' children='Короткометражки' />
             </div>
           </>
         )}

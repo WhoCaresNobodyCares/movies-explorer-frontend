@@ -8,7 +8,7 @@ const Promo = ({ mix }) => {
 
   // * JSX
   const wideTitle = (
-    <h1 className="promo__title">
+    <h1 className='promo__title'>
       Учебный проект студента
       <br />
       факультета веб-разработки.
@@ -16,7 +16,7 @@ const Promo = ({ mix }) => {
   );
 
   const narrowTitle = (
-    <h1 className="promo__title">
+    <h1 className='promo__title'>
       Учебный проект
       <br />
       студента факультета
@@ -28,11 +28,7 @@ const Promo = ({ mix }) => {
   return (
     <section className={`${mix} promo`}>
       {viewportWidth > 600 ? wideTitle : narrowTitle}
-      <img
-        className="promo__background"
-        src={landingPicture}
-        alt="Фоновое изображение секции"
-      />
+      <img className='promo__background' src={landingPicture} alt='Фоновое изображение секции' />
     </section>
   );
 };

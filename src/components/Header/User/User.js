@@ -11,7 +11,7 @@ const User = ({ mix }) => {
   return (
     <div className={`${mix} user`}>
       <AppContext.Consumer>
-        {({ userState }) => <span className="user__email" children={userState.email} />}
+        {({ userState }) => <span className='user__email' children={userState.email} />}
       </AppContext.Consumer>
       <Link
         className={
@@ -19,10 +19,8 @@ const User = ({ mix }) => {
             ? `user__link ${viewportWidth > 800 && `user__link_main`}`
             : 'user__link'
         }
-        to="/profile"
-        children={
-          <img className="user__image" src={userIcon} alt="Иконка пользователя" />
-        }
+        to='/profile'
+        children={<img className='user__image' src={userIcon} alt='Иконка пользователя' />}
       />
     </div>
   );

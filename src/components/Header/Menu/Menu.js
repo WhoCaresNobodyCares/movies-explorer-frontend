@@ -8,18 +8,16 @@ const Menu = ({ mix, isMenuOpened, setIsMenuOpened }) => {
     <div className={`${mix} menu`}>
       <aside className={!isMenuOpened ? `menu__aside` : `menu__aside menu__aside_opened`}>
         <button
-          id="menuCloseButton"
-          className="menu__close"
-          name="menuCloseButton"
-          aria-label="Закрыть боковое меню"
-          type="button"
+          id='menuCloseButton'
+          className='menu__close'
+          name='menuCloseButton'
+          aria-label='Закрыть боковое меню'
+          type='button'
           onClick={() => setIsMenuOpened(!isMenuOpened)}
-          children={
-            <img className="menu__icon" src={closeIcon} alt="Закрыть боковое меню" />
-          }
+          children={<img className='menu__icon' src={closeIcon} alt='Закрыть боковое меню' />}
         />
-        <NavVert mix="menu__nav-vert" />
-        <User mix="menu__user" />
+        <NavVert mix='menu__nav-vert' />
+        <User mix='menu__user' />
       </aside>
       <div
         className={!isMenuOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'}

@@ -27,11 +27,10 @@ const InfoPopup = ({ mix }) => {
           popupState.isOpened
             ? 'info-popup__content info-popup__content_visible'
             : 'info-popup__content'
-        }
-      >
+        }>
         <AppContext.Consumer>
           {({ userState }) => (
-            <h2 className="info-popup__title">
+            <h2 className='info-popup__title'>
               {popupState.title === 'Добро пожаловать,'
                 ? `${popupState.title} ${userState.name}!`
                 : popupState.title}
@@ -39,11 +38,11 @@ const InfoPopup = ({ mix }) => {
           )}
         </AppContext.Consumer>
         <button
-          id="infoPopupButton"
-          className="info-popup__button"
-          name="infoPopupButton"
-          aria-label="Подтвердить"
-          type="button"
+          id='infoPopupButton'
+          className='info-popup__button'
+          name='infoPopupButton'
+          aria-label='Подтвердить'
+          type='button'
           onClick={() =>
             setPopupState({
               isOpened: !popupState.isOpened,

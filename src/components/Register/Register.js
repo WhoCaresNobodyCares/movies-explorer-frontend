@@ -21,37 +21,36 @@ const Register = ({ mix }) => {
 
   return (
     <main className={`${mix} register`}>
-      <section className="register__section">
-        <h1 className="register__title" children={CONTENT_CONFIG.Register.title} />
+      <section className='register__section'>
+        <h1 className='register__title' children={CONTENT_CONFIG.Register.title} />
         <form
-          id="registerForm"
-          className="register__form"
-          name="registerForm"
-          action="#"
-          method="post"
-          target="_self"
-          autoComplete="off"
-          onSubmit={(e) => formLogic.handleRegisterFormSubmit(e, inputValues)}
-        >
-          <div className="register__block">
-            <span className="register__label" children="Имя" />
+          id='registerForm'
+          className='register__form'
+          name='registerForm'
+          action='#'
+          method='post'
+          target='_self'
+          autoComplete='off'
+          onSubmit={e => formLogic.handleRegisterFormSubmit(e, inputValues)}>
+          <div className='register__block'>
+            <span className='register__label' children='Имя' />
             <input
-              id="registerFormNameInput"
+              id='registerFormNameInput'
               className={
                 isFormValid || !inputErrors.registerFormNameInput
                   ? 'register__input'
                   : 'register__input register__input_invalid'
               }
-              name="registerFormNameInput"
-              type="text"
-              placeholder="Имя"
-              pattern="^[a-zа-я|А-ЯA-Z\-]+(?: [a-zа-я|А-ЯA-Z\-]+)*$"
-              autoComplete="off"
+              name='registerFormNameInput'
+              type='text'
+              placeholder='Имя'
+              pattern='^[a-zа-я|А-ЯA-Z\-]+(?: [a-zа-я|А-ЯA-Z\-]+)*$'
+              autoComplete='off'
               minLength={2}
               maxLength={30}
               autoFocus
               required
-              onChange={(e) => handleInputChange(e, setRegisterApiError)}
+              onChange={e => handleInputChange(e, setRegisterApiError)}
             />
           </div>
           <div
@@ -62,27 +61,25 @@ const Register = ({ mix }) => {
             }
           />
           <span
-            className={
-              isFormValid ? 'register__error' : 'register__error register__error_visible'
-            }
+            className={isFormValid ? 'register__error' : 'register__error register__error_visible'}
             children={inputErrors.registerFormNameInput}
           />
-          <div className="register__block">
-            <span className="register__label" children="E-mail" />
+          <div className='register__block'>
+            <span className='register__label' children='E-mail' />
             <input
-              id="registerFormEmailInput"
+              id='registerFormEmailInput'
               className={
                 isFormValid || !inputErrors.registerFormEmailInput
                   ? 'register__input'
                   : 'register__input register__input_invalid'
               }
-              name="registerFormEmailInput"
-              type="email"
+              name='registerFormEmailInput'
+              type='email'
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-              placeholder="E-mail"
-              autoComplete="off"
+              placeholder='E-mail'
+              autoComplete='off'
               required
-              onChange={(e) => handleInputChange(e, setRegisterApiError)}
+              onChange={e => handleInputChange(e, setRegisterApiError)}
             />
           </div>
           <div
@@ -93,28 +90,26 @@ const Register = ({ mix }) => {
             }
           />
           <span
-            className={
-              isFormValid ? 'register__error' : 'register__error register__error_visible'
-            }
+            className={isFormValid ? 'register__error' : 'register__error register__error_visible'}
             children={inputErrors.registerFormEmailInput}
           />
-          <div className="register__block">
-            <span className="register__label" children="Password" />
+          <div className='register__block'>
+            <span className='register__label' children='Password' />
             <input
-              id="registerFormPasswordInput"
+              id='registerFormPasswordInput'
               className={
                 isFormValid || !inputErrors.registerFormPasswordInput
                   ? 'register__input'
                   : 'register__input register__input_invalid'
               }
-              name="registerFormPasswordInput"
-              type="password"
-              placeholder="Пароль"
-              pattern="^\S*$"
-              autoComplete="off"
+              name='registerFormPasswordInput'
+              type='password'
+              placeholder='Пароль'
+              pattern='^\S*$'
+              autoComplete='off'
               minLength={4}
               required
-              onChange={(e) => handleInputChange(e, setRegisterApiError)}
+              onChange={e => handleInputChange(e, setRegisterApiError)}
             />
           </div>
           <div
@@ -125,12 +120,10 @@ const Register = ({ mix }) => {
             }
           />
           <span
-            className={
-              isFormValid ? 'register__error' : 'register__error register__error_visible'
-            }
+            className={isFormValid ? 'register__error' : 'register__error register__error_visible'}
             children={inputErrors.registerFormPasswordInput}
           />
-          <div className="register__bottom">
+          <div className='register__bottom'>
             <span
               className={
                 registerApiError
@@ -140,26 +133,26 @@ const Register = ({ mix }) => {
               children={registerApiError}
             />
             <button
-              id="registerFormEdit"
+              id='registerFormEdit'
               className={
                 isFormValid && !registerApiError
                   ? 'register__submit'
                   : 'register__submit register__submit_disabled'
               }
-              name="registerFormEdit"
-              aria-label="Зарегистрироваться"
-              type="submit"
+              name='registerFormEdit'
+              aria-label='Зарегистрироваться'
+              type='submit'
               children={CONTENT_CONFIG.Register.button}
               disabled={isFormValid && !registerApiError ? false : true}
             />
-            <div className="register__already">
+            <div className='register__already'>
               <span
-                className="register__description"
+                className='register__description'
                 children={CONTENT_CONFIG.Register.description}
               />
               <Link
-                className="register__link"
-                to="/signin"
+                className='register__link'
+                to='/signin'
                 children={CONTENT_CONFIG.Register.link}
               />
             </div>

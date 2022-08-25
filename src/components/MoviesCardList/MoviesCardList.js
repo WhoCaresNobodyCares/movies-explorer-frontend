@@ -20,9 +20,9 @@ const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => 
             ? 'movies-card-list__cards'
             : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
-        children={renderedMovies.map((item) => (
+        children={renderedMovies.map(item => (
           <MoviesCard
-            mix="movies-card-list__movies-card"
+            mix='movies-card-list__movies-card'
             card={item}
             key={item.movieId}
             savedMoviesIds={savedMoviesIds}
@@ -32,11 +32,11 @@ const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => 
       />
       {isButtonVisible && ( // !!!
         <button
-          id="moviesCardListButton"
-          className="movies-card-list__button"
-          name="moviesCardListButton"
-          aria-label="Добавить карточки"
-          type="button"
+          id='moviesCardListButton'
+          className='movies-card-list__button'
+          name='moviesCardListButton'
+          aria-label='Добавить карточки'
+          type='button'
           onClick={() => {
             setIsPreloaderVisible(!isPreloaderVisible);
           }}
@@ -44,7 +44,7 @@ const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => 
         />
       )}
       <Preloader
-        mix="movies-card-list__preloader"
+        mix='movies-card-list__preloader'
         mod_visible={isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''}
       />
       <div
@@ -54,7 +54,7 @@ const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => 
             : 'movies-card-list__not-found'
         }
         children={
-          <span className="movies-card-list__not-found-message">
+          <span className='movies-card-list__not-found-message'>
             {CONTENT_CONFIG.MoviesCardList.notFound}
           </span>
         }

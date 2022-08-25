@@ -6,9 +6,9 @@ const NavHor = ({ mix }) => {
   return (
     <nav
       className={`${mix} nav-hor`}
-      children={CONTENT_CONFIG.Header.navHor.links.map((item) => (
+      children={CONTENT_CONFIG.Header.navHor.links.map(item => (
         <NavLink
-          className={(link) =>
+          className={link =>
             !link.isActive ? 'nav-hor__link' : 'nav-hor__link nav-hor__link_active'
           }
           to={item.to}
