@@ -1,16 +1,29 @@
-import useWidth from '../../../utils/customHooks/useWidth';
+import { useEffect, useState } from 'react';
+
 import './AboutMe.css';
+
 import ContentTitle from '../ContentTitle/ContentTitle';
+
 const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
-const AboutMe = ({ mix }) => {
-  // * HOOKS
-  const viewportWidth = useWidth();
+const AboutMe = () => {
+  // * STATES
+  const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 600);
+
+  // * LOGIC
+  const updateLayout = () =>
+    window.innerWidth > 600 ? setIsDesktopLayout(true) : setIsDesktopLayout(false);
+
+  // * EFFECTS
+  useEffect(() => {
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
 
   return (
-    <section id='about-me' className={`${mix} about-me`}>
+    <section id='about-me' className='about-me'>
       <ContentTitle mix='about-me__title' title={CONTENT_CONFIG.Main.aboutMe.title} />
-      {viewportWidth > 600 ? (
+      {isDesktopLayout ? (
         <>
           <div className='about-me__content'>
             <div className='about-me__info'>

@@ -1,10 +1,17 @@
-import useWidth from '../../../utils/customHooks/useWidth';
+import { useEffect, useState } from 'react';
+
 import './Promo.css';
 import landingPicture from '../../../images/landing-picture.svg';
 
 const Promo = ({ mix }) => {
   // * HOOKS
-  const viewportWidth = useWidth();
+
+  // * STATES
+  const [isTitleWide, setIsTitleWide] = useState(window.innerWidth > 600);
+
+  // * LOGIC
+  const updateTitle = () =>
+    window.innerWidth > 600 ? setIsTitleWide(true) : setIsTitleWide(false);
 
   // * JSX
   const wideTitle = (
@@ -25,9 +32,15 @@ const Promo = ({ mix }) => {
     </h1>
   );
 
+  // * EFFECTS
+  useEffect(() => {
+    window.addEventListener('resize', updateTitle);
+    return () => window.removeEventListener('resize', updateTitle);
+  }, []);
+
   return (
     <section className={`${mix} promo`}>
-      {viewportWidth > 600 ? wideTitle : narrowTitle}
+      {isTitleWide ? wideTitle : narrowTitle}
       <img className='promo__background' src={landingPicture} alt='Фоновое изображение секции' />
     </section>
   );

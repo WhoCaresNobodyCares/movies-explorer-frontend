@@ -1,36 +1,45 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import useWidth from '../../utils/customHooks/useWidth';
+
 import './Header.css';
 import logoIcon from '../../images/logo-icon.svg';
+
 import Auth from './Auth/Auth';
 import NavHor from './NavHor/NavHor';
 import User from './User/User';
 import Burger from './Burger/Burger';
 import Menu from './Menu/Menu';
-import AppContext from '../../contexts/AppContext';
 
-const Header = ({ mix }) => {
+const Header = ({ mix, userState }) => {
   // * HOOKS
-  const { isLoggedIn } = useContext(AppContext);
-  const viewportWidth = useWidth();
   const location = useLocation();
 
   // * STATES
+  const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 800);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  // * LOGIC
+  const updateLayout = () =>
+    window.innerWidth > 800 ? setIsDesktopLayout(true) : setIsDesktopLayout(false);
 
   // * JSX
   const burgerMenu = (
     <>
       <Burger mix='header__burger' isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
-      <Menu mix='header__menu' isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+      <Menu
+        mix='header__menu'
+        isMenuOpened={isMenuOpened}
+        setIsMenuOpened={setIsMenuOpened}
+        location={location}
+        isDesktopLayout={isDesktopLayout}
+      />
     </>
   );
 
   const completeMenu = (
     <>
       <NavHor mix='header__nav-hor' />
-      <User mix='header__user' />
+      <User mix='header__user' location={location} isDesktopLayout={isDesktopLayout} />
     </>
   );
 
@@ -43,7 +52,7 @@ const Header = ({ mix }) => {
             className={'header__link'}
             children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
-          {viewportWidth > 800 ? completeMenu : burgerMenu}
+          {isDesktopLayout ? completeMenu : burgerMenu}
         </div>
       </header>
     </>
@@ -58,15 +67,7 @@ const Header = ({ mix }) => {
             className={'header__link'}
             children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
-          {isLoggedIn ? (
-            viewportWidth > 800 ? (
-              completeMenu
-            ) : (
-              burgerMenu
-            )
-          ) : (
-            <Auth mix='header__auth' />
-          )}
+          {userState.isLoggedIn ? isDesktopLayout ? completeMenu : burgerMenu : <Auth />}
         </div>
       </header>
     </>
@@ -88,8 +89,13 @@ const Header = ({ mix }) => {
 
   // * EFFECTS
   useEffect(() => {
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
+
+  useEffect(() => {
     setIsMenuOpened(false);
-  }, [location, viewportWidth]);
+  }, [location, isDesktopLayout]);
 
   return (
     <Routes>

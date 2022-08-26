@@ -1,39 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
-import AppContext from '../../contexts/AppContext';
-import useConvertMinutes from '../../utils/customHooks/useConvertMinutes';
+import { useState } from 'react';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
-  // * PROPS
-  const { image, nameRU, duration, trailerLink } = card;
-
-  // * HOOKS
-  const { userState, moviesLogic } = useContext(AppContext);
-  const length = useConvertMinutes(duration);
-
+const MoviesCard = ({ card, savedMoviesIds, renderPath }) => {
   // * STATES
   const [isCardLiked, setIsCardLiked] = useState(false);
-
-  // * EFFECTS
-  useEffect(() => {
-    savedMoviesIds.some(item => item === card.movieId && setIsCardLiked(true));
-  }, []);
-
   return (
-    <div className={`${mix} movies-card`}>
+    <div className='movies-card'>
       <div className='movies-card__container'>
         <a
-          href={trailerLink}
+          href={'asdf'}
           target='_blank'
           rel='noreferrer noopener'
           className='movies-card__link'
           children=''
         />
-        <img className='movies-card__image' src={image} alt='Изображение карточки' />
+        <img className='movies-card__image' src={'asdf'} alt='Изображение карточки' />
       </div>
       <div className='movies-card__description'>
-        <h2 className='movies-card__title' children={nameRU} />
+        <h2 className='movies-card__title' children={'asdf'} />
         <button
           id='moviesCardButton'
           className={
@@ -46,13 +31,9 @@ const MoviesCard = ({ mix, card, savedMoviesIds, renderPath }) => {
           name='moviesCardButton'
           aria-label='Совершить действие с карточкой'
           type='button'
-          onClick={
-            renderPath === '/movies'
-              ? () => moviesLogic.handleLike(card, savedMoviesIds, setIsCardLiked, userState)
-              : () => moviesLogic.handleDelete(card, savedMoviesIds, userState)
-          }
+          onClick={renderPath === '/movies' ? () => {} : () => {}}
         />
-        <span className='movies-card__length' children={length} />
+        <span className='movies-card__length' children={'21345'} />
       </div>
     </div>
   );

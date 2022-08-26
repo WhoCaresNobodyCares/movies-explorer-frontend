@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+
 import './NotFound.css';
+
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const NotFound = ({ mix }) => {

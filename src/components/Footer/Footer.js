@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
+
 import './Footer.css';
+
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Footer = ({ mix }) => {

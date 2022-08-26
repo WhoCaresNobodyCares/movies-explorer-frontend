@@ -1,51 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
-import AppContext from '../../contexts/AppContext';
-import useFormValidator from '../../utils/customHooks/useFormValidator';
+import { useState } from 'react';
+
 import './Profile.css';
+
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-const Profile = ({ mix }) => {
-  // * HOOKS
-  const { userState, profileApiError, setProfileApiError, formLogic, userLogic } =
-    useContext(AppContext);
-
-  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } =
-    useFormValidator();
-
+const Profile = ({ mix, userState }) => {
   // * STATES
   const [isProfileEditMode, setIsProfileEditMode] = useState(false);
-  const [isNameSame, setIsNameSame] = useState(true);
-  const [initialValues, setInitialValues] = useState({});
-
-  // * EFFECTS
-  useEffect(() => {
-    resetForm(
-      {
-        profileFormNameInput: userState.name,
-        profileFormEmailInput: userState.email,
-      },
-      {},
-      false
-    );
-    setInitialValues({
-      profileFormNameInput: userState.name,
-      profileFormEmailInput: userState.email,
-    });
-    return () => {
-      resetForm({}, {}, false);
-      setInitialValues({});
-      setProfileApiError('');
-    };
-  }, []);
 
   return (
     <main className={`${mix} profile`}>
       <section className='profile__section'>
-        <AppContext.Consumer>
-          {({ userState }) => (
-            <h1 className='profile__title' children={`Привет, ${userState.name}!`} />
-          )}
-        </AppContext.Consumer>
+        <h1 className='profile__title' children={`Привет, ${userState.userData.name}!`} />
         <form
           id='profileForm'
           className='profile__form'
@@ -54,16 +20,7 @@ const Profile = ({ mix }) => {
           method='post'
           target='_self'
           autoComplete='off'
-          onSubmit={e =>
-            formLogic.handleProfileFormSubmit(
-              e,
-              inputValues,
-              setIsProfileEditMode,
-              resetForm,
-              setInitialValues,
-              userState
-            )
-          }>
+          onSubmit={e => {}}>
           <span className='profile__label' children='Имя' />
           <input
             id='profileFormNameInput'
@@ -71,7 +28,7 @@ const Profile = ({ mix }) => {
               !isProfileEditMode
                 ? 'profile__input'
                 : `${
-                    isFormValid || !inputErrors.profileFormNameInput
+                    true
                       ? 'profile__input profile__input_enabled'
                       : 'profile__input profile__input_enabled profile__input_invalid'
                   }`
@@ -83,18 +40,12 @@ const Profile = ({ mix }) => {
             autoComplete='off'
             minLength={2}
             maxLength={30}
-            value={inputValues.profileFormNameInput}
             required
-            onKeyUp={e => formLogic.handleProfileFormSameNames(e, initialValues, setIsNameSame)}
-            onChange={e => handleInputChange(e, setProfileApiError)}
+            onKeyUp={e => {}}
+            onChange={e => {}}
           />
           <div
-            className={
-              isFormValid ||
-              (!inputErrors.profileFormNameInput && !inputErrors.profileFormEmailInput)
-                ? 'profile__separator'
-                : 'profile__separator profile__separator_error'
-            }
+            className={true ? 'profile__separator' : 'profile__separator profile__separator_error'}
           />
           <span className='profile__label' children='E-mail' />
           <input
@@ -103,7 +54,7 @@ const Profile = ({ mix }) => {
               !isProfileEditMode
                 ? 'profile__input'
                 : `${
-                    isFormValid || !inputErrors.profileFormEmailInput
+                    true
                       ? 'profile__input profile__input_enabled'
                       : 'profile__input profile__input_enabled profile__input_invalid'
                   }`
@@ -113,10 +64,9 @@ const Profile = ({ mix }) => {
             autoComplete='off'
             placeholder='E-mail'
             pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-            value={inputValues.profileFormEmailInput}
             required
-            onKeyUp={e => formLogic.handleProfileFormSameNames(e, initialValues, setIsNameSame)}
-            onChange={e => handleInputChange(e, setProfileApiError)}
+            onKeyUp={e => {}}
+            onChange={e => {}}
           />
           <div className='profile__bottom'>
             {!isProfileEditMode && (
@@ -136,7 +86,7 @@ const Profile = ({ mix }) => {
                   name='profileFormLogout'
                   aria-label='Выйти из профиля'
                   type='button'
-                  onClick={() => userLogic.handleSignout()}
+                  onClick={() => {}}
                   children={CONTENT_CONFIG.Profile.logoutButton}
                 />
               </>
@@ -144,31 +94,19 @@ const Profile = ({ mix }) => {
             {isProfileEditMode && (
               <>
                 <span
-                  className={
-                    !isFormValid || profileApiError
-                      ? 'profile__error profile__error_visible'
-                      : 'profile__error'
-                  }
-                  children={
-                    inputErrors.profileFormNameInput ||
-                    inputErrors.profileFormEmailInput ||
-                    profileApiError
-                  }
+                  className={false ? 'profile__error profile__error_visible' : 'profile__error'}
+                  children={'yooo'}
                 />
                 <button
                   id='profileFormSubmit'
-                  className={
-                    isFormValid && !isNameSame && !profileApiError
-                      ? 'profile__submit'
-                      : 'profile__submit profile__submit_disabled'
-                  }
+                  className={true ? 'profile__submit' : 'profile__submit profile__submit_disabled'}
                   name='profileFormSubmit'
                   aria-label='Подтвердить изменения'
                   type='submit'
                   formMethod='post'
                   form='profileForm'
                   children={CONTENT_CONFIG.Profile.saveButton}
-                  disabled={isFormValid && !isNameSame && !profileApiError ? false : true}
+                  disabled={false}
                 />
                 <button
                   id='profileFormDiscard'
@@ -176,19 +114,8 @@ const Profile = ({ mix }) => {
                   name='profileFormDiscard'
                   aria-label='Отменить изменения'
                   type='button'
-                  onClick={() =>
-                    formLogic.handleProfileDiscard(
-                      resetForm,
-                      userState,
-                      setProfileApiError,
-                      setIsProfileEditMode
-                    )
-                  }
-                  children={
-                    !isNameSame
-                      ? CONTENT_CONFIG.Profile.discardButtonCancel
-                      : CONTENT_CONFIG.Profile.discardButtonReturn
-                  }
+                  onClick={() => {}}
+                  children={'yo'}
                 />
               </>
             )}

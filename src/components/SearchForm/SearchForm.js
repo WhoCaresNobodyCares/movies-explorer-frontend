@@ -1,77 +1,26 @@
-import { useContext, useEffect, useState } from 'react';
-import useWidth from '../../utils/customHooks/useWidth';
-import useFormHandler from '../../utils/customHooks/useFormHandler';
+import { useEffect, useState } from 'react';
+
 import './SearchForm.css';
 import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
-import { useLocation } from 'react-router-dom';
-import AppContext from '../../contexts/AppContext';
 
-const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) => {
-  // * HOOKS
-  const { formLogic, userState } = useContext(AppContext);
-  const { email } = userState;
-  const viewportWidth = useWidth();
-  const location = useLocation();
-  const { inputValue, handleInputChange, isFormValid, resetForm } = useFormHandler();
+const SearchForm = () => {
+  const isFormValid = true;
 
   // * STATES
-  const [initialValue, setInitialValue] = useState({});
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 600);
 
+  // * LOGIC
+  const updateLayout = () =>
+    window.innerWidth > 600 ? setIsDesktopLayout(true) : setIsDesktopLayout(false);
   // * EFFECTS
   useEffect(() => {
-    if (location.pathname === '/movies') {
-      resetForm(
-        JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState.inputValue
-          : {
-              searchFormInput: ['Фильмы'],
-            }
-      );
-      setInitialValue(
-        JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState.initialValue
-          : {
-              searchFormInput: 'Фильмы',
-            }
-      );
-      setIsCheckboxChecked(
-        JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).moviesState.isCheckboxChecked
-          : false
-      );
-    }
-    if (location.pathname === '/saved-movies') {
-      resetForm(
-        JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState.inputValue
-          : {
-              searchFormInput: ['Сохраненные', 'фильмы'],
-            }
-      );
-      setInitialValue(
-        JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState.initialValue
-          : {
-              searchFormInput: 'Сохраненные фильмы',
-            }
-      );
-      setIsCheckboxChecked(
-        JSON.parse(localStorage.getItem(`${email}-state`))
-          ? JSON.parse(localStorage.getItem(`${email}-state`)).savedMoviesState.isCheckboxChecked
-          : false
-      );
-    }
-    return () => {
-      resetForm([]);
-      setInitialValue({});
-      setIsCheckboxChecked(false);
-    };
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
   }, []);
 
   return (
-    <section className={`${mix} search-form`}>
+    <section className='search-form'>
       <form
         id='searchForm'
         className='search-form__form'
@@ -80,20 +29,10 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
         method='post'
         target='_self'
         autoComplete='off'
-        onSubmit={e =>
-          formLogic.handleSearchFormSubmit(
-            e,
-            inputValue,
-            initialValue,
-            isCheckboxChecked,
-            searchPath,
-            setRenderedMovies,
-            setSavedMoviesIds
-          )
-        }>
+        onSubmit={e => {}}>
         <div className='search-form__frame'>
           <div className='search-form__search-bar'>
-            {viewportWidth > 600 && (
+            {isDesktopLayout && (
               <img className='search-form__search-icon' src={searchIcon} alt='Иконка поиска' />
             )}
             <input
@@ -105,13 +44,13 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
               type='text'
               minLength={0}
               maxLength={80}
-              defaultValue={initialValue.searchFormInput}
+              // defaultValue={initialValue.searchFormInput}
               placeholder='Фильм'
               autoComplete='off'
               pattern='^[а-яА-Яa-zA-Z\s\d]+$'
               required
               autoFocus
-              onChange={e => handleInputChange(e)}
+              onChange={e => {}}
             />
             <button
               id='searchFormSubmit'
@@ -125,7 +64,7 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
               type='submit'
               formMethod='post'
               form='searchForm'
-              disabled={isFormValid ? false : true}
+              // disabled={isFormValid ? false : true}
               children={
                 <img
                   className={
@@ -139,7 +78,7 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
               }
             />
           </div>
-          {viewportWidth > 600 && (
+          {isDesktopLayout && (
             <>
               <div className='search-form__separator' />
               <div className='search-form__option'>
@@ -150,8 +89,8 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
                     name='searchFormCheckbox'
                     type='checkbox'
                     form='searchForm'
-                    checked={isCheckboxChecked}
-                    onChange={e => formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)}
+                    // checked={isCheckboxChecked}
+                    onChange={e => {}}
                   />
                   <span className='search-form__slider' />
                 </label>
@@ -160,7 +99,7 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
             </>
           )}
         </div>
-        {viewportWidth <= 600 && (
+        {!isDesktopLayout && (
           <>
             <div className='search-form__option'>
               <label id='searchFormLabel' className='search-form__switch'>
@@ -170,8 +109,8 @@ const SearchForm = ({ mix, searchPath, setRenderedMovies, setSavedMoviesIds }) =
                   name='searchFormCheckbox'
                   type='checkbox'
                   form='searchForm'
-                  checked={isCheckboxChecked}
-                  onChange={e => formLogic.handleCheckBoxChange(e, setIsCheckboxChecked)}
+                  // checked={isCheckboxChecked}
+                  onChange={e => {}}
                 />
                 <span className='search-form__slider' />
               </label>

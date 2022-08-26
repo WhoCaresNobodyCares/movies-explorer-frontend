@@ -1,19 +1,23 @@
 import { useState } from 'react';
+
 import './MoviesCardList.css';
+
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => {
+const MoviesCardList = () => {
   // * STATES
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
 
   // !!! BULLSHIT
+  const renderedMovies = [];
   const isButtonVisible = false; // !!!
   const isNotFoundVisible = true;
 
   return (
-    <section className={`${mix} movies-card-list`}>
+    <section className='movies-card-list'>
       <div
         className={
           isButtonVisible // !!!
@@ -21,13 +25,7 @@ const MoviesCardList = ({ mix, renderedMovies, savedMoviesIds, renderPath }) => 
             : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
         children={renderedMovies.map(item => (
-          <MoviesCard
-            mix='movies-card-list__movies-card'
-            card={item}
-            key={item.movieId}
-            savedMoviesIds={savedMoviesIds}
-            renderPath={renderPath}
-          />
+          <MoviesCard card={item} key={item.movieId} />
         ))}
       />
       {isButtonVisible && ( // !!!

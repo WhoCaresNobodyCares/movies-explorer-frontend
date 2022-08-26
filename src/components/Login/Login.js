@@ -1,23 +1,10 @@
-import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import AppContext from '../../contexts/AppContext';
-import useFormValidator from '../../utils/customHooks/useFormValidator';
+
 import './Login.css';
+
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Login = ({ mix }) => {
-  // * HOOKS
-  const { formLogic, loginApiError, setLoginApiError } = useContext(AppContext);
-  const { inputValues, inputErrors, handleInputChange, isFormValid, resetForm } =
-    useFormValidator();
-
-  // * EFFECTS
-  useEffect(() => {
-    return () => {
-      resetForm({}, {}, false);
-    };
-  }, []);
-
   return (
     <main className={`${mix} login`}>
       <section className='login__section'>
@@ -30,16 +17,12 @@ const Login = ({ mix }) => {
           method='post'
           target='_self'
           autoComplete='off'
-          onSubmit={e => formLogic.handleLoginFormSubmit(e, inputValues)}>
+          onSubmit={e => {}}>
           <div className='login__block'>
             <span className='login__label' children='E-mail' />
             <input
               id='loginFormEmailInput'
-              className={
-                isFormValid || !inputErrors.loginFormEmailInput
-                  ? 'login__input'
-                  : 'login__input login__input_invalid'
-              }
+              className={true ? 'login__input' : 'login__input login__input_invalid'}
               name='loginFormEmailInput'
               type='email'
               placeholder='E-mail'
@@ -47,29 +30,19 @@ const Login = ({ mix }) => {
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
               autoFocus
               required
-              onChange={e => handleInputChange(e, setLoginApiError)}
+              onChange={e => {}}
             />
           </div>
-          <div
-            className={
-              isFormValid || !inputErrors.loginFormEmailInput
-                ? 'login__separator'
-                : 'login__separator login__separator_error'
-            }
-          />
+          <div className={true ? 'login__separator' : 'login__separator login__separator_error'} />
           <span
-            className={isFormValid ? 'login__error' : 'login__error login__error_visible'}
-            children={inputErrors.loginFormEmailInput}
+            className={true ? 'login__error' : 'login__error login__error_visible'}
+            children={''}
           />
           <div className='login__block'>
             <span className='login__label' children='Пароль' />
             <input
               id='loginFormPasswordInput'
-              className={
-                isFormValid || !inputErrors.loginFormPasswordInput
-                  ? 'login__input'
-                  : 'login__input login__input_invalid'
-              }
+              className={true ? 'login__input' : 'login__input login__input_invalid'}
               name='loginFormPasswordInput'
               type='password'
               placeholder='Пароль'
@@ -77,39 +50,27 @@ const Login = ({ mix }) => {
               pattern='^\S*$'
               minLength={4}
               required
-              onChange={e => handleInputChange(e, setLoginApiError)}
+              onChange={e => {}}
             />
           </div>
-          <div
-            className={
-              isFormValid || !inputErrors.loginFormPasswordInput
-                ? 'login__separator'
-                : 'login__separator login__separator_error'
-            }
-          />
+          <div className={true ? 'login__separator' : 'login__separator login__separator_error'} />
           <span
-            className={isFormValid ? 'login__error' : 'login__error login__error_visible'}
-            children={inputErrors.loginFormPasswordInput}
+            className={true ? 'login__error' : 'login__error login__error_visible'}
+            children={'asdfasdf'}
           />
           <div className='login__bottom'>
             <span
-              className={
-                loginApiError ? 'login__apiError login__apiError_visible' : 'login__apiError'
-              }
-              children={loginApiError}
+              className={true ? 'login__apiError login__apiError_visible' : 'login__apiError'}
+              children={'asdfasdf'}
             />
             <button
               id='loginFormEdit'
-              className={
-                isFormValid && !loginApiError
-                  ? 'login__submit'
-                  : 'login__submit login__submit_disabled'
-              }
+              className={true ? 'login__submit' : 'login__submit login__submit_disabled'}
               name='loginFormEdit'
               aria-label='Войти'
               type='submit'
               children={CONTENT_CONFIG.Login.button}
-              disabled={isFormValid && !loginApiError ? false : true}
+              disabled={false}
             />
             <div className='login__already'>
               <span className='login__description' children={CONTENT_CONFIG.Login.description} />
