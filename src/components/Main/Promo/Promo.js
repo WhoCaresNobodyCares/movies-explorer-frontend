@@ -4,8 +4,6 @@ import './Promo.css';
 import landingPicture from '../../../images/landing-picture.svg';
 
 const Promo = ({ mix }) => {
-  // * HOOKS
-
   // * STATES
   const [isTitleWide, setIsTitleWide] = useState(window.innerWidth > 600);
 

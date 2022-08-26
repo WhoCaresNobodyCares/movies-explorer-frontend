@@ -17,10 +17,6 @@ import InfoPopup from '../InfoPopup/InfoPopup';
 
 import UserContext from '../../contexts/UserContext';
 
-// const { MAIN_API_URL, MOVIES_API_URL } = require('../../configs/apiConfig.json');
-// const { POPUP_STATES } = require('../../configs/popupConfig.json');
-// const { API_ERRORS } = require('../../configs/apiErrors.json');
-
 const App = () => {
   // * HOOKS
 
@@ -66,11 +62,11 @@ const App = () => {
             element={
               <ProtectedRoute
                 isLoggedIn={userState.isLoggedIn}
-                element={<Profile mix='app__profile' userState={userState} />}
+                element={<Profile mix='app__profile' userState={userState} />} // !!!
               />
             }
           />
-          <Route path='*' element={<NotFound mix='app__not-found' />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer mix='app__footer' />
         <InfoPopup

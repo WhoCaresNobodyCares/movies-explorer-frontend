@@ -17,12 +17,12 @@ const Login = ({ mix }) => {
           method='post'
           target='_self'
           autoComplete='off'
-          onSubmit={e => {}}>
+          onSubmit={e => e.preventDefault()}>
           <div className='login__block'>
             <span className='login__label' children='E-mail' />
             <input
               id='loginFormEmailInput'
-              className={true ? 'login__input' : 'login__input login__input_invalid'}
+              className={false ? 'login__input' : 'login__input login__input_invalid'}
               name='loginFormEmailInput'
               type='email'
               placeholder='E-mail'
@@ -33,16 +33,16 @@ const Login = ({ mix }) => {
               onChange={e => {}}
             />
           </div>
-          <div className={true ? 'login__separator' : 'login__separator login__separator_error'} />
+          <div className={false ? 'login__separator' : 'login__separator login__separator_error'} />
           <span
-            className={true ? 'login__error' : 'login__error login__error_visible'}
-            children={''}
+            className={false ? 'login__error' : 'login__error login__error_visible'}
+            children={'login error'}
           />
           <div className='login__block'>
             <span className='login__label' children='Пароль' />
             <input
               id='loginFormPasswordInput'
-              className={true ? 'login__input' : 'login__input login__input_invalid'}
+              className={false ? 'login__input' : 'login__input login__input_invalid'}
               name='loginFormPasswordInput'
               type='password'
               placeholder='Пароль'
@@ -53,24 +53,25 @@ const Login = ({ mix }) => {
               onChange={e => {}}
             />
           </div>
-          <div className={true ? 'login__separator' : 'login__separator login__separator_error'} />
+          <div className={false ? 'login__separator' : 'login__separator login__separator_error'} />
           <span
-            className={true ? 'login__error' : 'login__error login__error_visible'}
-            children={'asdfasdf'}
+            className={false ? 'login__error' : 'login__error login__error_visible'}
+            children={'login error'}
           />
           <div className='login__bottom'>
             <span
               className={true ? 'login__apiError login__apiError_visible' : 'login__apiError'}
-              children={'asdfasdf'}
+              children={'login error'}
             />
             <button
               id='loginFormEdit'
-              className={true ? 'login__submit' : 'login__submit login__submit_disabled'}
+              className={false ? 'login__submit' : 'login__submit login__submit_disabled'}
               name='loginFormEdit'
               aria-label='Войти'
+              formMethod='post'
               type='submit'
               children={CONTENT_CONFIG.Login.button}
-              disabled={false}
+              disabled={true}
             />
             <div className='login__already'>
               <span className='login__description' children={CONTENT_CONFIG.Login.description} />

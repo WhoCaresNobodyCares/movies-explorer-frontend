@@ -5,14 +5,13 @@ import searchIcon from '../../images/search-icon.svg';
 import searchButtonIcon from '../../images/search-button-icon.svg';
 
 const SearchForm = () => {
-  const isFormValid = true;
-
   // * STATES
   const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 600);
 
   // * LOGIC
   const updateLayout = () =>
     window.innerWidth > 600 ? setIsDesktopLayout(true) : setIsDesktopLayout(false);
+
   // * EFFECTS
   useEffect(() => {
     window.addEventListener('resize', updateLayout);
@@ -29,7 +28,7 @@ const SearchForm = () => {
         method='post'
         target='_self'
         autoComplete='off'
-        onSubmit={e => {}}>
+        onSubmit={e => e.preventDefault()}>
         <div className='search-form__frame'>
           <div className='search-form__search-bar'>
             {isDesktopLayout && (
@@ -38,16 +37,16 @@ const SearchForm = () => {
             <input
               id='searchFormInput'
               className={
-                isFormValid ? 'search-form__input' : 'search-form__input search-form__input_invalid'
+                false ? 'search-form__input' : 'search-form__input search-form__input_invalid'
               }
               name='searchFormInput'
               type='text'
               minLength={0}
               maxLength={80}
-              // defaultValue={initialValue.searchFormInput}
+              defaultValue={''}
               placeholder='Фильм'
               autoComplete='off'
-              pattern='^[а-яА-Яa-zA-Z\s\d]+$'
+              pattern='[A-Za-zА-Яа-я0-9]+([\s])?'
               required
               autoFocus
               onChange={e => {}}
@@ -55,20 +54,18 @@ const SearchForm = () => {
             <button
               id='searchFormSubmit'
               className={
-                isFormValid
-                  ? 'search-form__submit'
-                  : 'search-form__submit search-form__submit_disabled'
+                false ? 'search-form__submit' : 'search-form__submit search-form__submit_disabled'
               }
               name='searchFormSubmit'
               aria-label='Начать поиск'
-              type='submit'
               formMethod='post'
+              type='submit'
               form='searchForm'
-              // disabled={isFormValid ? false : true}
+              disabled={false}
               children={
                 <img
                   className={
-                    isFormValid
+                    false
                       ? 'search-form__submit-icon'
                       : 'search-form__submit-icon search-form__submit-icon_disabled'
                   }
@@ -89,7 +86,7 @@ const SearchForm = () => {
                     name='searchFormCheckbox'
                     type='checkbox'
                     form='searchForm'
-                    // checked={isCheckboxChecked}
+                    checked={false}
                     onChange={e => {}}
                   />
                   <span className='search-form__slider' />
@@ -109,7 +106,7 @@ const SearchForm = () => {
                   name='searchFormCheckbox'
                   type='checkbox'
                   form='searchForm'
-                  // checked={isCheckboxChecked}
+                  checked={false}
                   onChange={e => {}}
                 />
                 <span className='search-form__slider' />

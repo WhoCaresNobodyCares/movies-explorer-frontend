@@ -17,16 +17,16 @@ const Register = ({ mix }) => {
           method='post'
           target='_self'
           autoComplete='off'
-          onSubmit={e => {}}>
+          onSubmit={e => e.preventDefault()}>
           <div className='register__block'>
             <span className='register__label' children='Имя' />
             <input
               id='registerFormNameInput'
-              className={true ? 'register__input' : 'register__input register__input_invalid'}
+              className={false ? 'register__input' : 'register__input register__input_invalid'}
               name='registerFormNameInput'
               type='text'
               placeholder='Имя'
-              pattern='^[a-zа-я|А-ЯA-Z\-]+(?: [a-zа-я|А-ЯA-Z\-]+)*$'
+              pattern='[A-Za-zА-Яа-я]+([\s\-])?'
               autoComplete='off'
               minLength={2}
               maxLength={30}
@@ -37,18 +37,18 @@ const Register = ({ mix }) => {
           </div>
           <div
             className={
-              true ? 'register__separator' : 'register__separator register__separator_error'
+              false ? 'register__separator' : 'register__separator register__separator_error'
             }
           />
           <span
-            className={true ? 'register__error' : 'register__error register__error_visible'}
-            children={'ydoafsdf'}
+            className={false ? 'register__error' : 'register__error register__error_visible'}
+            children={'error'}
           />
           <div className='register__block'>
             <span className='register__label' children='E-mail' />
             <input
               id='registerFormEmailInput'
-              className={true ? 'register__input' : 'register__input register__input_invalid'}
+              className={false ? 'register__input' : 'register__input register__input_invalid'}
               name='registerFormEmailInput'
               type='email'
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
@@ -60,18 +60,18 @@ const Register = ({ mix }) => {
           </div>
           <div
             className={
-              true ? 'register__separator' : 'register__separator register__separator_error'
+              false ? 'register__separator' : 'register__separator register__separator_error'
             }
           />
           <span
-            className={true ? 'register__error' : 'register__error register__error_visible'}
-            children={'asdfasdf'}
+            className={false ? 'register__error' : 'register__error register__error_visible'}
+            children={'error'}
           />
           <div className='register__block'>
             <span className='register__label' children='Password' />
             <input
               id='registerFormPasswordInput'
-              className={true ? 'register__input' : 'register__input register__input_invalid'}
+              className={false ? 'register__input' : 'register__input register__input_invalid'}
               name='registerFormPasswordInput'
               type='password'
               placeholder='Пароль'
@@ -84,28 +84,29 @@ const Register = ({ mix }) => {
           </div>
           <div
             className={
-              true ? 'register__separator' : 'register__separator register__separator_error'
+              false ? 'register__separator' : 'register__separator register__separator_error'
             }
           />
           <span
-            className={true ? 'register__error' : 'register__error register__error_visible'}
-            children={'asdfasdf'}
+            className={false ? 'register__error' : 'register__error register__error_visible'}
+            children={'error'}
           />
           <div className='register__bottom'>
             <span
               className={
-                true ? 'register__apiError register__apiError_visible' : 'register__apiError'
+                false ? 'register__apiError' : 'register__apiError register__apiError_visible'
               }
-              children={'asdfasd'}
+              children={'error'}
             />
             <button
               id='registerFormEdit'
-              className={true ? 'register__submit' : 'register__submit register__submit_disabled'}
+              className={false ? 'register__submit' : 'register__submit register__submit_disabled'}
               name='registerFormEdit'
               aria-label='Зарегистрироваться'
+              formMethod='post'
               type='submit'
               children={CONTENT_CONFIG.Register.button}
-              disabled={false}
+              disabled={true}
             />
             <div className='register__already'>
               <span

@@ -4,12 +4,12 @@ import './NotFound.css';
 
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-const NotFound = ({ mix }) => {
+const NotFound = () => {
   // * HOOKS
   const navigate = useNavigate();
 
   return (
-    <main className={`${mix} not-found`}>
+    <main className='not-found'>
       <section className='not-found__section'>
         <div className='not-found__wrap'>
           <h1 className='not-found__title' children={CONTENT_CONFIG.NotFound.title} />
@@ -21,9 +21,7 @@ const NotFound = ({ mix }) => {
           name='navigateBack'
           aria-label='Назад'
           type='button'
-          onClick={() => {
-            navigate(-1);
-          }}
+          onClick={() => navigate(-1)}
           children={CONTENT_CONFIG.NotFound.button}
         />
       </section>

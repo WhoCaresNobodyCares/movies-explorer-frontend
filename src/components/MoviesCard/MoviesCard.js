@@ -2,27 +2,28 @@ import { useState } from 'react';
 
 import './MoviesCard.css';
 
-const MoviesCard = ({ card, savedMoviesIds, renderPath }) => {
+const MoviesCard = () => {
   // * STATES
   const [isCardLiked, setIsCardLiked] = useState(false);
+
   return (
     <div className='movies-card'>
       <div className='movies-card__container'>
         <a
-          href={'asdf'}
+          href={'link'}
           target='_blank'
           rel='noreferrer noopener'
           className='movies-card__link'
           children=''
         />
-        <img className='movies-card__image' src={'asdf'} alt='Изображение карточки' />
+        <img className='movies-card__image' src={'link'} alt='Изображение карточки' />
       </div>
       <div className='movies-card__description'>
-        <h2 className='movies-card__title' children={'asdf'} />
+        <h2 className='movies-card__title' children={'text'} />
         <button
           id='moviesCardButton'
           className={
-            renderPath === '/movies'
+            true
               ? `movies-card__movies-button${
                   isCardLiked ? ' movies-card__movies-button_active' : ''
                 }`
@@ -31,9 +32,9 @@ const MoviesCard = ({ card, savedMoviesIds, renderPath }) => {
           name='moviesCardButton'
           aria-label='Совершить действие с карточкой'
           type='button'
-          onClick={renderPath === '/movies' ? () => {} : () => {}}
+          onClick={true ? () => {} : () => {}}
         />
-        <span className='movies-card__length' children={'21345'} />
+        <span className='movies-card__length' children={'25'} />
       </div>
     </div>
   );

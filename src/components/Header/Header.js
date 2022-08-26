@@ -46,10 +46,10 @@ const Header = ({ mix, userState }) => {
   const header = (
     <>
       <header className={`${mix} header`}>
-        <div className={'header__grid'}>
+        <div className='header__grid'>
           <Link
             to='/'
-            className={'header__link'}
+            className='header__link'
             children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
           {isDesktopLayout ? completeMenu : burgerMenu}
@@ -61,10 +61,10 @@ const Header = ({ mix, userState }) => {
   const headerMain = (
     <>
       <header className={`${mix} header header_blue`}>
-        <div className={'header__grid'}>
+        <div className='header__grid'>
           <Link
             to='/'
-            className={'header__link'}
+            className='header__link'
             children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
           {userState.isLoggedIn ? isDesktopLayout ? completeMenu : burgerMenu : <Auth />}
@@ -76,10 +76,10 @@ const Header = ({ mix, userState }) => {
   const headerAuth = (
     <>
       <header className={`${mix} header header_narrow`}>
-        <div className={'header__grid header__grid_narrow'}>
+        <div className='header__grid header__grid_narrow'>
           <Link
             to='/'
-            className={'header__link header__link_narrow'}
+            className='header__link header__link_narrow'
             children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
           />
         </div>

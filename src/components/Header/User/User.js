@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import './User.css';
 import userIcon from '../../../images/user-icon.svg';
+
 import UserContext from '../../../contexts/UserContext';
 
 const User = ({ mix, location, isDesktopLayout }) => (

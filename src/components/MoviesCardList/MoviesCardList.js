@@ -11,43 +11,36 @@ const MoviesCardList = () => {
   // * STATES
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
 
-  // !!! BULLSHIT
-  const renderedMovies = [];
-  const isButtonVisible = false; // !!!
-  const isNotFoundVisible = true;
-
   return (
     <section className='movies-card-list'>
       <div
         className={
-          isButtonVisible // !!!
+          true
             ? 'movies-card-list__cards'
             : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
-        children={renderedMovies.map(item => (
+        children={[].map(item => (
           <MoviesCard card={item} key={item.movieId} />
         ))}
       />
-      {isButtonVisible && ( // !!!
+      {true && (
         <button
           id='moviesCardListButton'
           className='movies-card-list__button'
           name='moviesCardListButton'
           aria-label='Добавить карточки'
           type='button'
-          onClick={() => {
-            setIsPreloaderVisible(!isPreloaderVisible);
-          }}
+          onClick={() => setIsPreloaderVisible(!isPreloaderVisible)}
           children={CONTENT_CONFIG.MoviesCardList.button}
         />
       )}
       <Preloader
         mix='movies-card-list__preloader'
-        mod_visible={isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''}
+        mod_visible={false ? 'movies-card-list__preloader_visible' : ''}
       />
-      <div
+      <div // !!! USE IT YOPTA
         className={
-          isNotFoundVisible
+          false
             ? 'movies-card-list__not-found movies-card-list__not-found_visible'
             : 'movies-card-list__not-found'
         }
