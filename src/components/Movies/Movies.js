@@ -4,11 +4,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import moviesApi from '../../utils/apis/MoviesApi';
 import mainApi from '../../utils/apis/MainApi';
-import { getSavedMoviesIds, searchMovies, validateMovies } from '../../utils/functions/handleMovies';
+import useMoviesOperations from '../../utils/hooks/useMoviesOperations';
 import LikedMoviesContext from '../../contexts/LikedMoviesContext';
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const Movies = ({ mix, setPopupState }) => {
+  const { getSavedMoviesIds, searchMovies, validateMovies } =
+    useMoviesOperations();
+
   const [isPreloaderVisible, setIsPreloaderVisible] = useState(false);
   const [moviesState, setMoviesState] = useState({
     movies: [],
@@ -23,31 +26,51 @@ const Movies = ({ mix, setPopupState }) => {
     e !== null && e.preventDefault();
     setIsPreloaderVisible(true);
     if (movies.length === 0 && value.length !== 0) {
-      Promise.all([moviesApi.getMovies(), mainApi.getMovies(localStorage.getItem('token'))])
+      Promise.all([
+        moviesApi.getMovies(),
+        mainApi.getMovies(localStorage.getItem('token')),
+      ])
         .then(([movies, savedMovies]) => ({
           movies: validateMovies(movies),
           savedMovies,
-          savedMoviesIds: getSavedMoviesIds(validateMovies(movies), savedMovies),
-          foundMovies: searchMovies(validateMovies(movies), value, isCheckboxChecked),
+          savedMoviesIds: getSavedMoviesIds(
+            validateMovies(movies),
+            savedMovies
+          ),
+          foundMovies: searchMovies(
+            validateMovies(movies),
+            value,
+            isCheckboxChecked
+          ),
         }))
         .then(({ movies, savedMovies, savedMoviesIds, foundMovies }) => {
-          localStorage.setItem('moviesState', JSON.stringify({ movies, savedMovies, savedMoviesIds, foundMovies }));
+          localStorage.setItem(
+            'moviesState',
+            JSON.stringify({ movies, savedMovies, savedMoviesIds, foundMovies })
+          );
           return { movies, savedMovies, savedMoviesIds, foundMovies };
         })
         .then(({ movies, savedMovies, savedMoviesIds, foundMovies }) =>
           setMoviesState({ movies, savedMovies, savedMoviesIds, foundMovies })
         )
         .then(() => setIsPreloaderVisible(false))
-        .catch(err => err.status === 500 && setPopupState(CONTENT_CONFIG.InfoPopup.movies.err500));
+        .catch(
+          err =>
+            err.status === 500 &&
+            setPopupState(CONTENT_CONFIG.InfoPopup.movies.err500)
+        );
     } else if (movies.length !== 0 && value.length !== 0) {
       localStorage.setItem(
         'moviesState',
         JSON.stringify({
-          ...JSON.parse(localStorage.getItem('moviesState')),
+          ...moviesState,
           foundMovies: searchMovies(movies, value, isCheckboxChecked),
         })
       );
-      setMoviesState({ ...moviesState, foundMovies: searchMovies(movies, value, isCheckboxChecked) });
+      setMoviesState({
+        ...moviesState,
+        foundMovies: searchMovies(movies, value, isCheckboxChecked),
+      });
       setIsPreloaderVisible(false);
     } else {
       setIsPreloaderVisible(false);
@@ -56,7 +79,19 @@ const Movies = ({ mix, setPopupState }) => {
   };
 
   const handleLike = (card, setIsCardLiked) => {
-    const { country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN } = card;
+    const {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      thumbnail,
+      movieId,
+      nameRU,
+      nameEN,
+    } = card;
     mainApi
       .addMovie(
         country,
@@ -82,11 +117,15 @@ const Movies = ({ mix, setPopupState }) => {
           })
         );
       })
-      .then(() => setMoviesState(JSON.parse(localStorage.getItem('moviesState'))))
+      .then(() =>
+        setMoviesState(JSON.parse(localStorage.getItem('moviesState')))
+      )
       .then(() => setIsCardLiked(true))
       .catch(err => {
-        err.status === 400 && setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err400);
-        err.status === 500 && setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err500);
+        err.status === 400 &&
+          setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err400);
+        err.status === 500 &&
+          setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err500);
       });
   };
 
@@ -94,25 +133,35 @@ const Movies = ({ mix, setPopupState }) => {
     let mongoId;
     let indexToRemoveFromSavedMovies;
     let indexToRemoveFromSavedMoviesIds;
+    const { savedMovies, savedMoviesIds } = moviesState;
 
-    for (let i = 0; i < moviesState.savedMovies.length; i++) {
-      const elm = moviesState.savedMovies[i];
+    for (let i = 0; i < savedMovies.length; i++) {
+      const elm = savedMovies[i];
       if (elm.movieId === movieId) {
-        mongoId = elm._id;
-        indexToRemoveFromSavedMovies = moviesState.savedMovies.indexOf(elm);
-        indexToRemoveFromSavedMoviesIds = moviesState.savedMoviesIds.indexOf(elm.movieId);
+        [
+          mongoId,
+          indexToRemoveFromSavedMovies,
+          indexToRemoveFromSavedMoviesIds,
+        ] = [
+          elm._id,
+          savedMovies.indexOf(elm),
+          savedMoviesIds.indexOf(elm.movieId),
+        ];
       }
     }
 
     mainApi
       .deleteMovie(mongoId, localStorage.getItem('token'))
       .then(() => {
-        let newSavedMovies = [...moviesState.savedMovies];
+        const [newSavedMovies, newSavedMoviesIds] = [
+          [...savedMovies],
+          [...savedMoviesIds],
+        ];
         newSavedMovies.splice(indexToRemoveFromSavedMovies, 1);
-
-        let newSavedMoviesIds = [...moviesState.savedMoviesIds];
         newSavedMoviesIds.splice(indexToRemoveFromSavedMoviesIds, 1);
-
+        return { newSavedMovies, newSavedMoviesIds };
+      })
+      .then(({ newSavedMovies, newSavedMoviesIds }) =>
         localStorage.setItem(
           'moviesState',
           JSON.stringify({
@@ -120,14 +169,19 @@ const Movies = ({ mix, setPopupState }) => {
             savedMovies: newSavedMovies,
             savedMoviesIds: newSavedMoviesIds,
           })
-        );
-      })
-      .then(() => setMoviesState(JSON.parse(localStorage.getItem('moviesState'))))
+        )
+      )
+      .then(() =>
+        setMoviesState(JSON.parse(localStorage.getItem('moviesState')))
+      )
       .then(() => setIsCardLiked(false))
       .catch(err => {
-        err.status === 403 && setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err403);
-        err.status === 404 && setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err404);
-        err.status === 500 && setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err500);
+        err.status === 403 &&
+          setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err403);
+        err.status === 404 &&
+          setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err404);
+        err.status === 500 &&
+          setPopupState(CONTENT_CONFIG.InfoPopup.searchForm.err500);
       });
   };
 

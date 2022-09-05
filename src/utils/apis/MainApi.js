@@ -54,7 +54,20 @@ class MainApi {
     }).then(res => this._handleRes(res));
   }
 
-  addMovie(country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN, token) {
+  addMovie(
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+    token
+  ) {
     return fetch(`${this._url}/movies`, {
       method: 'POST',
       headers: {

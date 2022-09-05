@@ -15,7 +15,16 @@ const Login = ({ mix, handleSignin }) => {
     isFormValid: false,
   });
 
-  const { email, isEmailValid, emailError, password, isPasswordValid, passwordError, isFormValid } = state;
+  const {
+    email,
+    isEmailValid,
+    emailError,
+    password,
+    isPasswordValid,
+    passwordError,
+    isFormValid,
+  } = state;
+
   const [apiError, setApiError] = useState('');
 
   return (
@@ -35,13 +44,16 @@ const Login = ({ mix, handleSignin }) => {
             <span className='login__label' children='E-mail' />
             <input
               id='loginFormEmailInput'
-              className={isEmailValid ? 'login__input' : 'login__input login__input_invalid'}
+              className={
+                isEmailValid
+                  ? 'login__input'
+                  : 'login__input login__input_invalid'
+              }
               name='email'
               type='email'
               placeholder='E-mail'
               autoComplete='off'
               pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-              autoFocus
               required
               value={email}
               onChange={e =>
@@ -57,13 +69,30 @@ const Login = ({ mix, handleSignin }) => {
               }
             />
           </div>
-          <div className={isEmailValid ? 'login__separator' : 'login__separator login__separator_error'} />
-          <span className={isEmailValid ? 'login__error' : 'login__error login__error_visible'} children={emailError} />
+          <div
+            className={
+              isEmailValid
+                ? 'login__separator'
+                : 'login__separator login__separator_error'
+            }
+          />
+          <span
+            className={
+              isEmailValid
+                ? 'login__error'
+                : 'login__error login__error_visible'
+            }
+            children={emailError}
+          />
           <div className='login__block'>
             <span className='login__label' children='Пароль' />
             <input
               id='loginFormPasswordInput'
-              className={isPasswordValid ? 'login__input' : 'login__input login__input_invalid'}
+              className={
+                isPasswordValid
+                  ? 'login__input'
+                  : 'login__input login__input_invalid'
+              }
               name='password'
               type='password'
               placeholder='Пароль'
@@ -85,13 +114,37 @@ const Login = ({ mix, handleSignin }) => {
               }
             />
           </div>
-          <div className={isPasswordValid ? 'login__separator' : 'login__separator login__separator_error'} />
-          <span className={isPasswordValid ? 'login__error' : 'login__error login__error_visible'} children={passwordError} />
+          <div
+            className={
+              isPasswordValid
+                ? 'login__separator'
+                : 'login__separator login__separator_error'
+            }
+          />
+          <span
+            className={
+              isPasswordValid
+                ? 'login__error'
+                : 'login__error login__error_visible'
+            }
+            children={passwordError}
+          />
           <div className='login__bottom'>
-            <span className={apiError !== '' ? 'login__apiError login__apiError_visible' : 'login__apiError'} children={apiError} />
+            <span
+              className={
+                apiError !== ''
+                  ? 'login__apiError login__apiError_visible'
+                  : 'login__apiError'
+              }
+              children={apiError}
+            />
             <button
               id='loginFormEdit'
-              className={isFormValid ? 'login__submit' : 'login__submit login__submit_disabled'}
+              className={
+                isFormValid
+                  ? 'login__submit'
+                  : 'login__submit login__submit_disabled'
+              }
               name='submit'
               aria-label='Войти'
               formMethod='post'
@@ -100,8 +153,15 @@ const Login = ({ mix, handleSignin }) => {
               disabled={!isFormValid}
             />
             <div className='login__already'>
-              <span className='login__description' children={CONTENT_CONFIG.Login.description} />
-              <Link className='login__link' to='/signup' children={CONTENT_CONFIG.Login.link} />
+              <span
+                className='login__description'
+                children={CONTENT_CONFIG.Login.description}
+              />
+              <Link
+                className='login__link'
+                to='/signup'
+                children={CONTENT_CONFIG.Login.link}
+              />
             </div>
           </div>
         </form>

@@ -5,7 +5,10 @@ const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const AboutProject = () => (
   <section id='about-project' className='about-project'>
-    <ContentTitle mix='about-project__title' title={CONTENT_CONFIG.Main.aboutProject.title} />
+    <ContentTitle
+      mix='about-project__title'
+      title={CONTENT_CONFIG.Main.aboutProject.title}
+    />
     <div
       className='about-project__description'
       children={CONTENT_CONFIG.Main.aboutProject.description.map(item => (
@@ -15,7 +18,11 @@ const AboutProject = () => (
     <div
       className='about-project__timeline'
       children={CONTENT_CONFIG.Main.aboutProject.timeline.map(item => (
-        <span className='about-project__timeline-item' children={item.text} key={item.key} />
+        <span
+          className='about-project__timeline-item'
+          children={item.text}
+          key={item.key}
+        />
       ))}
     />
   </section>

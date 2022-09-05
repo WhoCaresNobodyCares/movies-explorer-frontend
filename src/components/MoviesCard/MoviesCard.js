@@ -8,6 +8,7 @@ const MoviesCard = ({ card, handleLike, handleDelete }) => {
   const savedMoviesIds = useContext(LikedMoviesContext);
 
   const { image, nameRU, duration, trailerLink, movieId } = card;
+
   const [isCardLiked, setIsCardLiked] = useState(false);
 
   const convertMinutes = totalMinutes => {
@@ -17,14 +18,27 @@ const MoviesCard = ({ card, handleLike, handleDelete }) => {
   };
 
   useEffect(() => {
-    location === '/movies' && savedMoviesIds.some(item => item === card.movieId && setIsCardLiked(true));
+    location === '/movies' &&
+      savedMoviesIds.some(
+        item => item === card.movieId && setIsCardLiked(true)
+      );
   }, [savedMoviesIds]);
 
   return (
     <div className='movies-card'>
       <div className='movies-card__container'>
-        <a href={trailerLink} target='_blank' rel='noreferrer noopener' className='movies-card__link' children='' />
-        <img className='movies-card__image' src={image} alt='Изображение карточки' />
+        <a
+          href={trailerLink}
+          target='_blank'
+          rel='noreferrer noopener'
+          className='movies-card__link'
+          children=''
+        />
+        <img
+          className='movies-card__image'
+          src={image}
+          alt='Изображение карточки'
+        />
       </div>
       <div className='movies-card__description'>
         <h2 className='movies-card__title' children={nameRU} />
@@ -32,7 +46,9 @@ const MoviesCard = ({ card, handleLike, handleDelete }) => {
           id='moviesCardButton'
           className={
             location === '/movies'
-              ? `movies-card__movies-button${isCardLiked ? ' movies-card__movies-button_active' : ''}`
+              ? `movies-card__movies-button${
+                  isCardLiked ? ' movies-card__movies-button_active' : ''
+                }`
               : 'movies-card__saved-movies-button'
           }
           name='action'
@@ -40,13 +56,17 @@ const MoviesCard = ({ card, handleLike, handleDelete }) => {
           type='button'
           onClick={
             location === '/movies'
-              ? () => {
-                  isCardLiked ? handleDelete(movieId, setIsCardLiked) : handleLike(card, setIsCardLiked);
-                }
+              ? () =>
+                  isCardLiked
+                    ? handleDelete(movieId, setIsCardLiked)
+                    : handleLike(card, setIsCardLiked)
               : () => handleDelete(card._id)
           }
         />
-        <span className='movies-card__length' children={convertMinutes(duration)} />
+        <span
+          className='movies-card__length'
+          children={convertMinutes(duration)}
+        />
       </div>
     </div>
   );

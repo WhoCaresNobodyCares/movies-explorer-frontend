@@ -11,16 +11,25 @@ import UserContext from '../../contexts/UserContext';
 
 const Header = ({ mix }) => {
   const location = useLocation();
-  const userState = useContext(UserContext)
+  const userState = useContext(UserContext);
 
-  const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 800);
+  const [isDesktopLayout, setIsDesktopLayout] = useState(
+    window.innerWidth > 800
+  );
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  const updateLayout = () => (window.innerWidth > 800 ? setIsDesktopLayout(true) : setIsDesktopLayout(false));
+  const updateLayout = () =>
+    window.innerWidth > 800
+      ? setIsDesktopLayout(true)
+      : setIsDesktopLayout(false);
 
   const burgerMenu = (
     <>
-      <Burger mix='header__burger' isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
+      <Burger
+        mix='header__burger'
+        isMenuOpened={isMenuOpened}
+        setIsMenuOpened={setIsMenuOpened}
+      />
       <Menu
         mix='header__menu'
         isMenuOpened={isMenuOpened}
@@ -34,7 +43,11 @@ const Header = ({ mix }) => {
   const completeMenu = (
     <>
       <NavHor mix='header__nav-hor' />
-      <User mix='header__user' location={location} isDesktopLayout={isDesktopLayout} />
+      <User
+        mix='header__user'
+        location={location}
+        isDesktopLayout={isDesktopLayout}
+      />
     </>
   );
 
@@ -42,7 +55,13 @@ const Header = ({ mix }) => {
     <>
       <header className={`${mix} header`}>
         <div className='header__grid'>
-          <Link to='/' className='header__link' children={<img className='header__logo' src={logoIcon} alt='Логотип' />} />
+          <Link
+            to='/'
+            className='header__link'
+            children={
+              <img className='header__logo' src={logoIcon} alt='Логотип' />
+            }
+          />
           {isDesktopLayout ? completeMenu : burgerMenu}
         </div>
       </header>
@@ -53,8 +72,22 @@ const Header = ({ mix }) => {
     <>
       <header className={`${mix} header header_blue`}>
         <div className='header__grid'>
-          <Link to='/' className='header__link' children={<img className='header__logo' src={logoIcon} alt='Логотип' />} />
-          {userState.isLoggedIn ? isDesktopLayout ? completeMenu : burgerMenu : <Auth />}
+          <Link
+            to='/'
+            className='header__link'
+            children={
+              <img className='header__logo' src={logoIcon} alt='Логотип' />
+            }
+          />
+          {userState.isLoggedIn ? (
+            isDesktopLayout ? (
+              completeMenu
+            ) : (
+              burgerMenu
+            )
+          ) : (
+            <Auth />
+          )}
         </div>
       </header>
     </>
@@ -67,7 +100,9 @@ const Header = ({ mix }) => {
           <Link
             to='/'
             className='header__link header__link_narrow'
-            children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
+            children={
+              <img className='header__logo' src={logoIcon} alt='Логотип' />
+            }
           />
         </div>
       </header>

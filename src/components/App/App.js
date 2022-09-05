@@ -19,8 +19,15 @@ const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 const App = () => {
   const navigate = useNavigate();
 
-  const [popupState, setPopupState] = useState({ isOpened: false, title: '', button: '' });
-  const [userState, setUserState] = useState({ isLoggedIn: false, userData: { name: '', email: '' } });
+  const [popupState, setPopupState] = useState({
+    isOpened: false,
+    title: '',
+    button: '',
+  });
+  const [userState, setUserState] = useState({
+    isLoggedIn: false,
+    userData: { name: '', email: '' },
+  });
 
   const handleSignup = (e, name, email, password, setApiError) => {
     e.preventDefault();
@@ -29,7 +36,9 @@ const App = () => {
       .then(() =>
         mainApi
           .signin(email, password)
-          .then(res => res.token && localStorage.setItem('token', `${res.token}`))
+          .then(
+            res => res.token && localStorage.setItem('token', `${res.token}`)
+          )
           .then(() => setUserState({ ...userState, isLoggedIn: true }))
           .then(() => navigate('/movies'))
           .then(() => setPopupState(CONTENT_CONFIG.InfoPopup.register.success))
@@ -85,9 +94,18 @@ const App = () => {
   useEffect(() => {
     mainApi
       .checkValidity(localStorage.getItem('token'))
-      .then(({ name, email }) => setUserState({ isLoggedIn: true, userData: { name: name, email: email } }))
+      .then(({ name, email }) =>
+        setUserState({
+          isLoggedIn: true,
+          userData: { name: name, email: email },
+        })
+      )
       .then(() => navigate('/movies'))
-      .catch(err => err.status === 401 && setPopupState(CONTENT_CONFIG.InfoPopup.tokenValidity.err401));
+      .catch(
+        err =>
+          err.status === 401 &&
+          setPopupState(CONTENT_CONFIG.InfoPopup.tokenValidity.err401)
+      );
   }, [userState.isLoggedIn]);
 
   return (
@@ -96,26 +114,64 @@ const App = () => {
         <Header mix='app__header' />
         <Routes>
           <Route path='/' element={<Main mix='app__main' />} />
-          <Route path='/signup' element={<Register mix='app__register' handleSignup={handleSignup} />} />
-          <Route path='/signin' element={<Login mix='app__login' handleSignin={handleSignin} />} />
-          <Route path='/movies' element={<ProtectedRoute isLoggedIn={userState.isLoggedIn} element={<Movies mix='app__movies' setPopupState={setPopupState} />} />} />
+          <Route
+            path='/signup'
+            element={
+              <Register mix='app__register' handleSignup={handleSignup} />
+            }
+          />
+          <Route
+            path='/signin'
+            element={<Login mix='app__login' handleSignin={handleSignin} />}
+          />
+          <Route
+            path='/movies'
+            element={
+              <ProtectedRoute
+                isLoggedIn={userState.isLoggedIn}
+                element={
+                  <Movies mix='app__movies' setPopupState={setPopupState} />
+                }
+              />
+            }
+          />
           <Route
             path='/saved-movies'
-            element={<ProtectedRoute isLoggedIn={userState.isLoggedIn} element={<SavedMovies mix='app__saved-movies' setPopupState={setPopupState} />} />}
+            element={
+              <ProtectedRoute
+                isLoggedIn={userState.isLoggedIn}
+                element={
+                  <SavedMovies
+                    mix='app__saved-movies'
+                    setPopupState={setPopupState}
+                  />
+                }
+              />
+            }
           />
           <Route
             path='/profile'
             element={
               <ProtectedRoute
                 isLoggedIn={userState.isLoggedIn}
-                element={<Profile mix='app__profile' handleProfileUpdate={handleProfileUpdate} handleSignout={handleSignout} />}
+                element={
+                  <Profile
+                    mix='app__profile'
+                    handleProfileUpdate={handleProfileUpdate}
+                    handleSignout={handleSignout}
+                  />
+                }
               />
             }
           />
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer mix='app__footer' />
-        <InfoPopup mix='app__info-popup' popupState={popupState} setPopupState={setPopupState} />
+        <InfoPopup
+          mix='app__info-popup'
+          popupState={popupState}
+          setPopupState={setPopupState}
+        />
       </div>
     </UserContext.Provider>
   );

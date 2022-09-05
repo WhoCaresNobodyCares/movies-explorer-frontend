@@ -9,8 +9,14 @@ const NotFound = () => {
     <main className='not-found'>
       <section className='not-found__section'>
         <div className='not-found__wrap'>
-          <h1 className='not-found__title' children={CONTENT_CONFIG.NotFound.title} />
-          <span className='not-found__subtitle' children={CONTENT_CONFIG.NotFound.subtitle} />
+          <h1
+            className='not-found__title'
+            children={CONTENT_CONFIG.NotFound.title}
+          />
+          <span
+            className='not-found__subtitle'
+            children={CONTENT_CONFIG.NotFound.subtitle}
+          />
         </div>
         <button
           id='navigateBack'

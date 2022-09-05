@@ -6,19 +6,31 @@ const reduceForm = (state, action) => {
         isFormValid: action.payload.isValid,
         [action.payload.name]: action.payload.value,
         [`${action.payload.name}Error`]: action.payload.error,
-        [`is${action.payload.name.charAt(0).toUpperCase() + action.payload.name.slice(1)}Valid`]: !action.payload.error ? true : false,
+        [`is${
+          action.payload.name.charAt(0).toUpperCase() +
+          action.payload.name.slice(1)
+        }Valid`]: !action.payload.error ? true : false,
       };
     case 'HANDLE_CHECKBOX':
       return {
         ...state,
-        [`is${action.payload.name.charAt(0).toUpperCase() + action.payload.name.slice(1)}Checked`]: action.payload.value,
+        [`is${
+          action.payload.name.charAt(0).toUpperCase() +
+          action.payload.name.slice(1)
+        }Checked`]: action.payload.value,
       };
     case 'HANDLE_SAME':
       return {
         ...state,
-        [`is${action.payload.name.charAt(0).toUpperCase() + action.payload.name.slice(1)}Same`]:
+        [`is${
+          action.payload.name.charAt(0).toUpperCase() +
+          action.payload.name.slice(1)
+        }Same`]:
           action.payload.value === action.payload.currentName ? true : false,
-        [`is${action.payload.name.charAt(0).toUpperCase() + action.payload.name.slice(1)}Changed`]: true,
+        [`is${
+          action.payload.name.charAt(0).toUpperCase() +
+          action.payload.name.slice(1)
+        }Changed`]: true,
       };
     case 'HANDLE_DISCARD':
       return {

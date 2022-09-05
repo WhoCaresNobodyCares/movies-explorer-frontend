@@ -5,7 +5,8 @@ import landingPicture from '../../../images/landing-picture.svg';
 const Promo = ({ mix }) => {
   const [isTitleWide, setIsTitleWide] = useState(window.innerWidth > 600);
 
-  const updateTitle = () => (window.innerWidth > 600 ? setIsTitleWide(true) : setIsTitleWide(false));
+  const updateTitle = () =>
+    window.innerWidth > 600 ? setIsTitleWide(true) : setIsTitleWide(false);
 
   const wideTitle = (
     <h1 className='promo__title'>
@@ -33,7 +34,11 @@ const Promo = ({ mix }) => {
   return (
     <section className={`${mix} promo`}>
       {isTitleWide ? wideTitle : narrowTitle}
-      <img className='promo__background' src={landingPicture} alt='Фоновое изображение секции' />
+      <img
+        className='promo__background'
+        src={landingPicture}
+        alt='Фоновое изображение секции'
+      />
     </section>
   );
 };

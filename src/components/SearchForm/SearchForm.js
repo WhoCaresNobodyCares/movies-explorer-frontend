@@ -22,20 +22,29 @@ const SearchForm = ({ handleSearch }) => {
     () => {
       if (location === '/movies' && userState) {
         const data = localStorage.getItem('moviesSearchState');
-        return data ? JSON.parse(data) : { value: '', isCheckboxChecked: false, isFormValid: true };
+        return data
+          ? JSON.parse(data)
+          : { value: '', isCheckboxChecked: false, isFormValid: true };
       }
       if (location === '/saved-movies' && userState) {
         const data = localStorage.getItem('savedMoviesSearchState');
-        return data ? JSON.parse(data) : { value: '', isCheckboxChecked: false, isFormValid: true };
+        return data
+          ? JSON.parse(data)
+          : { value: '', isCheckboxChecked: false, isFormValid: true };
       }
     }
   );
 
   const { value, isCheckboxChecked, isFormValid } = state;
 
-  const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 600);
+  const [isDesktopLayout, setIsDesktopLayout] = useState(
+    window.innerWidth > 600
+  );
 
-  const updateLayout = () => (window.innerWidth > 600 ? setIsDesktopLayout(true) : setIsDesktopLayout(false));
+  const updateLayout = () =>
+    window.innerWidth > 600
+      ? setIsDesktopLayout(true)
+      : setIsDesktopLayout(false);
 
   const prepareValue = value =>
     value
@@ -54,10 +63,16 @@ const SearchForm = ({ handleSearch }) => {
 
   useEffect(() => {
     if (location === '/movies' && userState) {
-      localStorage.setItem('moviesSearchState', JSON.stringify({ value, isCheckboxChecked, isFormValid }));
+      localStorage.setItem(
+        'moviesSearchState',
+        JSON.stringify({ value, isCheckboxChecked, isFormValid })
+      );
     }
     if (location === '/saved-movies' && userState) {
-      localStorage.setItem('savedMoviesSearchState', JSON.stringify({ value, isCheckboxChecked, isFormValid }));
+      localStorage.setItem(
+        'savedMoviesSearchState',
+        JSON.stringify({ value, isCheckboxChecked, isFormValid })
+      );
     }
   }, [state]);
 
@@ -80,19 +95,30 @@ const SearchForm = ({ handleSearch }) => {
         onSubmit={e => handleSearch(e, prepareValue(value), isCheckboxChecked)}>
         <div className='search-form__frame'>
           <div className='search-form__search-bar'>
-            {isDesktopLayout && <img className='search-form__search-icon' src={searchIcon} alt='Иконка поиска' />}
+            {isDesktopLayout && (
+              <img
+                className='search-form__search-icon'
+                src={searchIcon}
+                alt='Иконка поиска'
+              />
+            )}
             <input
               id='searchFormInput'
-              className={isFormValid ? 'search-form__input' : 'search-form__input search-form__input_invalid'}
+              className={
+                isFormValid
+                  ? 'search-form__input'
+                  : 'search-form__input search-form__input_invalid'
+              }
               name='value'
               type='text'
               minLength={0}
               maxLength={80}
-              placeholder={location === '/movies' ? 'Фильмы' : 'Сохраненные фильмы'}
+              placeholder={
+                location === '/movies' ? 'Фильмы' : 'Сохраненные фильмы'
+              }
               autoComplete='off'
               pattern='^([a-zA-Zа-яА-Я0-9]+[\s|\-]?)+$'
               required
-              autoFocus
               value={value}
               onChange={e =>
                 dispatch({
@@ -100,14 +126,21 @@ const SearchForm = ({ handleSearch }) => {
                   payload: {
                     name: e.target.name,
                     value: e.target.value,
-                    isValid: location === '/movies' ? e.target.closest('form').checkValidity() : true,
+                    isValid:
+                      location === '/movies'
+                        ? e.target.closest('form').checkValidity()
+                        : true,
                   },
                 })
               }
             />
             <button
               id='searchFormSubmit'
-              className={isFormValid ? 'search-form__submit' : 'search-form__submit search-form__submit_disabled'}
+              className={
+                isFormValid
+                  ? 'search-form__submit'
+                  : 'search-form__submit search-form__submit_disabled'
+              }
               name='submit'
               aria-label='Начать поиск'
               formMethod='post'
@@ -116,7 +149,11 @@ const SearchForm = ({ handleSearch }) => {
               disabled={!isFormValid}
               children={
                 <img
-                  className={isFormValid ? 'search-form__submit-icon' : 'search-form__submit-icon search-form__submit-icon_disabled'}
+                  className={
+                    isFormValid
+                      ? 'search-form__submit-icon'
+                      : 'search-form__submit-icon search-form__submit-icon_disabled'
+                  }
                   src={searchButtonIcon}
                   alt='Иконка кнопки'
                 />
@@ -147,7 +184,10 @@ const SearchForm = ({ handleSearch }) => {
                   />
                   <span className='search-form__slider' />
                 </label>
-                <span className='search-form__switch-description' children='Короткометражки' />
+                <span
+                  className='search-form__switch-description'
+                  children='Короткометражки'
+                />
               </div>
             </>
           )}
@@ -175,7 +215,10 @@ const SearchForm = ({ handleSearch }) => {
                 />
                 <span className='search-form__slider' />
               </label>
-              <span className='search-form__switch-description' children='Короткометражки' />
+              <span
+                className='search-form__switch-description'
+                children='Короткометражки'
+              />
             </div>
           </>
         )}
