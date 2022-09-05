@@ -1,11 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-
 import './NotFound.css';
-
 const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
 const NotFound = () => {
-  // * HOOKS
   const navigate = useNavigate();
 
   return (
@@ -18,7 +15,7 @@ const NotFound = () => {
         <button
           id='navigateBack'
           className='not-found__back'
-          name='navigateBack'
+          name='navigate'
           aria-label='Назад'
           type='button'
           onClick={() => navigate(-1)}

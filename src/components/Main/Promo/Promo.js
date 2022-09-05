@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
-
 import './Promo.css';
 import landingPicture from '../../../images/landing-picture.svg';
 
 const Promo = ({ mix }) => {
-  // * STATES
   const [isTitleWide, setIsTitleWide] = useState(window.innerWidth > 600);
 
-  // * LOGIC
-  const updateTitle = () =>
-    window.innerWidth > 600 ? setIsTitleWide(true) : setIsTitleWide(false);
+  const updateTitle = () => (window.innerWidth > 600 ? setIsTitleWide(true) : setIsTitleWide(false));
 
-  // * JSX
   const wideTitle = (
     <h1 className='promo__title'>
       Учебный проект студента
@@ -30,7 +25,6 @@ const Promo = ({ mix }) => {
     </h1>
   );
 
-  // * EFFECTS
   useEffect(() => {
     window.addEventListener('resize', updateTitle);
     return () => window.removeEventListener('resize', updateTitle);

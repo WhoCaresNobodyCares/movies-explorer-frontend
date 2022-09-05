@@ -1,7 +1,5 @@
 import './Techs.css';
-
 import ContentTitle from '../ContentTitle/ContentTitle';
-
 const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const Techs = () => (

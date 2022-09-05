@@ -175,7 +175,10 @@
       "err401": "Вы ввели неверный логин или пароль",
       "err500": "На сервере произошла ошибка"
     },
-    "MoviesCardList": { "button": "Еще", "notFound": "Ничего не найдено" },
+    "MoviesCardList": {
+      "button": "Еще",
+      "notFound": "Ничего не найдено"
+    },
     "Profile": {
       "editButton": "Редактировать",
       "logoutButton": "Выйти из аккаунта",
@@ -223,22 +226,12 @@
           "isOpened": true,
           "title": "Добро пожаловать,",
           "button": "Ок"
-        },
-        "noInput": {
-          "isOpened": true,
-          "title": "Вы заполнили не все поля",
-          "button": "Ок"
         }
       },
       "login": {
         "success": {
           "isOpened": true,
           "title": "Ура, вы вернулись!",
-          "button": "Ок"
-        },
-        "noInput": {
-          "isOpened": true,
-          "title": "Вы заполнили не все поля",
           "button": "Ок"
         }
       },
@@ -247,18 +240,62 @@
           "isOpened": true,
           "title": "Данные обновлены",
           "button": "Хорошо"
-        },
-        "noInput": {
-          "isOpened": true,
-          "title": "Вы заполнили не все поля или вы не авторизованы",
-          "button": "Ок"
         }
       },
       "movies": {
-        "noInput": {
+        "emptyValue": {
           "isOpened": true,
-          "title": "Вы не ввели поисковой запрос",
-          "button": "Ок"
+          "title": "Вы не ввели ключевые слова",
+          "button": "Ясно"
+        },
+        "err500": {
+          "isOpened": true,
+          "title": "Сервер недоступен, повторите позже",
+          "button": "Ясно"
+        }
+      },
+      "searchForm": {
+        "err400": {
+          "isOpened": true,
+          "title": "Данную карточку невозможно сохранить/удалить",
+          "button": "Ясно"
+        },
+        "err500": {
+          "isOpened": true,
+          "title": "Сервер недоступен, повторите позже",
+          "button": "Ясно"
+        },
+        "err403": {
+          "isOpened": true,
+          "title": "Это карточка другого пользователя",
+          "button": "Ясно"
+        },
+        "err404": {
+          "isOpened": true,
+          "title": "Данной карточки нет в сохраненных",
+          "button": "Ясно"
+        }
+      },
+      "savedMovies": {
+        "err400": {
+          "isOpened": true,
+          "title": "Данную карточку невозможно сохранить/удалить",
+          "button": "Ясно"
+        },
+        "err500": {
+          "isOpened": true,
+          "title": "Сервер недоступен, повторите позже",
+          "button": "Ясно"
+        },
+        "err403": {
+          "isOpened": true,
+          "title": "Это карточка другого пользователя",
+          "button": "Ясно"
+        },
+        "err404": {
+          "isOpened": true,
+          "title": "Данной карточки нет в сохраненных",
+          "button": "Ясно"
         }
       }
     }

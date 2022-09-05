@@ -1,28 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
-
 import './Header.css';
 import logoIcon from '../../images/logo-icon.svg';
-
 import Auth from './Auth/Auth';
 import NavHor from './NavHor/NavHor';
 import User from './User/User';
 import Burger from './Burger/Burger';
 import Menu from './Menu/Menu';
+import UserContext from '../../contexts/UserContext';
 
-const Header = ({ mix, userState }) => {
-  // * HOOKS
+const Header = ({ mix }) => {
   const location = useLocation();
+  const userState = useContext(UserContext)
 
-  // * STATES
   const [isDesktopLayout, setIsDesktopLayout] = useState(window.innerWidth > 800);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  // * LOGIC
-  const updateLayout = () =>
-    window.innerWidth > 800 ? setIsDesktopLayout(true) : setIsDesktopLayout(false);
+  const updateLayout = () => (window.innerWidth > 800 ? setIsDesktopLayout(true) : setIsDesktopLayout(false));
 
-  // * JSX
   const burgerMenu = (
     <>
       <Burger mix='header__burger' isMenuOpened={isMenuOpened} setIsMenuOpened={setIsMenuOpened} />
@@ -47,11 +42,7 @@ const Header = ({ mix, userState }) => {
     <>
       <header className={`${mix} header`}>
         <div className='header__grid'>
-          <Link
-            to='/'
-            className='header__link'
-            children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
-          />
+          <Link to='/' className='header__link' children={<img className='header__logo' src={logoIcon} alt='Логотип' />} />
           {isDesktopLayout ? completeMenu : burgerMenu}
         </div>
       </header>
@@ -62,11 +53,7 @@ const Header = ({ mix, userState }) => {
     <>
       <header className={`${mix} header header_blue`}>
         <div className='header__grid'>
-          <Link
-            to='/'
-            className='header__link'
-            children={<img className='header__logo' src={logoIcon} alt='Логотип' />}
-          />
+          <Link to='/' className='header__link' children={<img className='header__logo' src={logoIcon} alt='Логотип' />} />
           {userState.isLoggedIn ? isDesktopLayout ? completeMenu : burgerMenu : <Auth />}
         </div>
       </header>
@@ -87,7 +74,6 @@ const Header = ({ mix, userState }) => {
     </>
   );
 
-  // * EFFECTS
   useEffect(() => {
     window.addEventListener('resize', updateLayout);
     return () => window.removeEventListener('resize', updateLayout);

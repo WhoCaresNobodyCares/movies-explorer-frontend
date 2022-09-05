@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-
 import './Auth.css';
-
 const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const Auth = () => (

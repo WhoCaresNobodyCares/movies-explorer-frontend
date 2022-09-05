@@ -4,7 +4,7 @@ const Burger = ({ mix, isMenuOpened, setIsMenuOpened }) => (
   <button
     id='burgerButton'
     className={`${mix} burger`}
-    name='burgerButton'
+    name='burger'
     aria-label='Вызвать боковое меню'
     type='button'
     onClick={() => setIsMenuOpened(!isMenuOpened)}

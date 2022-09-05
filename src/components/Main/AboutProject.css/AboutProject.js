@@ -1,8 +1,6 @@
 import './AboutProject.css';
-
 import ContentTitle from '../ContentTitle/ContentTitle';
 import TextColumn from './TextColumn/TextColumn';
-
 const { CONTENT_CONFIG } = require('../../../configs/contentConfig.json');
 
 const AboutProject = () => (

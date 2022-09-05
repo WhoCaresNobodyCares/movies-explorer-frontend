@@ -1,6 +1,5 @@
 import './Menu.css';
 import closeIcon from '../../../images/close-icon.svg';
-
 import NavVert from '../NavVert/NavVert';
 import User from '../User/User';
 
@@ -10,7 +9,7 @@ const Menu = ({ mix, isMenuOpened, setIsMenuOpened, location, isDesktopLayout })
       <button
         id='menuCloseButton'
         className='menu__close'
-        name='menuCloseButton'
+        name='close'
         aria-label='Закрыть боковое меню'
         type='button'
         onClick={() => setIsMenuOpened(!isMenuOpened)}
@@ -19,10 +18,7 @@ const Menu = ({ mix, isMenuOpened, setIsMenuOpened, location, isDesktopLayout })
       <NavVert mix='menu__nav-vert' />
       <User mix='menu__user' location={location} isDesktopLayout={isDesktopLayout} />
     </aside>
-    <div
-      className={!isMenuOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'}
-      onClick={() => setIsMenuOpened(!isMenuOpened)}
-    />
+    <div className={!isMenuOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'} onClick={() => setIsMenuOpened(!isMenuOpened)} />
   </div>
 );
 
