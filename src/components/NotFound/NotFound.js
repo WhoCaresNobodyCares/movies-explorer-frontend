@@ -1,27 +1,31 @@
 import { useNavigate } from 'react-router-dom';
-
 import './NotFound.css';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-const NotFound = ({ mix }) => {
+const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <main className={`${mix} not-found`}>
-      <section className="not-found__section">
-        <div className="not-found__wrap">
-          <h1 className="not-found__title" children="404" />
-          <span className="not-found__subtitle" children="Страница не найдена" />
+    <main className='not-found'>
+      <section className='not-found__section'>
+        <div className='not-found__wrap'>
+          <h1
+            className='not-found__title'
+            children={CONTENT_CONFIG.NotFound.title}
+          />
+          <span
+            className='not-found__subtitle'
+            children={CONTENT_CONFIG.NotFound.subtitle}
+          />
         </div>
         <button
-          id="navigate-back"
-          className="not-found__back"
-          name="navigate-back"
-          aria-label="Назад"
-          type="button"
-          onClick={() => {
-            navigate(-1);
-          }}
-          children="Назад"
+          id='navigateBack'
+          className='not-found__back'
+          name='navigate'
+          aria-label='Назад'
+          type='button'
+          onClick={() => navigate(-1)}
+          children={CONTENT_CONFIG.NotFound.button}
         />
       </section>
     </main>

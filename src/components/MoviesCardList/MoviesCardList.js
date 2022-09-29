@@ -1,48 +1,77 @@
-import { useState } from 'react';
+import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+import useMoviesLayout from '../../utils/hooks/useMoviesLayout';
+import { useEffect, useRef, useState } from 'react';
+const { CONTENT_CONFIG } = require('../../configs/contentConfig.json');
 
-import './MoviesCardList.css';
+const MoviesCardList = ({
+  isPreloaderVisible,
+  renderedMovies,
+  handleLike,
+  handleDelete,
+}) => {
+  const { renderedSection, addMoreMovies, isButtonVisible } =
+    useMoviesLayout(renderedMovies);
 
-const MoviesCardList = ({ mix }) => {
-  const cards = [
-    { mix: 'movies-card-list__movies-card', key: '1' },
-    { mix: 'movies-card-list__movies-card', key: '2' },
-    { mix: 'movies-card-list__movies-card', key: '3' },
-    { mix: 'movies-card-list__movies-card', key: '4' },
-    { mix: 'movies-card-list__movies-card', key: '5' },
-    { mix: 'movies-card-list__movies-card', key: '6' },
-    { mix: 'movies-card-list__movies-card', key: '7' },
-    { mix: 'movies-card-list__movies-card', key: '8' },
-    { mix: 'movies-card-list__movies-card', key: '9' },
-  ];
+  const initialRender = useRef(true);
 
-  const [preloaderIsVisible, setPreloaderIsVisible] = useState(false);
+  const [isNotFoundDisplayed, setIsNotFoundDisplayed] = useState(false);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      setIsNotFoundDisplayed(true);
+    }
+  }, [renderedMovies]);
 
   return (
-    <section className={`${mix} movies-card-list`}>
+    <section className='movies-card-list'>
       <div
         className={
-          mix === 'movies__movies-card-list' ? 'movies-card-list__cards' : 'movies-card-list__cards movies-card-list__cards_no-margin'
+          renderedSection.length !== 0 && isButtonVisible
+            ? 'movies-card-list__cards'
+            : 'movies-card-list__cards movies-card-list__cards_no-margin'
         }
-        children={cards.map((item) => (
-          <MoviesCard mix={item.mix} key={item.key} />
+        children={renderedSection.map(item => (
+          <MoviesCard
+            card={item}
+            key={item.movieId}
+            handleLike={handleLike}
+            handleDelete={handleDelete}
+          />
         ))}
       />
-      {mix === 'movies__movies-card-list' && (
+      {isButtonVisible && (
         <button
-          id="movies-card-list-button"
-          className="movies-card-list__button"
-          name="movies-card-list-button"
-          aria-label="Добавить карточки"
-          type="button"
-          onClick={() => {
-            setPreloaderIsVisible(!preloaderIsVisible);
-          }}
-          children="Еще"
+          id='moviesCardListButton'
+          className='movies-card-list__button'
+          name='add'
+          aria-label='Добавить карточки'
+          type='button'
+          onClick={() => addMoreMovies()}
+          children={CONTENT_CONFIG.MoviesCardList.button}
         />
       )}
-      <Preloader mix="movies-card-list__preloader" mod_visible={preloaderIsVisible ? 'movies-card-list__preloader_visible' : ''} />
+      <Preloader
+        mix='movies-card-list__preloader'
+        mod_visible={
+          isPreloaderVisible ? 'movies-card-list__preloader_visible' : ''
+        }
+      />
+      <div
+        className={
+          isNotFoundDisplayed && renderedMovies.length === 0
+            ? 'movies-card-list__not-found movies-card-list__not-found_visible'
+            : 'movies-card-list__not-found'
+        }
+        children={
+          <span className='movies-card-list__not-found-message'>
+            {CONTENT_CONFIG.MoviesCardList.notFound}
+          </span>
+        }
+      />
     </section>
   );
 };

@@ -56,6 +56,7 @@
   height: 100%;
   font: 400 18px/20px 'Inter', arial, sans-serif;
   color: var(--bg-09);
+  transition: color 0.2s ease-out;
 }
 
 .search-form__input::placeholder {
@@ -67,6 +68,10 @@
   opacity: 0.8;
 }
 
+.search-form__input_invalid {
+  color: var(--er-01);
+}
+
 .search-form__submit {
   width: 34px;
   height: 34px;
@@ -75,15 +80,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s ease-out, background 0.2s ease-out;
 }
 
 .search-form__submit-icon {
-  transform: translate(1px);
+  transform: translate(2px);
+  transition: transform 0.2s ease-out;
+}
+
+.search-form__submit-icon_disabled {
+  transform: translate(0px, 2px) rotate(90deg);
 }
 
 .search-form__submit:hover {
   opacity: 0.6;
+}
+
+.search-form__submit_disabled {
+  background: var(--bg-04);
+  color: var(--bg-09);
+  cursor: default;
 }
 
 .search-form__separator {

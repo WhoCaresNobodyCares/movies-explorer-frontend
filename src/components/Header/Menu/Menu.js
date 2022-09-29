@@ -1,32 +1,49 @@
 import './Menu.css';
-
 import closeIcon from '../../../images/close-icon.svg';
-
 import NavVert from '../NavVert/NavVert';
 import User from '../User/User';
 
-const Menu = ({ mix, menuIsOpened, setMenuIsOpened }) => {
-  return (
-    <div className={`${mix} menu`}>
-      <aside className={!menuIsOpened ? `menu__aside` : `menu__aside menu__aside_opened`}>
-        <button
-          id="menu-close-button"
-          className="menu__close"
-          name="menu-close-button"
-          aria-label="Закрыть боковое меню"
-          type="button"
-          onClick={() => setMenuIsOpened(!menuIsOpened)}
-          children={<img className="menu__icon" src={closeIcon} alt="Закрыть боковое меню" />}
-        />
-        <NavVert mix="menu__nav-vert" />
-        <User mix="menu__user" />
-      </aside>
-      <div
-        className={!menuIsOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'}
-        onClick={() => setMenuIsOpened(!menuIsOpened)}
+const Menu = ({
+  mix,
+  isMenuOpened,
+  setIsMenuOpened,
+  location,
+  isDesktopLayout,
+}) => (
+  <div className={`${mix} menu`}>
+    <aside
+      className={
+        !isMenuOpened ? `menu__aside` : `menu__aside menu__aside_opened`
+      }>
+      <button
+        id='menuCloseButton'
+        className='menu__close'
+        name='close'
+        aria-label='Закрыть боковое меню'
+        type='button'
+        onClick={() => setIsMenuOpened(!isMenuOpened)}
+        children={
+          <img
+            className='menu__icon'
+            src={closeIcon}
+            alt='Закрыть боковое меню'
+          />
+        }
       />
-    </div>
-  );
-};
+      <NavVert mix='menu__nav-vert' />
+      <User
+        mix='menu__user'
+        location={location}
+        isDesktopLayout={isDesktopLayout}
+      />
+    </aside>
+    <div
+      className={
+        !isMenuOpened ? 'menu__shadow' : 'menu__shadow menu__shadow_visible'
+      }
+      onClick={() => setIsMenuOpened(!isMenuOpened)}
+    />
+  </div>
+);
 
 export default Menu;
