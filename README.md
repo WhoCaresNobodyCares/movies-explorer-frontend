@@ -14,7 +14,7 @@ http://andrewdiploma.nomoredomains.xyz.nomoredomains.sbs/ -->
 ![JavaScript](https://img.shields.io/badge/-JavaScript-yellow)
 ![React.JS](https://img.shields.io/badge/-React.JS-blue)
 
-###### Учебный проект [Яндекс.Практикума](https://practicum.yandex.ru/)
+###### Дипломная работа [Яндекс.Практикума](https://practicum.yandex.ru/)
 
 </div>
 
